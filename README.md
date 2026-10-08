@@ -18,7 +18,34 @@ The repository is split into three branches:
 | `frontend` | React + Vite web application                   |
 | `backend`  | Spring Boot server (in progress)               |
 
-`frontend` and `backend` are both based on `main`, so they also contain the documentation.
+Each branch contains only its own files: documentation is kept only on `main`.
+
+### Working on all three branches locally
+
+You can check out every branch into its own folder with `git worktree`:
+
+```bash
+mkdir studymate && cd studymate
+git clone --bare https://github.com/aliwer-qanadil/studymate.git .bare
+echo "gitdir: ./.bare" > .git
+git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+git fetch origin
+for b in main frontend backend; do git branch -u origin/$b $b; done
+git worktree add docs main
+git worktree add frontend frontend
+git worktree add backend backend
+```
+
+This gives you:
+
+```
+studymate/
+├── docs/       ← main branch
+├── frontend/   ← frontend branch
+└── backend/    ← backend branch
+```
+
+Inside each folder, `git commit` and `git push` only affect that folder's branch.
 
 ---
 
