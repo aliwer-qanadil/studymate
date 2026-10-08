@@ -1,0 +1,548 @@
+<mxfile host="Electron">
+  <diagram id="studymate-erd" name="StudyMate ERD">
+    <mxGraphModel dx="1386" dy="894" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="1500" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t_PROGRAM" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#6B7280;fontColor=#FFFFFF;strokeColor=#262A54;swimlaneFillColor=#FDFBF7;fontSize=14;" value="PROGRAM" vertex="1">
+          <mxGeometry height="102" width="270" x="20" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="r_PROGRAM_program_id" parent="t_PROGRAM" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#B45309&quot;&gt;&lt;b&gt;program_id&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;INT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r_PROGRAM_name" parent="t_PROGRAM" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;name&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(100)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="r_PROGRAM_faculty" parent="t_PROGRAM" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;faculty&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(100)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="t_SUBJECT" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#6B7280;fontColor=#FFFFFF;strokeColor=#262A54;swimlaneFillColor=#FDFBF7;fontSize=14;" value="SUBJECT" vertex="1">
+          <mxGeometry height="102" width="270" x="20" y="167" as="geometry" />
+        </mxCell>
+        <mxCell id="r_SUBJECT_subject_id" parent="t_SUBJECT" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#B45309&quot;&gt;&lt;b&gt;subject_id&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r_SUBJECT_name" parent="t_SUBJECT" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;name&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(100)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="r_SUBJECT_course_code" parent="t_SUBJECT" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;UQ&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;course_code&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(20)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="t_PREFERENCE" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#6B7280;fontColor=#FFFFFF;strokeColor=#262A54;swimlaneFillColor=#FDFBF7;fontSize=14;" value="PREFERENCE" vertex="1">
+          <mxGeometry height="78" width="270" x="20" y="314" as="geometry" />
+        </mxCell>
+        <mxCell id="r_PREFERENCE_preference_id" parent="t_PREFERENCE" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#B45309&quot;&gt;&lt;b&gt;preference_id&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;INT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r_PREFERENCE_label" parent="t_PREFERENCE" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;UQ&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;label&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(50)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t_USER" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#262A54;fontColor=#FFFFFF;strokeColor=#262A54;swimlaneFillColor=#FDFBF7;fontSize=14;" value="USER" vertex="1">
+          <mxGeometry height="294" width="270" x="490" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="r_USER_user_id" parent="t_USER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#B45309&quot;&gt;&lt;b&gt;user_id&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r_USER_name" parent="t_USER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;name&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(100)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="r_USER_email" parent="t_USER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;UQ&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;email&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(100)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="r_USER_password" parent="t_USER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;password&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(255)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="102" as="geometry" />
+        </mxCell>
+        <mxCell id="r_USER_gender" parent="t_USER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;gender&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(10)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="r_USER_phone" parent="t_USER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;phone&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(20)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="r_USER_program_id" parent="t_USER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;FK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#1D4ED8&quot;&gt;program_id&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;INT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="174" as="geometry" />
+        </mxCell>
+        <mxCell id="r_USER_year" parent="t_USER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;year&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;SMALLINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="198" as="geometry" />
+        </mxCell>
+        <mxCell id="r_USER_quietness" parent="t_USER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;quietness&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;SMALLINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="222" as="geometry" />
+        </mxCell>
+        <mxCell id="r_USER_is_verified" parent="t_USER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;is_verified&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BOOLEAN&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="246" as="geometry" />
+        </mxCell>
+        <mxCell id="r_USER_created_at" parent="t_USER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;created_at&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;TIMESTAMP&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="t_USER_SUBJECT" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#262A54;fontColor=#FFFFFF;strokeColor=#262A54;swimlaneFillColor=#FDFBF7;fontSize=14;" value="USER_SUBJECT" vertex="1">
+          <mxGeometry height="126" width="270" x="490" y="359" as="geometry" />
+        </mxCell>
+        <mxCell id="r_USER_SUBJECT_user_id" parent="t_USER_SUBJECT" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;PK,FK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#B45309&quot;&gt;&lt;b&gt;user_id&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r_USER_SUBJECT_subject_id" parent="t_USER_SUBJECT" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;PK,FK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#B45309&quot;&gt;&lt;b&gt;subject_id&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="r_USER_SUBJECT_skill_level" parent="t_USER_SUBJECT" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;skill_level&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;SMALLINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="r_USER_SUBJECT_is_active" parent="t_USER_SUBJECT" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;is_active&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BOOLEAN&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="102" as="geometry" />
+        </mxCell>
+        <mxCell id="t_STUDY_REQUEST" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#262A54;fontColor=#FFFFFF;strokeColor=#262A54;swimlaneFillColor=#FDFBF7;fontSize=14;" value="STUDY_REQUEST" vertex="1">
+          <mxGeometry height="366" width="270" x="960" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_REQUEST_request_id" parent="t_STUDY_REQUEST" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#B45309&quot;&gt;&lt;b&gt;request_id&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_REQUEST_owner_id" parent="t_STUDY_REQUEST" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;FK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#1D4ED8&quot;&gt;owner_id&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_REQUEST_subject_id" parent="t_STUDY_REQUEST" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;FK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#1D4ED8&quot;&gt;subject_id&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_REQUEST_title" parent="t_STUDY_REQUEST" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;title&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(150)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="102" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_REQUEST_description" parent="t_STUDY_REQUEST" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;description&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(1000)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_REQUEST_place" parent="t_STUDY_REQUEST" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;place&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(50)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_REQUEST_exact_spot" parent="t_STUDY_REQUEST" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;exact_spot&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(100)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="174" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_REQUEST_study_date" parent="t_STUDY_REQUEST" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;study_date&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;DATE&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="198" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_REQUEST_start_time" parent="t_STUDY_REQUEST" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;start_time&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;TIME&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="222" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_REQUEST_end_time" parent="t_STUDY_REQUEST" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;end_time&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;TIME&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="246" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_REQUEST_group_size" parent="t_STUDY_REQUEST" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;group_size&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;SMALLINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_REQUEST_review_applicants" parent="t_STUDY_REQUEST" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;review_applicants&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BOOLEAN&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="294" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_REQUEST_status" parent="t_STUDY_REQUEST" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;status&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(12)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="318" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_REQUEST_created_at" parent="t_STUDY_REQUEST" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;created_at&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;TIMESTAMP&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="342" as="geometry" />
+        </mxCell>
+        <mxCell id="t_REQUEST_PREFERENCE" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#262A54;fontColor=#FFFFFF;strokeColor=#262A54;swimlaneFillColor=#FDFBF7;fontSize=14;" value="REQUEST_PREFERENCE" vertex="1">
+          <mxGeometry height="78" width="270" x="960" y="431" as="geometry" />
+        </mxCell>
+        <mxCell id="r_REQUEST_PREFERENCE_request_id" parent="t_REQUEST_PREFERENCE" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;PK,FK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#B45309&quot;&gt;&lt;b&gt;request_id&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r_REQUEST_PREFERENCE_preference_id" parent="t_REQUEST_PREFERENCE" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;PK,FK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#B45309&quot;&gt;&lt;b&gt;preference_id&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;INT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="t_APPLICATION" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#262A54;fontColor=#FFFFFF;strokeColor=#262A54;swimlaneFillColor=#FDFBF7;fontSize=14;" value="APPLICATION" vertex="1">
+          <mxGeometry height="342" width="270" x="1430" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="r_APPLICATION_application_id" parent="t_APPLICATION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#B45309&quot;&gt;&lt;b&gt;application_id&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r_APPLICATION_request_id" parent="t_APPLICATION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;FK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#1D4ED8&quot;&gt;request_id&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="r_APPLICATION_applicant_id" parent="t_APPLICATION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;FK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#1D4ED8&quot;&gt;applicant_id&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="r_APPLICATION_preference_id" parent="t_APPLICATION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;FK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#1D4ED8&quot;&gt;preference_id&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;INT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="102" as="geometry" />
+        </mxCell>
+        <mxCell id="r_APPLICATION_available_from" parent="t_APPLICATION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;available_from&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;TIME&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="r_APPLICATION_available_to" parent="t_APPLICATION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;available_to&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;TIME&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="r_APPLICATION_note" parent="t_APPLICATION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;note&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(500)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="174" as="geometry" />
+        </mxCell>
+        <mxCell id="r_APPLICATION_subject_score" parent="t_APPLICATION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;subject_score&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;SMALLINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="198" as="geometry" />
+        </mxCell>
+        <mxCell id="r_APPLICATION_time_score" parent="t_APPLICATION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;time_score&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;SMALLINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="222" as="geometry" />
+        </mxCell>
+        <mxCell id="r_APPLICATION_level_score" parent="t_APPLICATION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;level_score&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;SMALLINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="246" as="geometry" />
+        </mxCell>
+        <mxCell id="r_APPLICATION_preference_score" parent="t_APPLICATION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;preference_score&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;SMALLINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="r_APPLICATION_status" parent="t_APPLICATION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;status&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(10)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="294" as="geometry" />
+        </mxCell>
+        <mxCell id="r_APPLICATION_created_at" parent="t_APPLICATION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;created_at&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;TIMESTAMP&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="318" as="geometry" />
+        </mxCell>
+        <mxCell id="t_STUDY_GROUP" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#262A54;fontColor=#FFFFFF;strokeColor=#262A54;swimlaneFillColor=#FDFBF7;fontSize=14;" value="STUDY_GROUP" vertex="1">
+          <mxGeometry height="126" width="270" x="1430" y="407" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_GROUP_group_id" parent="t_STUDY_GROUP" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#B45309&quot;&gt;&lt;b&gt;group_id&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_GROUP_request_id" parent="t_STUDY_GROUP" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;FK,UQ&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#1D4ED8&quot;&gt;request_id&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_GROUP_status" parent="t_STUDY_GROUP" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;status&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(10)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_GROUP_created_at" parent="t_STUDY_GROUP" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;created_at&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;TIMESTAMP&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="102" as="geometry" />
+        </mxCell>
+        <mxCell id="t_GROUP_MEMBER" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#262A54;fontColor=#FFFFFF;strokeColor=#262A54;swimlaneFillColor=#FDFBF7;fontSize=14;" value="GROUP_MEMBER" vertex="1">
+          <mxGeometry height="198" width="270" x="1900" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="r_GROUP_MEMBER_member_id" parent="t_GROUP_MEMBER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#B45309&quot;&gt;&lt;b&gt;member_id&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r_GROUP_MEMBER_group_id" parent="t_GROUP_MEMBER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;FK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#1D4ED8&quot;&gt;group_id&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="r_GROUP_MEMBER_user_id" parent="t_GROUP_MEMBER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;FK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#1D4ED8&quot;&gt;user_id&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="r_GROUP_MEMBER_application_id" parent="t_GROUP_MEMBER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;FK,UQ&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#1D4ED8&quot;&gt;application_id&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="102" as="geometry" />
+        </mxCell>
+        <mxCell id="r_GROUP_MEMBER_role" parent="t_GROUP_MEMBER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;role&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(8)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="r_GROUP_MEMBER_topic" parent="t_GROUP_MEMBER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;topic&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(100)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="r_GROUP_MEMBER_joined_at" parent="t_GROUP_MEMBER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;joined_at&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;TIMESTAMP&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="174" as="geometry" />
+        </mxCell>
+        <mxCell id="t_STUDY_SESSION" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#262A54;fontColor=#FFFFFF;strokeColor=#262A54;swimlaneFillColor=#FDFBF7;fontSize=14;" value="STUDY_SESSION" vertex="1">
+          <mxGeometry height="222" width="270" x="1900" y="263" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_SESSION_session_id" parent="t_STUDY_SESSION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#B45309&quot;&gt;&lt;b&gt;session_id&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_SESSION_group_id" parent="t_STUDY_SESSION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;FK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#1D4ED8&quot;&gt;group_id&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_SESSION_session_date" parent="t_STUDY_SESSION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;session_date&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;DATE&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_SESSION_start_time" parent="t_STUDY_SESSION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;start_time&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;TIME&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="102" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_SESSION_end_time" parent="t_STUDY_SESSION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;end_time&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;TIME&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_SESSION_place" parent="t_STUDY_SESSION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;place&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(50)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_SESSION_exact_spot" parent="t_STUDY_SESSION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;exact_spot&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(100)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="174" as="geometry" />
+        </mxCell>
+        <mxCell id="r_STUDY_SESSION_status" parent="t_STUDY_SESSION" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;status&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(10)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="198" as="geometry" />
+        </mxCell>
+        <mxCell id="t_AGENDA_ITEM" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#262A54;fontColor=#FFFFFF;strokeColor=#262A54;swimlaneFillColor=#FDFBF7;fontSize=14;" value="AGENDA_ITEM" vertex="1">
+          <mxGeometry height="126" width="270" x="1900" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="r_AGENDA_ITEM_item_id" parent="t_AGENDA_ITEM" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#B45309&quot;&gt;&lt;b&gt;item_id&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r_AGENDA_ITEM_session_id" parent="t_AGENDA_ITEM" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;FK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#1D4ED8&quot;&gt;session_id&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="r_AGENDA_ITEM_start_time" parent="t_AGENDA_ITEM" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;start_time&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;TIME&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="r_AGENDA_ITEM_description" parent="t_AGENDA_ITEM" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;description&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;VARCHAR(200)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="102" as="geometry" />
+        </mxCell>
+        <mxCell id="t_RATING" parent="1" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#262A54;fontColor=#FFFFFF;strokeColor=#262A54;swimlaneFillColor=#FDFBF7;fontSize=14;" value="RATING" vertex="1">
+          <mxGeometry height="222" width="270" x="2370" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="r_RATING_rating_id" parent="t_RATING" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#B45309&quot;&gt;&lt;b&gt;rating_id&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r_RATING_session_id" parent="t_RATING" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;FK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#1D4ED8&quot;&gt;session_id&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="r_RATING_rater_id" parent="t_RATING" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;FK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#1D4ED8&quot;&gt;rater_id&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="r_RATING_ratee_id" parent="t_RATING" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;FK&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#1D4ED8&quot;&gt;ratee_id&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;BIGINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="102" as="geometry" />
+        </mxCell>
+        <mxCell id="r_RATING_reliability" parent="t_RATING" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;reliability&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;SMALLINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="r_RATING_behaviour" parent="t_RATING" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;behaviour&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;SMALLINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="r_RATING_helpfulness" parent="t_RATING" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;helpfulness&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;SMALLINT&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="174" as="geometry" />
+        </mxCell>
+        <mxCell id="r_RATING_created_at" parent="t_RATING" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" value="&lt;font color=&quot;#B45309&quot; style=&quot;font-size:10px&quot;&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color=&quot;#111827&quot;&gt;created_at&lt;/font&gt;&amp;nbsp;&lt;font color=&quot;#6B7280&quot; style=&quot;font-size:10px&quot;&gt;TIMESTAMP&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="270" y="198" as="geometry" />
+        </mxCell>
+        <mxCell id="e0" edge="1" parent="1" source="r_USER_program_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToMany;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_PROGRAM_program_id" value="enrolled in">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e0_s" connectable="0" parent="e0" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="N" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e0_t" connectable="0" parent="e0" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="r_STUDY_REQUEST_owner_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToMany;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_USER_user_id" value="posts">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1_s" connectable="0" parent="e1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="N" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e1_t" connectable="0" parent="e1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="r_STUDY_REQUEST_subject_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToMany;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_SUBJECT_subject_id" value="is about">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2_s" connectable="0" parent="e2" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="N" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2_t" connectable="0" parent="e2" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="r_USER_SUBJECT_user_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToMany;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_USER_user_id" value="studies">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3_s" connectable="0" parent="e3" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="N" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3_t" connectable="0" parent="e3" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="r_USER_SUBJECT_subject_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToMany;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_SUBJECT_subject_id" value="studied by">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4_s" connectable="0" parent="e4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="N" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4_t" connectable="0" parent="e4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="r_REQUEST_PREFERENCE_request_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToMany;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_STUDY_REQUEST_request_id" value="has">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5_s" connectable="0" parent="e5" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="N" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5_t" connectable="0" parent="e5" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="r_REQUEST_PREFERENCE_preference_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToMany;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_PREFERENCE_preference_id" value="used in">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6_s" connectable="0" parent="e6" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="N" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6_t" connectable="0" parent="e6" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="r_APPLICATION_request_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToMany;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_STUDY_REQUEST_request_id" value="receives">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7_s" connectable="0" parent="e7" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="N" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7_t" connectable="0" parent="e7" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="r_APPLICATION_applicant_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToMany;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_USER_user_id" value="submits">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8_s" connectable="0" parent="e8" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="N" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8_t" connectable="0" parent="e8" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="r_APPLICATION_preference_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToMany;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_PREFERENCE_preference_id" value="chooses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9_s" connectable="0" parent="e9" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="N" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9_t" connectable="0" parent="e9" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="r_STUDY_GROUP_request_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToOne;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_STUDY_REQUEST_request_id" value="becomes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10_s" connectable="0" parent="e10" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e10_t" connectable="0" parent="e10" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="r_GROUP_MEMBER_group_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToMany;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_STUDY_GROUP_group_id" value="has">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11_s" connectable="0" parent="e11" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="N" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11_t" connectable="0" parent="e11" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="r_GROUP_MEMBER_user_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToMany;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_USER_user_id" value="joins">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12_s" connectable="0" parent="e12" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="N" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e12_t" connectable="0" parent="e12" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="r_GROUP_MEMBER_application_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToOne;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_APPLICATION_application_id" value="created from">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13_s" connectable="0" parent="e13" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e13_t" connectable="0" parent="e13" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="r_STUDY_SESSION_group_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToMany;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_STUDY_GROUP_group_id" value="holds">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14_s" connectable="0" parent="e14" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="N" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e14_t" connectable="0" parent="e14" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="r_AGENDA_ITEM_session_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToMany;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_STUDY_SESSION_session_id" value="has">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15_s" connectable="0" parent="e15" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="N" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e15_t" connectable="0" parent="e15" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="r_RATING_session_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToMany;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_STUDY_SESSION_session_id" value="rated in">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16_s" connectable="0" parent="e16" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="N" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e16_t" connectable="0" parent="e16" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="r_RATING_rater_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToMany;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_USER_user_id" value="gives">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17_s" connectable="0" parent="e17" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="N" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e17_t" connectable="0" parent="e17" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="r_RATING_ratee_id" style="edgeStyle=entityRelationEdgeStyle;html=1;fontSize=10;fontColor=#6B7280;endArrow=ERmandOne;startArrow=ERzeroToMany;endFill=0;startFill=0;strokeColor=#262A54;strokeWidth=1.5;" target="r_USER_user_id" value="receives">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18_s" connectable="0" parent="e18" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="N" vertex="1">
+          <mxGeometry relative="1" x="-0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e18_t" connectable="0" parent="e18" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;fontStyle=1;fontColor=#B45309;labelBackgroundColor=#FFFFFF;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.85" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note" parent="1" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fillColor=#FDFBF7;strokeColor=#E9A87C;spacing=8;fontSize=12;" value="&lt;b&gt;StudyMate — ERD (database design, Milestone 1)&lt;/b&gt;&lt;br&gt;Design of the planned database; not every table is implemented in the code yet.&lt;br&gt;&lt;br&gt;PK primary key · FK foreign key · UQ unique&lt;br&gt;1 = one · N = many (crow&#39;s foot at the N side)&lt;br&gt;Grey = lookup tables, navy = transactional tables&lt;br&gt;Normalised to 3NF. Physical name of USER: &lt;i&gt;users&lt;/i&gt; (reserved word in PostgreSQL)." vertex="1">
+          <mxGeometry height="150" width="400" x="20" y="600" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
