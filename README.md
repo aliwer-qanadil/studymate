@@ -8,6 +8,20 @@ This project is being developed by the **Study Devs** team as part of the **SOE 
 
 ---
 
+## Repository Layout
+
+The repository is split into three branches:
+
+| Branch     | Contents                                       |
+| ---------- | ---------------------------------------------- |
+| `main`     | Project documentation only                     |
+| `frontend` | React + Vite web application                   |
+| `backend`  | Spring Boot server (in progress)               |
+
+`frontend` and `backend` are both based on `main`, so they also contain the documentation.
+
+---
+
 ## Project Idea
 
 Students often understand difficult topics better when they study together. However, finding classmates who study the same subject, have a suitable schedule, and have a similar knowledge level can take a lot of time.
@@ -99,13 +113,17 @@ The score helps the organizer compare applicants.
 
 ## Project Documentation
 
-The project documentation includes:
+All documentation lives in the `docs/` folder on the `main` branch:
 
-* Software Requirements Specification (SRS)
-* Project Documentation
-* User Stories
-* Acceptance Criteria
-* Feature Priorities
+| Deliverable                                       | Location                                     |
+| ------------------------------------------------- | -------------------------------------------- |
+| Software Requirements Specification (SRS)         | [`docs/SRS.md`](docs/SRS.md)                 |
+| User stories, acceptance criteria, priorities     | [`docs/SRS.md`](docs/SRS.md)                 |
+| Project documentation                             | `docs/StudyMate_Project_Documentation.docx`  |
+| Entity-relationship diagram (ERD)                 | [`docs/erd/`](docs/erd/)                     |
+| Figma designs and exports                         | [`docs/figma/`](docs/figma/)                 |
+
+The source code is not on `main`: the web app is on the `frontend` branch and the server is on the `backend` branch.
 
 ---
 
@@ -131,10 +149,11 @@ We use one shared Trello board to manage the whole project.
 git clone https://github.com/aliwer-qanadil/studymate.git
 ```
 
-### 2. Open the Project Folder
+### 2. Open the Project Folder and Switch to the `frontend` Branch
 
 ```bash
 cd studymate
+git checkout frontend
 ```
 
 ### 3. Install Dependencies
