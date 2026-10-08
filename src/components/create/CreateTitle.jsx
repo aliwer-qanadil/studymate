@@ -1,4 +1,4 @@
-import Label from "../Label.jsx";
+import Label from "../common/Label.jsx";
 
 export default function CreateTitle() {
   return (

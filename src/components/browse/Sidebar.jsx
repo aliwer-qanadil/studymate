@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import Diamond from "../Diamond.jsx";
-import Label from "../Label.jsx";
+import Diamond from "../common/Diamond.jsx";
+import Label from "../common/Label.jsx";
 
 const pickedForYou = [
   { title: "Discrete Math — proof drills", info: "Library · 15:00 · 94% match" },

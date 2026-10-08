@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar.jsx";
+import Navbar from "../components/common/Navbar.jsx";
 import CreateTitle from "../components/create/CreateTitle.jsx";
 import SubjectFields from "../components/create/SubjectFields.jsx";
 import DescriptionField from "../components/create/DescriptionField.jsx";

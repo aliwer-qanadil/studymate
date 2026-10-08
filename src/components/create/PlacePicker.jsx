@@ -1,4 +1,4 @@
-import Diamond from "../Diamond.jsx";
+import Diamond from "../common/Diamond.jsx";
 import FieldLabel from "./FieldLabel.jsx";
 
 export default function PlacePicker({ places, place, setPlace, exactSpot, setExactSpot }) {

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import crest from "../assets/sdu-crest.png";
+import crest from "../../assets/sdu-crest.png";
 
 const links = [
   { label: "Browse", to: "/browse" },

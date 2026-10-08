@@ -1,6 +1,6 @@
-import CourseTag from "../CourseTag.jsx";
-import Diamond from "../Diamond.jsx";
-import Label from "../Label.jsx";
+import CourseTag from "../common/CourseTag.jsx";
+import Diamond from "../common/Diamond.jsx";
+import Label from "../common/Label.jsx";
 
 export default function PreviewSidebar({ request }) {
   return (

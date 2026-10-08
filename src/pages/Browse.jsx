@@ -1,4 +1,4 @@
-import Navbar from "../components/Navbar.jsx";
+import Navbar from "../components/common/Navbar.jsx";
 import BrowseTitle from "../components/browse/BrowseTitle.jsx";
 import FilterBar from "../components/browse/FilterBar.jsx";
 import RequestCard from "../components/browse/RequestCard.jsx";

@@ -1,5 +1,5 @@
-import Diamond from "../Diamond.jsx";
-import CourseTag from "../CourseTag.jsx";
+import Diamond from "../common/Diamond.jsx";
+import CourseTag from "../common/CourseTag.jsx";
 
 
 export default function RequestCard({ request }) {

@@ -1,6 +1,6 @@
 import logo from "../../assets/sdu-logo.png";
 import campus from "../../assets/sdu-campus.png";
-import Diamond from "../Diamond.jsx";
+import Diamond from "../common/Diamond.jsx";
 
 export default function LoginHero() {
   return (

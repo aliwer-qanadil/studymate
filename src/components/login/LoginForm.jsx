@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import crest from "../../assets/sdu-crest.png";
-import Label from "../Label.jsx";
+import Label from "../common/Label.jsx";
 
 // The last 3 digits of a student ID are the order you enrolled in.
 // No major takes more students than this in one year.

@@ -1,4 +1,4 @@
-import Diamond from "../Diamond.jsx";
+import Diamond from "../common/Diamond.jsx";
 
 export default function FilterBar() {
   return (
