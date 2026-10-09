@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import crest from "../../assets/sdu-crest.png";
 import Label from "../common/Label.jsx";
+import { login, saveUser } from "../../api.js";
 
 // The last 3 digits of a student ID are the order you enrolled in.
 // No major takes more students than this in one year.
@@ -66,10 +67,16 @@ export default function LoginForm() {
     setUsernameError(idError);
     setPasswordError(passError);
 
-    // Only go to Browse if both fields are fine
-    if (idError === "" && passError === "") {
-      navigate("/browse");
+    if (idError !== "" || passError !== "") {
+      return;
     }
+
+    login(id, password)
+      .then((user) => {
+        saveUser(user);
+        navigate("/browse");
+      })
+      .catch((error) => setPasswordError(error.message));
   }
 
   return (

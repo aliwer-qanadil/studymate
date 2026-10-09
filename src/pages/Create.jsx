@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Navbar from "../components/common/Navbar.jsx";
 import CreateTitle from "../components/create/CreateTitle.jsx";
 import SubjectFields from "../components/create/SubjectFields.jsx";
@@ -9,6 +9,7 @@ import WhenFields from "../components/create/WhenFields.jsx";
 import PreferenceChips from "../components/create/PreferenceChips.jsx";
 import ReviewToggle from "../components/create/ReviewToggle.jsx";
 import PreviewSidebar from "../components/create/PreviewSidebar.jsx";
+import { createGroup, getUser, initialsOf, toEnum } from "../api.js";
 
 const subjects = [
   { name: "Calculus II", code: "MATH 161" },
@@ -31,10 +32,20 @@ const times = ["09:00 – 11:00", "11:00 – 13:00", "14:00 – 16:00", "16:00 �
 
 const preferences = ["Quiet work", "Talkative", "Mixed group", "Women only", "Men only", "Same year", "Any level"];
 
-// The logged-in student (fake for now, same "AT" as in the navbar)
-const me = { initials: "AT", name: "You", faculty: "Engineering & Natural Sciences · Year 2", rating: 4.7 };
+function dateInDays(daysFromToday) {
+  const date = new Date();
+  date.setDate(date.getDate() + daysFromToday);
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return date.getFullYear() + "-" + month + "-" + day;
+}
 
-export default function Create({ onPost }) {
+export default function Create() {
+  const user = getUser();
+  const me = user
+    ? { initials: initialsOf(user.name), name: user.name, faculty: "SDU University" }
+    : { initials: "", name: "", faculty: "" };
+
   // One piece of state for every field in the form
   const [subject, setSubject] = useState(subjects[0].name);
   const [code, setCode] = useState(subjects[0].code);
@@ -51,9 +62,7 @@ export default function Create({ onPost }) {
 
   const navigate = useNavigate();
 
-  // The request built from the form. It has the same shape as the ones in
-  // src/data/requests.js, so the Browse page can show it with RequestCard.
-  // The live preview on the right also uses it, so it updates as you type.
+  // The live preview on the right uses this, so it updates as you type.
   const request = {
     code: code,
     title: subject + " — " + (title || "your title here"),
@@ -78,9 +87,27 @@ export default function Create({ onPost }) {
       return;
     }
 
-    // Copy of the request plus an id. Date.now() is different every time, so it works as a unique id.
-    onPost({ ...request, id: Date.now() });
-    navigate("/browse");
+    const [startTime, endTime] = time.split(" – ");
+
+    createGroup(user.id, {
+      title: title.trim(),
+      description: description.trim(),
+      subjectName: subject,
+      courseCode: code.trim(),
+      place: toEnum(place),
+      exactSpot: exactSpot.trim(),
+      meetingDate: dateInDays(days.indexOf(day)),
+      startTime: startTime,
+      endTime: endTime,
+      preferences: chosenPreferences.map(toEnum),
+      groupSize: groupSize,
+    })
+      .then(() => navigate("/browse"))
+      .catch((e) => setError(e.message));
+  }
+
+  if (!user) {
+    return <Navigate to="/" />;
   }
 
   return (

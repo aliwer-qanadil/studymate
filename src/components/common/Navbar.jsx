@@ -35,7 +35,7 @@ export default function Navbar({ active }) {
       </nav>
 
       <div className="flex items-center gap-3">
-        <div className="flex gap-0.5 rounded-full bg-peach p-[3px] text-[11px] font-bold">
+        <div className="flex gap-0.5 rounded-full bg-peach p-0.75 text-[11px] font-bold">
           <span className="rounded-full px-2.5 py-1 text-[#5A3418]">KZ</span>
           <span className="rounded-full px-2.5 py-1 text-[#5A3418]">RU</span>
           <span className="rounded-full bg-paper px-2.5 py-1 text-navy">EN</span>

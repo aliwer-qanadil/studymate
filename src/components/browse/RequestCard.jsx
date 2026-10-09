@@ -2,7 +2,7 @@ import Diamond from "../common/Diamond.jsx";
 import CourseTag from "../common/CourseTag.jsx";
 
 
-export default function RequestCard({ request }) {
+export default function RequestCard({ request, onJoin }) {
 
   const dots = [];
   for (let i = 0; i < request.groupSize; i++) {
@@ -25,7 +25,7 @@ export default function RequestCard({ request }) {
           <div className="mb-2 flex items-center gap-2">
             <CourseTag code={request.code} dark={request.highlight} />
             <span className={"text-[10px] font-bold tracking-[0.14em] " + (request.highlight ? "text-peach-dark" : "text-muted")}>
-              {request.mine ? "YOUR REQUEST" : request.match + "% MATCH"}
+              {request.mine ? "YOUR REQUEST" : request.match ? request.match + "% MATCH" : request.level + " LEVEL"}
             </span>
           </div>
           <h3 className="mb-2 text-[19px] font-semibold">{request.title}</h3>
@@ -50,8 +50,13 @@ export default function RequestCard({ request }) {
             <div className="w-full rounded-full bg-warm p-3 text-center text-[13px] font-bold text-muted">
               Waiting for applicants
             </div>
+          ) : request.sent ? (
+            <div className="w-full rounded-full bg-warm p-3 text-center text-[13px] font-bold text-muted">
+              Request sent
+            </div>
           ) : (
             <button
+              onClick={onJoin}
               className={
                 "w-full rounded-full p-3 text-[13px] font-bold " +
                 (request.highlight ? "bg-navy text-white hover:bg-navy-dark" : "border border-navy/20 hover:bg-warm")
@@ -70,10 +75,12 @@ export default function RequestCard({ request }) {
         </div>
         <span className="font-semibold">{request.owner.name}</span>
         <span className="font-medium text-muted">{request.owner.faculty}</span>
-        <span className="ml-auto flex items-center gap-1.5 text-[11.5px] font-bold text-ink">
-          <Diamond />
-          {request.owner.rating} social rating
-        </span>
+        {request.owner.rating && (
+          <span className="ml-auto flex items-center gap-1.5 text-[11.5px] font-bold text-ink">
+            <Diamond />
+            {request.owner.rating} social rating
+          </span>
+        )}
       </div>
     </article>
   );
