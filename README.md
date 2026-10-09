@@ -10,13 +10,13 @@ This project is being developed by the **Study Devs** team as part of the **SOE 
 
 ## Repository Layout
 
-The repository is split into three branches:
+The repository uses three long-lived branches:
 
 | Branch     | Contents                                       |
 | ---------- | ---------------------------------------------- |
 | `main`     | Project documentation only                     |
 | `frontend` | React + Vite web application                   |
-| `backend`  | Spring Boot server (in progress)               |
+| `backend`  | README only; Spring Boot server planned         |
 
 Each branch contains only its own files: documentation is kept only on `main`.
 
@@ -110,7 +110,7 @@ The score helps the organizer compare applicants.
 * Vite
 * Tailwind CSS
 
-### Backend
+### Backend (planned)
 
 * Spring Boot
 * PostgreSQL
@@ -131,7 +131,7 @@ The score helps the organizer compare applicants.
 | Team Member           | Role                      | Email                                               |
 | --------------------- | ------------------------- | --------------------------------------------------- |
 | Yelnar Mamirkhanov    | Backend Developer         | [250118010@sdu.edu.kz](mailto:250118010@sdu.edu.kz) |
-| Agabek Segizbay       | Backend Developer Support | [250118006@sdu.edu.kz](mailto:250118006@sdu.edu.kz) |
+| Agabek Segizbay       | Backend Support and QA owner | [250118006@sdu.edu.kz](mailto:250118006@sdu.edu.kz) |
 | Bakdaulet Sultanbekov | Designer                  | [250118015@sdu.edu.kz](mailto:250118015@sdu.edu.kz) |
 | Alisher Kanadil       | Frontend Developer        | [250118021@sdu.edu.kz](mailto:250118021@sdu.edu.kz) |
 | Arlan Akylbekov       | Product Manager           | [250118016@sdu.edu.kz](mailto:250118016@sdu.edu.kz) |
@@ -150,13 +150,15 @@ All documentation lives in the `docs/` folder on the `main` branch:
 | Entity-relationship diagram (ERD)                 | [`docs/erd/`](docs/erd/)                     |
 | Figma designs and exports                         | [`docs/figma/`](docs/figma/)                 |
 
-The source code is not on `main`: the web app is on the `frontend` branch and the server is on the `backend` branch.
+The source code is not on `main`: the web app is on the `frontend` branch and the `backend` branch currently contains a README and no server implementation.
 
 ---
 
 ## Trello Board
 
 We use one shared Trello board to manage the whole project.
+
+[StudyMate user stories board](https://trello.com/b/zpM0aGVU/studymate-user-stories)
 
 ### Board Columns
 
@@ -240,3 +242,17 @@ The following features are **not part of the current version** but may be added 
 GitHub Repository:
 
 https://github.com/aliwer-qanadil/studymate
+
+
+## Milestone 1 design package
+
+- [Standalone Team Charter](docs/Team_Charter.md), [Word copy](docs/Team_Charter.docx)
+- [Editable ERD](docs/erd/StudyMate_ERD.drawio), [core render](docs/erd/ERD_Core.svg), [profile render](docs/erd/ERD_Profile.svg)
+- [Database design and open decisions](docs/erd/Database_Design.md)
+- [Proposed PostgreSQL DDL](docs/erd/schema.sql)
+- [UI → ERD traceability](docs/Traceability.md)
+- [Wireframes and native Figma setup](docs/figma/FIGMA_SETUP_RU.md)
+- [Defense slides](docs/defense/StudyMate_Milestone1.pptx), [speaker notes](docs/defense/StudyMate_Speaker_Notes.pdf), [Q&A](docs/defense/StudyMate_QA.pdf)
+- [Dated process evidence and remaining actions](docs/Process_Evidence.md)
+
+The Team Charter is approved by Arlan Akylbekov as PM on 9 October 2026; individual team acknowledgements remain pending. The schema and wireframes are proposed designs based on the SRS, prepared with AI assistance for team review. The [native Figma prototype](https://www.figma.com/proto/zmbupAy7b2AJs3NMX6D8fg/StudyMate?node-id=4-320&starting-point-node-id=4-320) now contains 20 editable screens and 126 transitions. Instructor view access and a browser walkthrough still need verification. See [native prototype links](docs/figma/NATIVE_FIGMA_LINKS.md). The local HTML is a rehearsal backup. These files do not prove implemented authentication, a working backend, or merged PRs from all five members.
