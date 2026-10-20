@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Diamond from "../common/Diamond.jsx";
 import CourseTag from "../common/CourseTag.jsx";
 
@@ -16,7 +17,7 @@ export default function RequestCard({ request, onJoin }) {
     <article
       className={
         "rounded-[18px] border border-navy/10 bg-paper px-6 py-5.5 " +
-        (request.highlight ? "border-l-[3px] border-l-peach shadow-[0_2px_10px_rgba(38,42,84,0.05)]" : "")
+        (request.highlight ? "rounded-l-md border-l-[3px] border-l-peach shadow-[0_2px_10px_rgba(38,42,84,0.05)]" : "")
       }
     >
       <div className="flex justify-between gap-5">
@@ -47,13 +48,19 @@ export default function RequestCard({ request, onJoin }) {
           </div>
           {/* You can't join your own request, so show a note instead of the button */}
           {request.mine ? (
-            <div className="w-full rounded-full bg-warm p-3 text-center text-[13px] font-bold text-muted">
-              Waiting for applicants
-            </div>
+            <Link
+              to={"/groups/" + request.id + "/applicants"}
+              className="w-full rounded-full bg-navy p-3 text-center text-[13px] font-bold text-white hover:bg-navy-dark"
+            >
+              See applicants
+            </Link>
           ) : request.sent ? (
-            <div className="w-full rounded-full bg-warm p-3 text-center text-[13px] font-bold text-muted">
-              Request sent
-            </div>
+            <Link
+              to={"/groups/" + request.id}
+              className="w-full rounded-full bg-warm p-3 text-center text-[13px] font-bold text-muted hover:bg-sand"
+            >
+              Request sent · view
+            </Link>
           ) : (
             <button
               onClick={onJoin}

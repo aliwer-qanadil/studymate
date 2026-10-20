@@ -7,7 +7,6 @@ import DescriptionField from "../components/create/DescriptionField.jsx";
 import PlacePicker from "../components/create/PlacePicker.jsx";
 import WhenFields from "../components/create/WhenFields.jsx";
 import PreferenceChips from "../components/create/PreferenceChips.jsx";
-import ReviewToggle from "../components/create/ReviewToggle.jsx";
 import PreviewSidebar from "../components/create/PreviewSidebar.jsx";
 import { createGroup, getUser, initialsOf, toEnum } from "../api.js";
 
@@ -57,7 +56,6 @@ export default function Create() {
   const [time, setTime] = useState(times[2]);
   const [groupSize, setGroupSize] = useState(4);
   const [chosenPreferences, setChosenPreferences] = useState(["Quiet work"]);
-  const [reviewApplicants, setReviewApplicants] = useState(true);
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
@@ -74,7 +72,6 @@ export default function Create() {
     seatsLeft: groupSize - 1, // you already take one seat
     groupSize: groupSize,
     owner: me,
-    reviewApplicants: reviewApplicants,
     highlight: true,
     mine: true,
   };
@@ -156,18 +153,11 @@ export default function Create() {
               setChosen={setChosenPreferences}
             />
 
-            <ReviewToggle on={reviewApplicants} setOn={setReviewApplicants} />
-
             {error && <p className="text-[13px] font-semibold text-red-600">{error}</p>}
 
-            <div className="flex gap-3">
-              <button type="submit" className="rounded-full bg-navy px-10 py-4 text-sm font-bold text-white hover:bg-navy-dark">
-                Post request
-              </button>
-              <button type="button" className="rounded-full border border-navy/15 px-9 py-4 text-sm font-semibold hover:bg-warm">
-                Save as draft
-              </button>
-            </div>
+            <button type="submit" className="w-fit rounded-full bg-navy px-10 py-4 text-sm font-bold text-white hover:bg-navy-dark">
+              Post request
+            </button>
           </form>
         </main>
 
