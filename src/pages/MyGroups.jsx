@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
 import Navbar from "../components/common/Navbar.jsx";
 import MyGroupsTitle from "../components/groups/MyGroupsTitle.jsx";
 import OrganizedGroups from "../components/groups/OrganizedGroups.jsx";
+import GuestNote from "../components/common/GuestNote.jsx";
 import { getMyGroups, getUser } from "../api.js";
 
 export default function MyGroups() {
@@ -17,10 +17,6 @@ export default function MyGroups() {
     getMyGroups(userId).then(setOrganized).catch((e) => setError(e.message));
   }, [userId]);
 
-  if (!user) {
-    return <Navigate to="/" />;
-  }
-
   return (
     <div className="flex min-h-screen flex-col bg-paper">
       <Navbar active="/groups" />
@@ -30,7 +26,11 @@ export default function MyGroups() {
 
         {error && <p className="text-[13px] font-semibold text-red-600">{error}</p>}
 
-        <OrganizedGroups groups={organized} />
+        {user ? (
+          <OrganizedGroups groups={organized} />
+        ) : (
+          <GuestNote>Guests can't organize groups yet. Log in to create one and see who wants to join.</GuestNote>
+        )}
       </main>
     </div>
   );

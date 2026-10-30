@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
 import Navbar from "../components/common/Navbar.jsx";
 import RequestedTitle from "../components/requested/RequestedTitle.jsx";
 import RequestedList from "../components/requested/RequestedList.jsx";
+import GuestNote from "../components/common/GuestNote.jsx";
 import { getGroup, getMyRequests, getUser } from "../api.js";
 
 export default function Requested() {
@@ -23,10 +23,6 @@ export default function Requested() {
       .catch((e) => setError(e.message));
   }, [userId]);
 
-  if (!user) {
-    return <Navigate to="/" />;
-  }
-
   return (
     <div className="flex min-h-screen flex-col bg-paper">
       <Navbar active="/requested" />
@@ -36,7 +32,11 @@ export default function Requested() {
 
         {error && <p className="text-[13px] font-semibold text-red-600">{error}</p>}
 
-        <RequestedList requests={requests} />
+        {user ? (
+          <RequestedList requests={requests} />
+        ) : (
+          <GuestNote>Your join requests show up here once you're logged in.</GuestNote>
+        )}
       </main>
     </div>
   );

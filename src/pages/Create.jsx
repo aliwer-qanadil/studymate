@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/common/Navbar.jsx";
 import CreateTitle from "../components/create/CreateTitle.jsx";
 import SubjectFields from "../components/create/SubjectFields.jsx";
@@ -8,6 +8,7 @@ import PlacePicker from "../components/create/PlacePicker.jsx";
 import WhenFields from "../components/create/WhenFields.jsx";
 import PreferenceChips from "../components/create/PreferenceChips.jsx";
 import PreviewSidebar from "../components/create/PreviewSidebar.jsx";
+import LoginPrompt from "../components/common/LoginPrompt.jsx";
 import { createGroup, getUser, initialsOf, toEnum } from "../api.js";
 
 const subjects = [
@@ -43,7 +44,7 @@ export default function Create() {
   const user = getUser();
   const me = user
     ? { initials: initialsOf(user.name), name: user.name, faculty: "SDU University" }
-    : { initials: "", name: "", faculty: "" };
+    : { initials: "G", name: "Guest", faculty: "Not logged in" };
 
   // One piece of state for every field in the form
   const [subject, setSubject] = useState(subjects[0].name);
@@ -57,6 +58,7 @@ export default function Create() {
   const [groupSize, setGroupSize] = useState(4);
   const [chosenPreferences, setChosenPreferences] = useState(["Quiet work"]);
   const [error, setError] = useState("");
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 
   const navigate = useNavigate();
 
@@ -78,6 +80,12 @@ export default function Create() {
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    // Guests can fill in the form to try it, but posting needs an account
+    if (!user) {
+      setShowLoginPrompt(true);
+      return;
+    }
 
     if (code.trim() === "" || title.trim() === "" || description.trim() === "") {
       setError("Please fill in the course code, a short title and what you'll do together.");
@@ -101,10 +109,6 @@ export default function Create() {
     })
       .then(() => navigate("/browse"))
       .catch((e) => setError(e.message));
-  }
-
-  if (!user) {
-    return <Navigate to="/" />;
   }
 
   return (
@@ -163,6 +167,8 @@ export default function Create() {
 
         <PreviewSidebar request={request} />
       </div>
+
+      {showLoginPrompt && <LoginPrompt onClose={() => setShowLoginPrompt(false)} />}
     </div>
   );
 }

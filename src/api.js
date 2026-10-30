@@ -7,6 +7,10 @@ export function saveUser(user) {
   localStorage.setItem("user", JSON.stringify(user));
 }
 
+export function logout() {
+  localStorage.removeItem("user");
+}
+
 async function request(method, url, body) {
   const response = await fetch(url, {
     method: method,
@@ -16,10 +20,6 @@ async function request(method, url, body) {
 
   const data = await response.json().catch(() => null);
 
-  if (response.status === 401) {
-    throw new Error("Wrong student ID or password.");
-  }
-
   if (!response.ok) {
     const fieldErrors = data && data.errors ? Object.values(data.errors).join(", ") : "";
     throw new Error(fieldErrors || (data && data.detail) || "Something went wrong. Try again.");
@@ -28,8 +28,13 @@ async function request(method, url, body) {
   return data;
 }
 
-export function login(studentId, password) {
-  return request("POST", "/api/auth/login", { studentId, password });
+// Login is two steps: email a one-time code, then check the code
+export function sendCode(studentId) {
+  return request("POST", "/api/auth/send-code", { studentId });
+}
+
+export function verifyCode(studentId, code) {
+  return request("POST", "/api/auth/verify-code", { studentId, code });
 }
 
 export function getGroups() {
