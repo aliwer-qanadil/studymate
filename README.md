@@ -10,42 +10,16 @@ This project is being developed by the **Study Devs** team as part of the **SOE 
 
 ## Repository Layout
 
-The repository uses three long-lived branches:
-
-| Branch     | Contents                                       |
-| ---------- | ---------------------------------------------- |
-| `main`     | Project documentation only                     |
-| `frontend` | React + Vite web application                   |
-| `backend`  | README only; Spring Boot server planned         |
-
-Each branch contains only its own files: documentation is kept only on `main`.
-
-### Working on all three branches locally
-
-You can check out every branch into its own folder with `git worktree`:
-
-```bash
-mkdir studymate && cd studymate
-git clone --bare https://github.com/aliwer-qanadil/studymate.git .bare
-echo "gitdir: ./.bare" > .git
-git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-git fetch origin
-for b in main frontend backend; do git branch -u origin/$b $b; done
-git worktree add docs main
-git worktree add frontend frontend
-git worktree add backend backend
-```
-
-This gives you:
+Everything lives on one branch, `full-stack-docker`:
 
 ```
 studymate/
-├── docs/       ← main branch
-├── frontend/   ← frontend branch
-└── backend/    ← backend branch
+├── docker-compose.yml   ← starts the database, backend and frontend together
+├── .env.example         ← copy to .env and add the Gmail settings
+├── docs/                ← project documentation
+├── frontend/            ← React + Vite web application
+└── backend/             ← Spring Boot API (Java 21, PostgreSQL)
 ```
-
-Inside each folder, `git commit` and `git push` only affect that folder's branch.
 
 ---
 
@@ -140,7 +114,7 @@ The score helps the organizer compare applicants.
 
 ## Project Documentation
 
-All documentation lives in the `docs/` folder on the `main` branch:
+All documentation lives in the `docs/` folder:
 
 | Deliverable                                       | Location                                     |
 | ------------------------------------------------- | -------------------------------------------- |
@@ -150,7 +124,7 @@ All documentation lives in the `docs/` folder on the `main` branch:
 | Entity-relationship diagram (ERD)                 | [`docs/erd/`](docs/erd/)                     |
 | Figma designs and exports                         | [`docs/figma/`](docs/figma/)                 |
 
-The source code is not on `main`: the web app is on the `frontend` branch and the `backend` branch currently contains a README and no server implementation.
+The web app is in `frontend/` and the Spring Boot API is in `backend/`.
 
 ---
 
@@ -170,34 +144,52 @@ We use one shared Trello board to manage the whole project.
 
 ---
 
-## Running the Frontend
+## Running the Project with Docker
 
-### 1. Clone the Repository
+You only need [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running.
 
-```bash
-git clone https://github.com/aliwer-qanadil/studymate.git
-```
-
-### 2. Open the Project Folder and Switch to the `frontend` Branch
+### 1. Clone the repository
 
 ```bash
+git clone -b full-stack-docker https://github.com/aliwer-qanadil/studymate.git
 cd studymate
-git checkout frontend
 ```
 
-### 3. Install Dependencies
+### 2. Add the Gmail settings
+
+Login works by emailing a one-time code, so the backend needs a Gmail account:
 
 ```bash
+cp .env.example .env
+```
+
+Then fill in `GMAIL_USER` and `GMAIL_APP_PASSWORD` in `.env` (a Gmail "App password", not your normal password). Without them the app still runs, but you can't log in.
+
+### 3. Start everything
+
+```bash
+docker compose up --build
+```
+
+| What      | Address                     |
+| --------- | --------------------------- |
+| Website   | http://localhost:3000       |
+| API       | http://localhost:8080/api   |
+| Database  | `localhost:5434`, user and password `studymate` |
+
+Stop with `Ctrl+C`, or `docker compose down`. The database is kept in a Docker volume between runs; `docker compose down -v` deletes it, and the backend refills the demo data on the next start.
+
+If a port is already in use, set `FRONTEND_PORT`, `BACKEND_PORT` or `DB_PORT` in `.env`.
+
+### Running the frontend without Docker
+
+```bash
+cd frontend
 npm install
-```
-
-### 4. Start the Development Server
-
-```bash
 npm run dev
 ```
 
-After starting the server, open the local URL provided by Vite in your browser.
+Vite forwards `/api` requests to `http://localhost:8080`, so start the backend first (for example with `docker compose up db backend`).
 
 ---
 
