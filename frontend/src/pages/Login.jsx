@@ -1,0 +1,16 @@
+import LoginHero from "../components/login/LoginHero.jsx";
+import LoginForm from "../components/login/LoginForm.jsx";
+import PumpkinPatch from "../components/halloween/PumpkinPatch.jsx";
+
+export default function Login() {
+  // Same setting as the Autumn switch in the top bar (on by default)
+  const autumnOn = localStorage.getItem("autumn") !== "off";
+
+  return (
+    <div className="grid min-h-screen bg-paper lg:grid-cols-2">
+      <LoginHero />
+      <LoginForm />
+      {autumnOn && <PumpkinPatch />}
+    </div>
+  );
+}
