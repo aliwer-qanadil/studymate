@@ -4,6 +4,7 @@ import MyGroupsTitle from "../components/groups/MyGroupsTitle.jsx";
 import OrganizedGroups from "../components/groups/OrganizedGroups.jsx";
 import GuestNote from "../components/common/GuestNote.jsx";
 import { getMyGroups, getUser } from "../api.js";
+import { t } from "../i18n.js";
 
 export default function MyGroups() {
   const user = getUser();
@@ -29,7 +30,7 @@ export default function MyGroups() {
         {user ? (
           <OrganizedGroups groups={organized} />
         ) : (
-          <GuestNote>Guests can't organize groups yet. Log in to create one and see who wants to join.</GuestNote>
+          <GuestNote>{t("myGroups.guest")}</GuestNote>
         )}
       </main>
     </div>

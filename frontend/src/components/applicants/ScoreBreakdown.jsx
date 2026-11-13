@@ -1,14 +1,16 @@
+import { t } from "../../i18n.js";
+
 export default function ScoreBreakdown({ breakdown, hint }) {
   const rows = [
-    { label: "Subject", value: breakdown.subject },
-    { label: "Time", value: breakdown.time },
-    { label: "Level", value: breakdown.level },
-    { label: "Preferences", value: breakdown.preferences, accent: true },
+    { label: t("applicants.subject"), value: breakdown.subject },
+    { label: t("applicants.time"), value: breakdown.time },
+    { label: t("applicants.level"), value: breakdown.level },
+    { label: t("applicants.preferences"), value: breakdown.preferences, accent: true },
   ];
 
   return (
     <div>
-      <div className="mb-3 text-[10px] font-bold tracking-[0.18em] text-muted">SCORE BREAKDOWN</div>
+      <div className="mb-3 text-[10px] font-bold tracking-[0.18em] text-muted">{t("applicants.breakdown")}</div>
 
       <div className="flex flex-col gap-2.5">
         {rows.map((row) => (

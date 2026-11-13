@@ -1,10 +1,11 @@
 import ScoreDiamond from "./ScoreDiamond.jsx";
 import ScoreBreakdown from "./ScoreBreakdown.jsx";
 import { fromEnum, initialsOf, timeRange } from "../../api.js";
+import { t } from "../../i18n.js";
 
 function hintFor(applicant) {
-  if (applicant.breakdown.level < 60) return "Level gap is wide — a good chance to teach.";
-  if (applicant.breakdown.time < 100) return "Only part of the session fits their free time.";
+  if (applicant.breakdown.level < 60) return t("applicants.hintLevel");
+  if (applicant.breakdown.time < 100) return t("applicants.hintTime");
   return "";
 }
 
@@ -28,7 +29,10 @@ export default function ApplicantCard({ applicant, canAccept, onAccept, onDeclin
           <div>
             <div className="text-[19px] font-semibold">{applicant.applicant.name}</div>
             <div className="text-[13.5px] font-medium text-muted">
-              {fromEnum(applicant.level)} level · free {timeRange(applicant.availableFrom, applicant.availableTo)}
+              {t("applicants.levelFree", {
+                level: fromEnum(applicant.level),
+                time: timeRange(applicant.availableFrom, applicant.availableTo),
+              })}
             </div>
           </div>
         </div>
@@ -56,10 +60,10 @@ export default function ApplicantCard({ applicant, canAccept, onAccept, onDeclin
           disabled={!canAccept}
           className="rounded-full bg-navy py-4 text-sm font-bold text-white hover:bg-navy-dark disabled:opacity-40"
         >
-          Accept
+          {t("common.accept")}
         </button>
         <button onClick={onDecline} className="rounded-full border border-navy/15 py-4 text-sm font-semibold hover:bg-warm">
-          Decline
+          {t("common.decline")}
         </button>
       </div>
     </article>

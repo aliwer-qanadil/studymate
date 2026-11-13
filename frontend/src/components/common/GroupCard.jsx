@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import CourseTag from "./CourseTag.jsx";
 import Diamond from "./Diamond.jsx";
 import { fromEnum, whenText } from "../../api.js";
+import { t } from "../../i18n.js";
 
 export default function GroupCard({ group, label, badge, mine, to, buttonText }) {
   return (
@@ -27,8 +28,8 @@ export default function GroupCard({ group, label, badge, mine, to, buttonText })
         <div className="flex flex-wrap gap-4 text-[12.5px] font-semibold text-ink">
           <span className="flex items-center gap-2"><Diamond />{fromEnum(group.place)}</span>
           <span className="flex items-center gap-2"><Diamond />{whenText(group)}</span>
-          <span className="flex items-center gap-2"><Diamond />{group.memberCount + 1} of {group.groupSize} members</span>
-          {!mine && <span className="flex items-center gap-2"><Diamond />Owner: {group.organizer.name}</span>}
+          <span className="flex items-center gap-2"><Diamond />{t("common.membersOf", { count: group.memberCount + 1, size: group.groupSize })}</span>
+          {!mine && <span className="flex items-center gap-2"><Diamond />{t("common.owner", { name: group.organizer.name })}</span>}
         </div>
       </div>
 

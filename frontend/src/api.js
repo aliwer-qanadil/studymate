@@ -1,3 +1,5 @@
+import { t } from "./i18n.js";
+
 export function getUser() {
   const saved = localStorage.getItem("user");
   return saved ? JSON.parse(saved) : null;
@@ -22,7 +24,9 @@ async function request(method, url, body) {
 
   if (!response.ok) {
     const fieldErrors = data && data.errors ? Object.values(data.errors).join(", ") : "";
-    throw new Error(fieldErrors || (data && data.detail) || "Something went wrong. Try again.");
+    const error = new Error(fieldErrors || (data && data.detail) || "Something went wrong. Try again.");
+    error.status = response.status; // e.g. 409 when a username is already taken
+    throw error;
   }
 
   return data;
@@ -59,13 +63,9 @@ export function joinGroup(userId, group) {
   });
 }
 
-export function toEnum(label) {
-  return label.toUpperCase().replaceAll(" ", "_");
-}
-
+// "LIBRARY" -> "Library" (or "Кітапхана", "Библиотека" in the chosen language)
 export function fromEnum(value) {
-  const text = value.toLowerCase().replaceAll("_", " ");
-  return text.charAt(0).toUpperCase() + text.slice(1);
+  return t("enums." + value);
 }
 
 export function initialsOf(name) {
@@ -75,6 +75,19 @@ export function initialsOf(name) {
     .join("")
     .slice(0, 2)
     .toUpperCase();
+}
+
+export function getProfile(userId) {
+  return request("GET", "/api/users/" + userId + "/profile");
+}
+
+// profile = { subjects, studyStyle, favouritePlaces }
+export function updateProfile(userId, profile) {
+  return request("PUT", "/api/users/" + userId + "/profile", profile);
+}
+
+export function changeUsername(userId, name) {
+  return request("PUT", "/api/users/" + userId + "/name", { name: name });
 }
 
 export function getMyGroups(userId) {
@@ -106,9 +119,10 @@ export function dayLabel(date) {
   const meeting = new Date(date + "T00:00:00");
   const daysAway = Math.round((meeting - new Date(today.getFullYear(), today.getMonth(), today.getDate())) / 86400000);
 
-  if (daysAway === 0) return "Today";
-  if (daysAway === 1) return "Tomorrow";
-  return meeting.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+  if (daysAway === 0) return t("common.today");
+  if (daysAway === 1) return t("common.tomorrow");
+  // e.g. "4 Nov". Month names come from our own texts, because not every browser knows Kazakh ones.
+  return meeting.getDate() + " " + t("common.months")[meeting.getMonth()];
 }
 
 export function timeRange(from, to) {

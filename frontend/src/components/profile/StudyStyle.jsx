@@ -1,4 +1,9 @@
 import Label from "../common/Label.jsx";
+import { fromEnum } from "../../api.js";
+import { t } from "../../i18n.js";
+
+const styles = ["QUIET_WORK", "MIXED_GROUP", "TALKATIVE"];
+const allPlaces = ["LIBRARY", "CANTEEN", "TOP_FLOOR"];
 
 function Row({ title, children }) {
   return (
@@ -9,32 +14,57 @@ function Row({ title, children }) {
   );
 }
 
-export default function StudyStyle({ places, favouritePlaces }) {
+function Chip({ chosen, onClick, children }) {
+  return (
+    <button
+      onClick={onClick}
+      className={
+        "rounded-full px-4 py-2 text-[13px] font-semibold " +
+        (chosen ? "bg-navy text-white" : "bg-warm text-muted hover:text-navy")
+      }
+    >
+      {children}
+    </button>
+  );
+}
+
+// onSave gets only what changed, e.g. { studyStyle: "TALKATIVE" }
+export default function StudyStyle({ studyStyle, places, onSave }) {
+  // Clicking the chosen style again clears it
+  function pickStyle(style) {
+    onSave({ studyStyle: style === studyStyle ? null : style });
+  }
+
+  function togglePlace(place) {
+    if (places.includes(place)) {
+      onSave({ favouritePlaces: places.filter((p) => p !== place) });
+    } else {
+      onSave({ favouritePlaces: [...places, place] });
+    }
+  }
+
   return (
     <section>
-      <Label className="mb-4">How I like to study</Label>
+      <Label className="mb-1">{t("profile.studyStyle")}</Label>
+      <p className="mb-4 text-[13px] font-medium text-muted">{t("profile.clickToChange")}</p>
 
       <div className="flex flex-col gap-3">
-        <Row title="Quiet vs. talkative">
-          <div className="relative h-1.5 flex-1 rounded-full bg-sand">
-            <div className="h-1.5 w-1/3 rounded-full bg-navy"></div>
-            <span className="absolute top-1/2 left-1/3 size-4 -translate-1/2 rounded-full bg-peach"></span>
+        <Row title={t("profile.quietOrTalkative")}>
+          <div className="flex flex-wrap gap-2">
+            {styles.map((style) => (
+              <Chip key={style} chosen={style === studyStyle} onClick={() => pickStyle(style)}>
+                {fromEnum(style)}
+              </Chip>
+            ))}
           </div>
-          <span className="text-[14px] font-medium text-ink">Mostly quiet</span>
         </Row>
 
-        <Row title="Preferred places">
+        <Row title={t("profile.places")}>
           <div className="flex flex-wrap gap-2">
-            {places.map((place) => (
-              <span
-                key={place}
-                className={
-                  "rounded-full px-4 py-2 text-[13px] font-semibold " +
-                  (favouritePlaces.includes(place) ? "bg-navy text-white" : "bg-warm text-muted")
-                }
-              >
-                {place}
-              </span>
+            {allPlaces.map((place) => (
+              <Chip key={place} chosen={places.includes(place)} onClick={() => togglePlace(place)}>
+                {fromEnum(place)}
+              </Chip>
             ))}
           </div>
         </Row>

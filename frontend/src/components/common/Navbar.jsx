@@ -2,13 +2,15 @@ import { Link, useNavigate } from "react-router-dom";
 import crest from "../../assets/sdu-crest.png";
 import { getUser, initialsOf, logout } from "../../api.js";
 import AutumnToggle from "../autumn/AutumnToggle.jsx";
+import LanguageToggle from "./LanguageToggle.jsx";
+import { t } from "../../i18n.js";
 
 const links = [
-  { label: "Browse", to: "/browse" },
-  { label: "Create", to: "/create" },
-  { label: "My groups", to: "/groups" },
-  { label: "Requested", to: "/requested" },
-  { label: "Profile", to: "/profile" },
+  { label: t("navbar.browse"), to: "/browse" },
+  { label: t("navbar.create"), to: "/create" },
+  { label: t("navbar.myGroups"), to: "/groups" },
+  { label: t("navbar.requested"), to: "/requested" },
+  { label: t("navbar.profile"), to: "/profile" },
 ];
 
 export default function Navbar({ active }) {
@@ -46,23 +48,19 @@ export default function Navbar({ active }) {
 
       <div className="flex items-center gap-3">
         <AutumnToggle />
-        <div className="flex gap-0.5 rounded-full bg-peach p-0.75 text-[11px] font-bold">
-          <span className="rounded-full px-2.5 py-1 text-[#5A3418]">KZ</span>
-          <span className="rounded-full px-2.5 py-1 text-[#5A3418]">RU</span>
-          <span className="rounded-full bg-paper px-2.5 py-1 text-navy">EN</span>
-        </div>
+        <LanguageToggle />
         {user ? (
           <>
             <div className="flex size-8.5 items-center justify-center rounded-full bg-navy text-xs font-bold text-white">
               {initialsOf(user.name)}
             </div>
             <button onClick={handleLogout} className="text-[12.5px] font-semibold text-muted hover:text-navy">
-              Log out
+              {t("common.logOut")}
             </button>
           </>
         ) : (
           <Link to="/" className="rounded-full bg-navy px-4 py-2 text-[12.5px] font-bold text-white hover:bg-navy-dark">
-            Log in
+            {t("common.logIn")}
           </Link>
         )}
       </div>

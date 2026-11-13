@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Diamond from "../common/Diamond.jsx";
 import CourseTag from "../common/CourseTag.jsx";
+import { t } from "../../i18n.js";
 
 
 export default function RequestCard({ request, onJoin }) {
@@ -26,7 +27,11 @@ export default function RequestCard({ request, onJoin }) {
           <div className="mb-2 flex items-center gap-2">
             <CourseTag code={request.code} dark={request.highlight} />
             <span className={"text-[10px] font-bold tracking-[0.14em] " + (request.highlight ? "text-peach-dark" : "text-muted")}>
-              {request.mine ? "YOUR REQUEST" : request.match ? request.match + "% MATCH" : request.level + " LEVEL"}
+              {request.mine
+                ? t("browse.yourRequest")
+                : request.match
+                  ? t("common.matchTag", { score: request.match })
+                  : t("browse.levelTag", { level: request.level })}
             </span>
           </div>
           <h3 className="mb-2 text-[19px] font-semibold">{request.title}</h3>
@@ -42,7 +47,7 @@ export default function RequestCard({ request, onJoin }) {
           <div className="text-right">
             <div className="text-[22px] font-bold">{request.seatsLeft}</div>
             <div className="text-[9.5px] font-bold tracking-[0.14em] text-muted">
-              {request.seatsLeft === 1 ? "SEAT LEFT" : "SEATS LEFT"}
+              {t("browse.seatsLeftLabel", { count: request.seatsLeft })}
             </div>
             <div className="mt-2 flex justify-end gap-1">{dots}</div>
           </div>
@@ -52,14 +57,14 @@ export default function RequestCard({ request, onJoin }) {
               to={"/groups/" + request.id + "/applicants"}
               className="w-full rounded-full bg-navy p-3 text-center text-[13px] font-bold text-white hover:bg-navy-dark"
             >
-              See applicants
+              {t("common.seeApplicants")}
             </Link>
           ) : request.sent ? (
             <Link
               to={"/groups/" + request.id}
               className="w-full rounded-full bg-warm p-3 text-center text-[13px] font-bold text-muted hover:bg-sand"
             >
-              Request sent · view
+              {t("browse.requestSent")}
             </Link>
           ) : (
             <button
@@ -69,7 +74,7 @@ export default function RequestCard({ request, onJoin }) {
                 (request.highlight ? "bg-navy text-white hover:bg-navy-dark" : "border border-navy/20 hover:bg-warm")
               }
             >
-              Request to join
+              {t("common.requestToJoin")}
             </button>
           )}
         </div>
@@ -85,7 +90,7 @@ export default function RequestCard({ request, onJoin }) {
         {request.owner.rating && (
           <span className="ml-auto flex items-center gap-1.5 text-[11.5px] font-bold text-ink">
             <Diamond />
-            {request.owner.rating} social rating
+            {t("browse.socialRating", { rating: request.owner.rating })}
           </span>
         )}
       </div>

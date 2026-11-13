@@ -7,6 +7,7 @@ import ApplicantCard from "../components/applicants/ApplicantCard.jsx";
 import LowMatchRow from "../components/applicants/LowMatchRow.jsx";
 import GroupMembers from "../components/applicants/GroupMembers.jsx";
 import { acceptRequest, declineRequest, getApplicants, getGroup, getUser } from "../api.js";
+import { t } from "../i18n.js";
 
 export default function Applicants() {
   const user = getUser();
@@ -81,7 +82,7 @@ export default function Applicants() {
               className="mx-auto mt-2 flex items-center gap-2 text-sm font-bold text-peach-dark hover:underline"
             >
               <Diamond />
-              Show {hiddenMatches.length} more {hiddenMatches.length === 1 ? "applicant" : "applicants"} under 60%
+              {t("applicants.showMore", { count: hiddenMatches.length })}
             </button>
           )}
 

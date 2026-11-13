@@ -1,8 +1,11 @@
+import { fromEnum } from "../../api.js";
+import { t } from "../../i18n.js";
+
 const opposites = {
-  "Quiet work": "Talkative",
-  "Talkative": "Quiet work",
-  "Women only": "Men only",
-  "Men only": "Women only",
+  QUIET_WORK: "TALKATIVE",
+  TALKATIVE: "QUIET_WORK",
+  WOMEN_ONLY: "MEN_ONLY",
+  MEN_ONLY: "WOMEN_ONLY",
 };
 
 export default function PreferenceChips({ preferences, chosen, setChosen }) {
@@ -18,7 +21,7 @@ export default function PreferenceChips({ preferences, chosen, setChosen }) {
   return (
     <div>
       <div className="mb-3 text-[13px] font-semibold text-ink">
-        Preferences <span className="font-medium text-muted">— optional, used for matching</span>
+        {t("create.preferences")} <span className="font-medium text-muted">{t("create.preferencesHint")}</span>
       </div>
 
       <div className="flex flex-wrap gap-2.5">
@@ -34,7 +37,7 @@ export default function PreferenceChips({ preferences, chosen, setChosen }) {
                 : "border border-navy/10 bg-warm text-ink hover:border-navy/30")
             }
           >
-            {preference}
+            {fromEnum(preference)}
           </button>
         ))}
       </div>

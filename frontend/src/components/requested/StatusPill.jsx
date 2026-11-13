@@ -1,11 +1,12 @@
 import { isPast } from "../../api.js";
+import { t } from "../../i18n.js";
 
 const statuses = {
-  PENDING: { text: "Waiting for the owner", colors: "bg-honey-light text-honey" },
-  ACCEPTED: { text: "You're in", colors: "bg-sage-light text-sage" },
-  REJECTED: { text: "Not accepted", colors: "bg-clay-light text-clay" },
-  PAST: { text: "Date has passed", colors: "bg-sand text-ink" },
-  CANCELLED: { text: "Cancelled by the owner", colors: "bg-sand text-ink" },
+  PENDING: { text: t("requested.PENDING"), colors: "bg-honey-light text-honey" },
+  ACCEPTED: { text: t("requested.ACCEPTED"), colors: "bg-sage-light text-sage" },
+  REJECTED: { text: t("requested.REJECTED"), colors: "bg-clay-light text-clay" },
+  PAST: { text: t("requested.PAST"), colors: "bg-sand text-ink" },
+  CANCELLED: { text: t("requested.CANCELLED"), colors: "bg-sand text-ink" },
 };
 
 function statusOf(request) {

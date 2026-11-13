@@ -4,6 +4,7 @@ import RequestedTitle from "../components/requested/RequestedTitle.jsx";
 import RequestedList from "../components/requested/RequestedList.jsx";
 import GuestNote from "../components/common/GuestNote.jsx";
 import { getGroup, getMyRequests, getUser } from "../api.js";
+import { t } from "../i18n.js";
 
 export default function Requested() {
   const user = getUser();
@@ -35,7 +36,7 @@ export default function Requested() {
         {user ? (
           <RequestedList requests={requests} />
         ) : (
-          <GuestNote>Your join requests show up here once you're logged in.</GuestNote>
+          <GuestNote>{t("requested.guest")}</GuestNote>
         )}
       </main>
     </div>

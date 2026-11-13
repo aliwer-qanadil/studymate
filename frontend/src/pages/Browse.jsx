@@ -7,12 +7,13 @@ import FullGroupCard from "../components/browse/FullGroupCard.jsx";
 import Sidebar from "../components/browse/Sidebar.jsx";
 import LoginPrompt from "../components/common/LoginPrompt.jsx";
 import { fromEnum, getGroups, getMyRequests, getUser, initialsOf, joinGroup, whenText } from "../api.js";
+import { t } from "../i18n.js";
 
 function partOfDay(time) {
   const hour = Number(time.slice(0, 2));
-  if (hour < 12) return "Morning";
-  if (hour < 17) return "Afternoon";
-  return "Evening";
+  if (hour < 12) return "MORNING";
+  if (hour < 17) return "AFTERNOON";
+  return "EVENING";
 }
 
 function matchesFilters(group, filters) {
@@ -20,9 +21,9 @@ function matchesFilters(group, filters) {
   const text = (group.subjectName + " " + group.courseCode + " " + group.title).toLowerCase();
 
   return (
-    (filters.subject === "All" || group.subjectName === filters.subject) &&
-    (filters.place === "Any" || fromEnum(group.place) === filters.place) &&
-    (filters.time === "Any" || partOfDay(group.startTime) === filters.time) &&
+    (filters.subject === "" || group.subjectName === filters.subject) &&
+    (filters.place === "" || group.place === filters.place) &&
+    (filters.time === "" || partOfDay(group.startTime) === filters.time) &&
     (search === "" || text.includes(search))
   );
 }
@@ -38,10 +39,10 @@ function toCard(group, user, sentGroupIds) {
     description: group.description,
     place: fromEnum(group.place),
     time: whenText(group),
-    style: group.preferences.length > 0 ? group.preferences.map(fromEnum).join(" · ") : "No preferences",
+    style: group.preferences.length > 0 ? group.preferences.map(fromEnum).join(" · ") : t("common.noPreferences"),
     seatsLeft: group.seatsLeft,
     groupSize: group.groupSize,
-    owner: { initials: initialsOf(group.organizer.name), name: group.organizer.name, faculty: "SDU University" },
+    owner: { initials: initialsOf(group.organizer.name), name: group.organizer.name, faculty: t("common.sduUniversity") },
     highlight: mine,
     mine: mine,
     sent: sentGroupIds.includes(group.id),
@@ -54,7 +55,8 @@ export default function Browse() {
   const userId = user ? user.id : null;
   const [groups, setGroups] = useState([]);
   const [sentGroupIds, setSentGroupIds] = useState([]);
-  const [filters, setFilters] = useState({ subject: "All", place: "Any", time: "Any", search: "" });
+  // "" means "All" / "Any"
+  const [filters, setFilters] = useState({ subject: "", place: "", time: "", search: "" });
   const [error, setError] = useState("");
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 
@@ -99,7 +101,7 @@ export default function Browse() {
           <div className="flex flex-col gap-3.5">
             {cards.length === 0 && (
               <p className="rounded-2xl border border-dashed border-navy/20 p-6 text-sm font-medium text-muted">
-                {groups.length === 0 ? "No open groups right now." : "No groups match these filters."}
+                {groups.length === 0 ? t("browse.noGroups") : t("browse.noMatches")}
               </p>
             )}
             {cards.map((card) => (

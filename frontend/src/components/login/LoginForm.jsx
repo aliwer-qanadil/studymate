@@ -3,17 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 import crest from "../../assets/sdu-crest.png";
 import Label from "../common/Label.jsx";
 import { logout, saveUser, sendCode, verifyCode } from "../../api.js";
+import { t } from "../../i18n.js";
 
 
 const biggestOrderNumber = 500;
 
 function checkStudentId(id) {
   if (id === "") {
-    return "Enter your student ID.";
+    return t("login.errorEmpty");
   }
 
   if (!/^[0-9]{9}$/.test(id)) {
-    return "Your SDU email is your 9-digit student ID, e.g. 250118021@sdu.edu.kz";
+    return t("login.errorFormat");
   }
 
   const year = Number(id.slice(0, 2));
@@ -25,15 +26,15 @@ function checkStudentId(id) {
   const thisYear = new Date().getFullYear() % 100; 
   const oldestYear = thisYear - 8;
   if (year < oldestYear || year > thisYear) {
-    return "The first two digits should be the year you enrolled (" + oldestYear + "–" + thisYear + ").";
+    return t("login.errorYear", { from: oldestYear, to: thisYear });
   }
 
   if (faculty === "00" || major === "00") {
-    return "This student ID doesn't look right. Check the faculty and major digits.";
+    return t("login.errorFaculty");
   }
 
   if (order < 1 || order > biggestOrderNumber) {
-    return "The last three digits should be between 001 and " + biggestOrderNumber + ".";
+    return t("login.errorOrder", { max: biggestOrderNumber });
   }
 
   return "";
@@ -75,7 +76,7 @@ export default function LoginForm() {
     e.preventDefault();
 
     if (!/^[0-9]{6}$/.test(code)) {
-      setCodeError("Enter the 6-digit code from your email.");
+      setCodeError(t("login.errorCode"));
       return;
     }
 
@@ -90,7 +91,7 @@ export default function LoginForm() {
   function sendAgain() {
     setNote("");
     sendCode(codeSentTo)
-      .then(() => setNote("New code sent. Use the newest email."))
+      .then(() => setNote(t("login.newCodeSent")))
       .catch((error) => setCodeError(error.message));
   }
 
@@ -109,19 +110,19 @@ export default function LoginForm() {
         </div>
 
         <div>
-          <Label className="mb-3">Student access</Label>
-          <h1 className="mb-2 text-[28px] font-semibold">{codeSentTo ? "Check your email" : "Welcome back"}</h1>
+          <Label className="mb-3">{t("login.label")}</Label>
+          <h1 className="mb-2 text-[28px] font-semibold">{codeSentTo ? t("login.checkEmail") : t("login.welcome")}</h1>
           <p className="text-sm font-medium text-muted">
             {codeSentTo
-              ? "We sent a 6-digit code to " + codeSentTo + "@sdu.edu.kz. It works for 10 minutes."
-              : "Enter your SDU email and we'll send you a one-time code. No password needed."}
+              ? t("login.codeSent", { email: codeSentTo + "@sdu.edu.kz" })
+              : t("login.intro")}
           </p>
         </div>
 
         {!codeSentTo && (
           <div className="flex flex-col gap-4">
             <label>
-              <span className="mb-2 block text-xs font-semibold text-ink">SDU email</span>
+              <span className="mb-2 block text-xs font-semibold text-ink">{t("login.emailLabel")}</span>
               <div
                 className={
                   "flex items-center rounded-xl border bg-warm px-4 focus-within:border-navy/40 " +
@@ -149,7 +150,7 @@ export default function LoginForm() {
               >
                 {keepSignedIn ? "✓" : ""}
               </span>
-              Keep me signed in
+              {t("login.keepSignedIn")}
             </button>
           </div>
         )}
@@ -157,7 +158,7 @@ export default function LoginForm() {
         {codeSentTo && (
           <div className="flex flex-col gap-4">
             <label>
-              <span className="mb-2 block text-xs font-semibold text-ink">Login code</span>
+              <span className="mb-2 block text-xs font-semibold text-ink">{t("login.codeLabel")}</span>
               <input
                 value={code}
                 onChange={(e) => setCode(e.target.value.replace(/[^0-9]/g, ""))}
@@ -177,10 +178,10 @@ export default function LoginForm() {
 
             <div className="flex items-center justify-between text-xs font-semibold">
               <button type="button" onClick={useDifferentEmail} className="text-ink hover:underline">
-                Use a different email
+                {t("login.differentEmail")}
               </button>
               <button type="button" onClick={sendAgain} className="text-peach-dark hover:underline">
-                Send the code again
+                {t("login.sendAgain")}
               </button>
             </div>
           </div>
@@ -188,19 +189,19 @@ export default function LoginForm() {
 
         <div className="flex flex-col gap-3">
           <button type="submit" className="rounded-full bg-navy p-4 text-sm font-bold text-white hover:bg-navy-dark">
-            {codeSentTo ? "Log in" : "Send me a code"}
+            {codeSentTo ? t("common.logIn") : t("login.sendCode")}
           </button>
           <Link
             to="/browse"
             onClick={logout}
             className="rounded-full border border-navy/20 p-4 text-center text-sm font-bold text-navy hover:bg-warm"
           >
-            Look around as a guest
+            {t("login.guest")}
           </Link>
         </div>
 
         <p className="text-[11.5px] font-medium leading-relaxed text-muted">
-          Provided by SDU University · Student Affairs. By continuing you accept the campus community rules.
+          {t("login.footer")}
         </p>
       </form>
     </div>

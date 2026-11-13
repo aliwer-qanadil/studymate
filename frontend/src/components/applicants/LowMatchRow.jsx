@@ -1,5 +1,6 @@
 import ScoreDiamond from "./ScoreDiamond.jsx";
 import { fromEnum, initialsOf } from "../../api.js";
+import { t } from "../../i18n.js";
 
 function minutes(time) {
   return Number(time.slice(0, 2)) * 60 + Number(time.slice(3, 5));
@@ -9,21 +10,21 @@ function reasonsFor(applicant, group) {
   const reasons = [];
 
   if (applicant.breakdown.subject < 100) {
-    reasons.push("studies " + applicant.courseCode);
+    reasons.push(t("applicants.reasonStudies", { code: applicant.courseCode }));
   }
   if (applicant.breakdown.time < 100) {
     const start = Math.max(minutes(group.startTime), minutes(applicant.availableFrom));
     const end = Math.min(minutes(group.endTime), minutes(applicant.availableTo));
-    reasons.push("time overlap only " + Math.max(0, end - start) + " min");
+    reasons.push(t("applicants.reasonTime", { minutes: Math.max(0, end - start) }));
   }
   if (applicant.breakdown.level < 100) {
-    reasons.push(fromEnum(applicant.level).toLowerCase() + " level");
+    reasons.push(t("applicants.reasonLevel", { level: fromEnum(applicant.level).toLowerCase() }));
   }
   if (applicant.breakdown.preferences < 100) {
     reasons.push(
       applicant.preferences.length > 0
-        ? "prefers " + applicant.preferences.map((p) => fromEnum(p).toLowerCase()).join(", ")
-        : "picked no study preferences"
+        ? t("applicants.reasonPrefers", { list: applicant.preferences.map((p) => fromEnum(p).toLowerCase()).join(", ") })
+        : t("applicants.reasonNoPreferences")
     );
   }
 
@@ -42,7 +43,7 @@ export default function LowMatchRow({ applicant, group, canAccept, onAccept, onD
         </div>
         <div>
           <div className="text-[17px] font-semibold">{applicant.applicant.name}</div>
-          <div className="text-[13px] font-medium text-muted">{fromEnum(applicant.level)} level</div>
+          <div className="text-[13px] font-medium text-muted">{t("common.levelText", { level: fromEnum(applicant.level) })}</div>
         </div>
       </div>
 
@@ -54,10 +55,10 @@ export default function LowMatchRow({ applicant, group, canAccept, onAccept, onD
           disabled={!canAccept}
           className="rounded-full border border-navy/20 px-6 py-3 text-sm font-bold hover:bg-paper disabled:opacity-40"
         >
-          Accept
+          {t("common.accept")}
         </button>
         <button onClick={onDecline} className="rounded-full border border-navy/10 px-6 py-3 text-sm font-semibold text-muted hover:bg-paper">
-          Decline
+          {t("common.decline")}
         </button>
       </div>
     </article>

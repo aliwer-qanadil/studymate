@@ -90,7 +90,7 @@ public class AuthService {
         codeRepository.delete(loginCode);
 
         User user = userRepository.findByEmail(email)
-                .orElseGet(() -> userRepository.save(new User(null, request.studentId(), email)));
+                .orElseGet(() -> userRepository.save(new User(request.studentId(), email)));
 
         return new UserSummary(user.getId(), user.getName());
     }

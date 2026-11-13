@@ -9,28 +9,18 @@ import WhenFields from "../components/create/WhenFields.jsx";
 import PreferenceChips from "../components/create/PreferenceChips.jsx";
 import PreviewSidebar from "../components/create/PreviewSidebar.jsx";
 import LoginPrompt from "../components/common/LoginPrompt.jsx";
-import { createGroup, getUser, initialsOf, toEnum } from "../api.js";
+import { createGroup, fromEnum, getUser, initialsOf } from "../api.js";
+import { subjects } from "../data/subjects.js";
+import { t } from "../i18n.js";
 
-const subjects = [
-  { name: "Calculus II", code: "MATH 161" },
-  { name: "Discrete Math", code: "MATH 151" },
-  { name: "Data Structures", code: "CS 204" },
-  { name: "Mechanics", code: "PHYS 121" },
-  { name: "Academic English", code: "ENG 102" },
-  { name: "Kazakh History", code: "HIST 101" },
-];
+const places = ["LIBRARY", "CANTEEN", "TOP_FLOOR"];
 
-const places = [
-  { name: "Library", note: "Quiet floors, group rooms" },
-  { name: "Canteen", note: "Talk freely, coffee nearby" },
-  { name: "Top floor", note: "Study pods, whiteboards" },
-];
-
-const days = ["Today", "Tomorrow", "Day after tomorrow"];
+// "Today", "Tomorrow", "Day after tomorrow" in the chosen language. The position is the number of days from today.
+const days = t("create.days");
 
 const times = ["09:00 – 11:00", "11:00 – 13:00", "14:00 – 16:00", "16:00 – 18:00", "18:00 – 20:00"];
 
-const preferences = ["Quiet work", "Talkative", "Mixed group", "Women only", "Men only", "Same year", "Any level"];
+const preferences = ["QUIET_WORK", "TALKATIVE", "MIXED_GROUP", "WOMEN_ONLY", "MEN_ONLY", "SAME_YEAR", "ANY_LEVEL"];
 
 function dateInDays(daysFromToday) {
   const date = new Date();
@@ -43,20 +33,20 @@ function dateInDays(daysFromToday) {
 export default function Create() {
   const user = getUser();
   const me = user
-    ? { initials: initialsOf(user.name), name: user.name, faculty: "SDU University" }
-    : { initials: "G", name: "Guest", faculty: "Not logged in" };
+    ? { initials: initialsOf(user.name), name: user.name, faculty: t("common.sduUniversity") }
+    : { initials: "G", name: t("common.guest"), faculty: t("common.notLoggedIn") };
 
   // One piece of state for every field in the form
   const [subject, setSubject] = useState(subjects[0].name);
   const [code, setCode] = useState(subjects[0].code);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [place, setPlace] = useState(places[0].name);
+  const [place, setPlace] = useState(places[0]);
   const [exactSpot, setExactSpot] = useState("");
   const [day, setDay] = useState(days[0]);
   const [time, setTime] = useState(times[2]);
   const [groupSize, setGroupSize] = useState(4);
-  const [chosenPreferences, setChosenPreferences] = useState(["Quiet work"]);
+  const [chosenPreferences, setChosenPreferences] = useState(["QUIET_WORK"]);
   const [error, setError] = useState("");
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 
@@ -65,12 +55,12 @@ export default function Create() {
   // The live preview on the right uses this, so it updates as you type.
   const request = {
     code: code,
-    title: subject + " — " + (title || "your title here"),
+    title: subject + " — " + (title || t("create.yourTitleHere")),
     description: description,
-    place: place,
+    place: fromEnum(place),
     exactSpot: exactSpot, // only for accepted members, not shown on Browse
     time: day + ", " + time,
-    style: chosenPreferences.length > 0 ? chosenPreferences.join(" · ") : "No preferences",
+    style: chosenPreferences.length > 0 ? chosenPreferences.map(fromEnum).join(" · ") : t("common.noPreferences"),
     seatsLeft: groupSize - 1, // you already take one seat
     groupSize: groupSize,
     owner: me,
@@ -88,7 +78,7 @@ export default function Create() {
     }
 
     if (code.trim() === "" || title.trim() === "" || description.trim() === "") {
-      setError("Please fill in the course code, a short title and what you'll do together.");
+      setError(t("create.fillEverything"));
       return;
     }
 
@@ -99,12 +89,12 @@ export default function Create() {
       description: description.trim(),
       subjectName: subject,
       courseCode: code.trim(),
-      place: toEnum(place),
+      place: place,
       exactSpot: exactSpot.trim(),
       meetingDate: dateInDays(days.indexOf(day)),
       startTime: startTime,
       endTime: endTime,
-      preferences: chosenPreferences.map(toEnum),
+      preferences: chosenPreferences,
       groupSize: groupSize,
     })
       .then(() => navigate("/browse"))
@@ -160,7 +150,7 @@ export default function Create() {
             {error && <p className="text-[13px] font-semibold text-red-600">{error}</p>}
 
             <button type="submit" className="w-fit rounded-full bg-navy px-10 py-4 text-sm font-bold text-white hover:bg-navy-dark">
-              Post request
+              {t("create.post")}
             </button>
           </form>
         </main>

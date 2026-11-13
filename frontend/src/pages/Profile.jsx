@@ -1,46 +1,54 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/common/Navbar.jsx";
+import GuestNote from "../components/common/GuestNote.jsx";
 import ProfileCard from "../components/profile/ProfileCard.jsx";
-import SocialRating from "../components/profile/SocialRating.jsx";
-import RatingNote from "../components/profile/RatingNote.jsx";
+import ProfileStats from "../components/profile/ProfileStats.jsx";
+import StatsNote from "../components/profile/StatsNote.jsx";
 import SubjectList from "../components/profile/SubjectList.jsx";
-import StatsRow from "../components/profile/StatsRow.jsx";
 import StudyStyle from "../components/profile/StudyStyle.jsx";
 import RecentSessions from "../components/profile/RecentSessions.jsx";
 import Settings from "../components/profile/Settings.jsx";
-import { getUser, logout } from "../api.js";
-
-// Example data until the backend has profiles. Only the name and the Settings section are real for now.
-const subjects = ["Calculus II", "Data Structures", "Discrete Math", "Academic English", "Kazakh History"];
-
-const stats = [
-  { number: 23, label: "Sessions attended" },
-  { number: 14, label: "Times you taught" },
-  { number: 31, label: "Students met" },
-];
-
-const ratings = [
-  { label: "Reliability", score: 4.9 },
-  { label: "Behaviour", score: 4.8 },
-  { label: "Helpfulness", score: 4.5 },
-];
-
-const places = ["Library", "Top floor", "Canteen"];
-const favouritePlaces = ["Library", "Top floor"];
-
-const sessions = [
-  { title: "Discrete Math — proof drills", where: "Library · 24 Oct", taught: true },
-  { title: "Data Structures — graph traversal", where: "Top floor · 21 Oct", taught: false },
-  { title: "Academic English — essay review", where: "Canteen · 17 Oct", taught: false },
-];
+import { changeUsername, getProfile, getUser, logout, saveUser, updateProfile } from "../api.js";
+import { t } from "../i18n.js";
 
 export default function Profile() {
   const user = getUser();
+  const userId = user ? user.id : null;
   const navigate = useNavigate();
+  const [profile, setProfile] = useState(null);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!userId) return;
+
+    getProfile(userId).then(setProfile).catch((e) => setError(e.message));
+  }, [userId]);
 
   function handleLogout() {
     logout();
     navigate("/");
+  }
+
+  // Saves subjects, study style and favourite places.
+  // "changes" holds only the part that changed, e.g. { studyStyle: "TALKATIVE" }
+  function saveProfile(changes) {
+    setError("");
+    const updated = {
+      subjects: profile.subjects,
+      studyStyle: profile.studyStyle,
+      favouritePlaces: profile.favouritePlaces,
+      ...changes,
+    };
+    updateProfile(userId, updated).then(setProfile).catch((e) => setError(e.message));
+  }
+
+  // ProfileCard shows the error itself, so we give the request back to it
+  function saveUsername(name) {
+    return changeUsername(userId, name).then((saved) => {
+      saveUser({ ...user, name: saved.name }); // so the top bar shows the new name too
+      setProfile({ ...profile, name: saved.name });
+    });
   }
 
   return (
@@ -49,16 +57,23 @@ export default function Profile() {
 
       <div className="grid flex-1 lg:grid-cols-[420px_1fr]">
         <aside className="flex flex-col gap-7 border-r border-navy/10 bg-warm px-7 py-10">
-          <ProfileCard user={user} />
-          <SocialRating overall={4.7} sessions={23} ratings={ratings} />
-          <RatingNote />
+          {(!user || profile) && <ProfileCard profile={profile} onSaveUsername={saveUsername} />}
+          {profile && <ProfileStats profile={profile} />}
+          {profile && <StatsNote />}
         </aside>
 
         <main className="flex flex-col gap-10 px-10 py-10">
-          <SubjectList subjects={subjects} />
-          <StatsRow stats={stats} />
-          <StudyStyle places={places} favouritePlaces={favouritePlaces} />
-          <RecentSessions sessions={sessions} />
+          {error && <p className="text-[13px] font-semibold text-red-600">{error}</p>}
+          {!user && <GuestNote>{t("profile.guestNote")}</GuestNote>}
+
+          {profile && (
+            <>
+              <SubjectList subjects={profile.subjects} onSave={(subjects) => saveProfile({ subjects: subjects })} />
+              <StudyStyle studyStyle={profile.studyStyle} places={profile.favouritePlaces} onSave={saveProfile} />
+              <RecentSessions sessions={profile.recentSessions} />
+            </>
+          )}
+
           <Settings loggedIn={user !== null} onLogout={handleLogout} />
         </main>
       </div>

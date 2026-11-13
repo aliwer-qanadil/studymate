@@ -1,6 +1,8 @@
+import { t } from "../../i18n.js";
+
 const tiers = {
-  strong: { label: "Strong match", box: "size-26 bg-peach", text: "text-peach-dark" },
-  good: { label: "Good match", box: "size-26 bg-peach-light", text: "text-muted" },
+  strong: { label: t("applicants.strongMatch"), box: "size-26 bg-peach", text: "text-peach-dark" },
+  good: { label: t("applicants.goodMatch"), box: "size-26 bg-peach-light", text: "text-muted" },
   low: { label: "", box: "size-17 bg-sand", text: "" },
 };
 

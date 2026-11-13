@@ -1,18 +1,19 @@
 import { dayLabel, fromEnum, timeRange } from "../../api.js";
+import { t } from "../../i18n.js";
 
 function spotText(group) {
-  if (group.exactSpot === null) return "Exact spot after you're accepted";
-  return group.exactSpot || "No exact spot given";
+  if (group.exactSpot === null) return t("group.spotAfterAccept");
+  return group.exactSpot || t("group.noSpot");
 }
 
 export default function GroupFacts({ group }) {
   const facts = [
-    { label: "When", lines: [dayLabel(group.meetingDate), timeRange(group.startTime, group.endTime)] },
-    { label: "Where", lines: [fromEnum(group.place), spotText(group)] },
+    { label: t("group.when"), lines: [dayLabel(group.meetingDate), timeRange(group.startTime, group.endTime)] },
+    { label: t("group.where"), lines: [fromEnum(group.place), spotText(group)] },
     {
-      label: "Group",
-      lines: [group.memberCount + 1 + " of " + group.groupSize + " members"],
-      muted: group.preferences.map(fromEnum).join(" · ") || "No preferences",
+      label: t("group.group"),
+      lines: [t("common.membersOf", { count: group.memberCount + 1, size: group.groupSize })],
+      muted: group.preferences.map(fromEnum).join(" · ") || t("common.noPreferences"),
     },
   ];
 

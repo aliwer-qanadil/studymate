@@ -1,22 +1,22 @@
 import CourseTag from "../common/CourseTag.jsx";
 import Diamond from "../common/Diamond.jsx";
 import { fromEnum, whenText } from "../../api.js";
+import { t } from "../../i18n.js";
 
 const sortOptions = [
-  { value: "compatibility", label: "Compatibility" },
-  { value: "newest", label: "Newest" },
+  { value: "compatibility", label: t("applicants.compatibility") },
+  { value: "newest", label: t("applicants.newest") },
 ];
 
 function statusText(group) {
-  if (group.status === "CANCELLED") return "YOUR REQUEST · CANCELLED";
-  if (group.status === "FULL") return "YOUR REQUEST · GROUP IS FULL";
-  return "YOUR REQUEST · " + group.seatsLeft + (group.seatsLeft === 1 ? " SEAT LEFT" : " SEATS LEFT");
+  if (group.status === "CANCELLED") return t("applicants.statusCancelled");
+  if (group.status === "FULL") return t("applicants.statusFull");
+  return t("applicants.statusSeats", { count: group.seatsLeft });
 }
 
 function heading(count, subject) {
-  if (count === 0) return "No new requests for your " + subject + " group";
-  if (count === 1) return "1 student wants to join your " + subject + " group";
-  return count + " students want to join your " + subject + " group";
+  if (count === 0) return t("applicants.headingNone", { subject: subject });
+  return t("applicants.heading", { count: count, subject: subject });
 }
 
 export default function ApplicantsTitle({ group, count, sort, setSort }) {

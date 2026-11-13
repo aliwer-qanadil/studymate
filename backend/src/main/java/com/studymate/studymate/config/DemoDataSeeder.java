@@ -85,6 +85,6 @@ public class DemoDataSeeder implements CommandLineRunner {
     }
 
     private User createUser(String name, String studentId) {
-        return userRepository.save(new User(null, name, studentId + "@sdu.edu.kz"));
+        return userRepository.save(new User(name, studentId + "@sdu.edu.kz"));
     }
 }

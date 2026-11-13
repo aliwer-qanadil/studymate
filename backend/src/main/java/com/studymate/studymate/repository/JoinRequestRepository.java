@@ -4,6 +4,7 @@ import com.studymate.studymate.entity.JoinRequest;
 import com.studymate.studymate.entity.JoinRequestStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,4 +21,6 @@ public interface JoinRequestRepository extends JpaRepository<JoinRequest, Long> 
     Optional<JoinRequest> findByIdAndGroupOrganizerId(Long id, Long organizerId);
 
     Optional<JoinRequest> findByIdAndApplicantId(Long id, Long applicantId);
+
+    List<JoinRequest> findByGroupIdInAndStatus(Collection<Long> groupIds, JoinRequestStatus status);
 }

@@ -1,4 +1,5 @@
 import Diamond from "../common/Diamond.jsx";
+import { t } from "../../i18n.js";
 
 export default function PrivacyNote({ accepted }) {
   return (
@@ -6,10 +7,10 @@ export default function PrivacyNote({ accepted }) {
       <Diamond className="size-2.5" />
       <span className="flex-1 text-[15px] font-semibold">
         {accepted
-          ? "The exact spot is visible because you were accepted."
-          : "The exact spot is shared only with accepted members."}
+          ? t("group.spotVisible")
+          : t("group.spotHidden")}
       </span>
-      <span className="text-[13px] font-medium text-muted">Hidden from the public feed</span>
+      <span className="text-[13px] font-medium text-muted">{t("group.hiddenFromFeed")}</span>
     </div>
   );
 }

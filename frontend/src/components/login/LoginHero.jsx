@@ -1,6 +1,7 @@
 import logo from "../../assets/sdu-logo.png";
 import campus from "../../assets/sdu-campus.png";
 import Diamond from "../common/Diamond.jsx";
+import { t } from "../../i18n.js";
 
 export default function LoginHero() {
   return (
@@ -11,18 +12,18 @@ export default function LoginHero() {
         </div>
         <div>
           <div className="font-serif text-[22px] font-medium text-white">Study Mate</div>
-          <div className="text-[9px] font-bold tracking-[0.2em] text-peach/90">BY SDU UNIVERSITY</div>
+          <div className="text-[9px] font-bold tracking-[0.2em] text-peach/90">{t("login.byUniversity")}</div>
         </div>
       </div>
 
       <div>
         <p className="mb-5 max-w-[18ch] font-serif text-[44px] leading-tight text-white">
-          Find someone to study with, on campus, today.
+          {t("login.headline")}
         </p>
         <div className="flex items-start gap-3">
           <Diamond className="mt-2 size-[9px]" />
           <p className="font-serif text-base italic text-white/70">
-            “Docendo discimus.” By teaching, we learn. — Seneca
+            {t("login.quote")}
           </p>
         </div>
       </div>

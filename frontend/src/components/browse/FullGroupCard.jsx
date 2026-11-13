@@ -1,3 +1,4 @@
+import { t } from "../../i18n.js";
 
 export default function FullGroupCard() {
   return (
@@ -5,17 +6,17 @@ export default function FullGroupCard() {
       <div>
         <div className="mb-2 flex items-center gap-2">
           <span className="rounded-[7px] bg-navy/10 px-2.5 py-1 text-[10.5px] font-bold tracking-wider">PHYS 121</span>
-          <span className="text-[10px] font-bold tracking-[0.14em] text-muted">FULL</span>
+          <span className="text-[10px] font-bold tracking-[0.14em] text-muted">{t("browse.full")}</span>
         </div>
-        <h3 className="mb-2 text-[19px] font-semibold">Mechanics problem set — Chapter 6 & 7</h3>
+        <h3 className="mb-2 text-[19px] font-semibold">{t("browse.fullTitle")}</h3>
         <div className="flex gap-4 text-[12.5px] font-semibold text-muted">
-          <span>Library · group room B</span>
-          <span>Today, 19:00 – 20:30</span>
-          <span>4 of 4 joined</span>
+          <span>{t("browse.fullPlace")}</span>
+          <span>{t("browse.fullTime")}</span>
+          <span>{t("browse.fullJoined")}</span>
         </div>
       </div>
       <button className="rounded-full border border-navy/20 px-5 py-3 text-[13px] font-bold text-muted">
-        Notify me if a seat frees
+        {t("browse.notifyMe")}
       </button>
     </article>
   );

@@ -1,11 +1,12 @@
 import Label from "../common/Label.jsx";
+import { t } from "../../i18n.js";
 
 function statusText(group, status) {
-  if (group.status === "CANCELLED") return "Cancelled by the owner";
-  if (status === "ACCEPTED") return group.status === "FULL" ? "Group formed · you're in" : "You're in";
-  if (status === "PENDING") return "Waiting for the owner";
-  if (status === "REJECTED") return "Not accepted this time";
-  return "Open group";
+  if (group.status === "CANCELLED") return t("group.statusCancelled");
+  if (status === "ACCEPTED") return group.status === "FULL" ? t("group.statusFormed") : t("group.statusIn");
+  if (status === "PENDING") return t("group.statusWaiting");
+  if (status === "REJECTED") return t("group.statusRejected");
+  return t("group.statusOpen");
 }
 
 function calendarTime(date, time) {
@@ -23,7 +24,7 @@ function downloadCalendar(group) {
     "DTSTAMP:" + now,
     "DTSTART:" + calendarTime(group.meetingDate, group.startTime),
     "DTEND:" + calendarTime(group.meetingDate, group.endTime),
-    "SUMMARY:" + group.courseCode + " study group",
+    "SUMMARY:" + t("group.calendarTitle", { code: group.courseCode }),
     "LOCATION:" + group.place + (group.exactSpot ? ", " + group.exactSpot : ""),
     "END:VEVENT",
     "END:VCALENDAR",
@@ -57,7 +58,7 @@ export default function GroupHero({ group, status }) {
             onClick={() => downloadCalendar(group)}
             className="h-fit shrink-0 rounded-full border border-white/30 px-6 py-3 text-sm font-bold hover:bg-white/10"
           >
-            Add to calendar
+            {t("group.addToCalendar")}
           </button>
         )}
       </div>
