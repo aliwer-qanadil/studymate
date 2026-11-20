@@ -59,3 +59,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: docker compose build
+      # Start the whole stack and wait until every health check passes,
+      # so a broken health check or a backend that can't boot fails CI.
+      - run: docker compose up -d --wait --wait-timeout 180
+      - if: failure()
+        run: docker compose ps -a && docker compose logs --tail 80
+      - if: always()
+        run: docker compose down -v
