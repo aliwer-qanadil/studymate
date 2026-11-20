@@ -1,8 +1,8 @@
 package com.studymate.studymate.service;
 
+import com.studymate.studymate.dto.auth.LoginResponse;
 import com.studymate.studymate.dto.auth.SendCodeRequest;
 import com.studymate.studymate.dto.auth.VerifyCodeRequest;
-import com.studymate.studymate.dto.user.UserSummary;
 import com.studymate.studymate.entity.LoginCode;
 import com.studymate.studymate.entity.User;
 import com.studymate.studymate.repository.LoginCodeRepository;
@@ -28,18 +28,21 @@ public class AuthService {
     private final LoginCodeRepository codeRepository;
     private final PasswordEncoder passwordEncoder;
     private final LoginCodeMailer mailer;
+    private final SessionService sessionService;
     private final SecureRandom random = new SecureRandom();
 
     public AuthService(
             UserRepository userRepository,
             LoginCodeRepository codeRepository,
             PasswordEncoder passwordEncoder,
-            LoginCodeMailer mailer) {
+            LoginCodeMailer mailer,
+            SessionService sessionService) {
 
         this.userRepository = userRepository;
         this.codeRepository = codeRepository;
         this.passwordEncoder = passwordEncoder;
         this.mailer = mailer;
+        this.sessionService = sessionService;
     }
 
     // Step 1: email a fresh 6-digit code to studentId@sdu.edu.kz
@@ -64,9 +67,10 @@ public class AuthService {
     }
 
     // Step 2: check the code. The first successful login creates the account.
+    // Returns a session token that proves who the browser is on later requests.
     // noRollbackFor keeps the wrong-attempt count saved even though we answer with an error.
     @Transactional(noRollbackFor = ResponseStatusException.class)
-    public UserSummary verifyCode(VerifyCodeRequest request) {
+    public LoginResponse verifyCode(VerifyCodeRequest request) {
         String email = emailOf(request.studentId());
 
         LoginCode loginCode = codeRepository.findByEmail(email)
@@ -92,7 +96,11 @@ public class AuthService {
         User user = userRepository.findByEmail(email)
                 .orElseGet(() -> userRepository.save(new User(request.studentId(), email)));
 
-        return new UserSummary(user.getId(), user.getName());
+        return new LoginResponse(user.getId(), user.getName(), sessionService.start(user.getId()));
+    }
+
+    public void logout(String token) {
+        sessionService.end(token);
     }
 
     private String emailOf(String studentId) {

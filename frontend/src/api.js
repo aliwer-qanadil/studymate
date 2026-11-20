@@ -1,8 +1,11 @@
 import { t } from "./i18n.js";
 
+// user = { id, name, token }. The token comes from the login and proves to the server who we are.
 export function getUser() {
   const saved = localStorage.getItem("user");
-  return saved ? JSON.parse(saved) : null;
+  const user = saved ? JSON.parse(saved) : null;
+  // Logins saved before the server had sessions have no token, so treat them as logged out
+  return user && user.token ? user : null;
 }
 
 export function saveUser(user) {
@@ -10,17 +13,33 @@ export function saveUser(user) {
 }
 
 export function logout() {
+  const user = getUser();
+  if (user) {
+    // Ends the session on the server too. We don't wait for the answer.
+    fetch("/api/auth/logout", { method: "POST", headers: { Authorization: "Bearer " + user.token } }).catch(() => {});
+  }
   localStorage.removeItem("user");
 }
 
 async function request(method, url, body) {
+  const user = getUser();
+  const headers = { "Content-Type": "application/json" };
+  if (user) {
+    headers.Authorization = "Bearer " + user.token;
+  }
+
   const response = await fetch(url, {
     method: method,
-    headers: { "Content-Type": "application/json" },
+    headers: headers,
     body: body ? JSON.stringify(body) : undefined,
   });
 
   const data = await response.json().catch(() => null);
+
+  // 401 with a token means the session expired or was ended: forget it, so the app shows "Log in" again
+  if (response.status === 401 && user) {
+    localStorage.removeItem("user");
+  }
 
   if (!response.ok) {
     const fieldErrors = data && data.errors ? Object.values(data.errors).join(", ") : "";

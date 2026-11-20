@@ -1,5 +1,6 @@
 package com.studymate.studymate.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,8 @@ public class Course {
 
     private String description;
 
+    // Not sent in JSON: it would expose the owner's email to everyone who lists courses
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
