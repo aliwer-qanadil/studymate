@@ -10,24 +10,44 @@ This project is being developed by the **Study Devs** team as part of the **SOE 
 
 ## Repository Layout
 
-Everything lives on one branch, `full-stack-docker`:
+The repository uses three long-lived branches:
+
+| Branch     | Contents                                       |
+| ---------- | ---------------------------------------------- |
+| `main`     | Project documentation only                     |
+| `frontend` | React + Vite web application                   |
+| `backend`  | README only; Spring Boot server planned         |
+
+Each branch contains only its own files: documentation is kept only on `main`.
+
+### Working on all three branches locally
+
+You can check out every branch into its own folder with `git worktree`:
+
+```bash
+mkdir studymate && cd studymate
+git clone --bare https://github.com/aliwer-qanadil/studymate.git .bare
+echo "gitdir: ./.bare" > .git
+git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+git fetch origin
+for b in main frontend backend; do git branch -u origin/$b $b; done
+git worktree add docs main
+git worktree add frontend frontend
+git worktree add backend backend
+```
+
+This gives you:
 
 ```
 studymate/
-├── docker-compose.yml   ← starts the database, backend and frontend together
-├── .env.example         ← copy to .env and add the Gmail settings
-├── docs/                ← project documentation
-├── frontend/            ← React + Vite web application
-└── backend/             ← Spring Boot API (Java 21, PostgreSQL)
+├── docs/       ← main branch
+├── frontend/   ← frontend branch
+└── backend/    ← backend branch
 ```
 
+Inside each folder, `git commit` and `git push` only affect that folder's branch.
+
 ---
-
-## The Problem and Target Users
-
-Students often understand difficult topics better when they study together. Finding classmates who take the same subject, have a free schedule and a similar level can take a long time.
-
-**Target users:** students at SDU University who want to study a course in person with others, and the students who organize those sessions.
 
 ## Project Idea
 
@@ -90,12 +110,12 @@ The score helps the organizer compare applicants.
 * Vite
 * Tailwind CSS
 
-### Backend
+### Backend (planned)
 
-* Spring Boot (Java 21)
+* Spring Boot
 * PostgreSQL
-* Spring Mail (login codes sent by email)
-* Docker and Docker Compose
+* Spring Security
+* JWT Authentication
 
 ### Other Tools
 
@@ -120,7 +140,7 @@ The score helps the organizer compare applicants.
 
 ## Project Documentation
 
-All documentation lives in the `docs/` folder:
+All documentation lives in the `docs/` folder on the `main` branch:
 
 | Deliverable                                       | Location                                     |
 | ------------------------------------------------- | -------------------------------------------- |
@@ -130,7 +150,7 @@ All documentation lives in the `docs/` folder:
 | Entity-relationship diagram (ERD)                 | [`docs/erd/`](docs/erd/)                     |
 | Figma designs and exports                         | [`docs/figma/`](docs/figma/)                 |
 
-The web app is in `frontend/` and the Spring Boot API is in `backend/`.
+The source code is not on `main`: the web app is on the `frontend` branch and the `backend` branch currently contains a README and no server implementation.
 
 ---
 
@@ -150,22 +170,9 @@ We use one shared Trello board to manage the whole project.
 
 ---
 
-## Running the Backend Without Docker
+## Running the Frontend
 
-Install Java 21 and PostgreSQL, create a database called `studymate`, then run:
-
-```bash
-cd backend
-SPRING_DATASOURCE_USERNAME=studymate SPRING_DATASOURCE_PASSWORD=studymate ./mvnw spring-boot:run
-```
-
-The database address defaults to `localhost:5432`. Set `STUDYMATE_DEMO_DATA_ENABLED=true` to load demo students and groups on the first start.
-
-## Running the Project with Docker
-
-You only need [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running.
-
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
 git clone -b full-stack-docker https://github.com/aliwer-qanadil/studymate.git
@@ -289,6 +296,20 @@ The following features are **not part of the current version** but may be added 
 ## Repository
 
 GitHub Repository:
+
+https://github.com/aliwer-qanadil/studymate
+
+
+## Milestone 1 design package
+
+- [Standalone Team Charter](docs/Team_Charter.md), [Word copy](docs/Team_Charter.docx)
+- [Editable ERD](docs/erd/StudyMate_ERD.drawio), [core render](docs/erd/ERD_Core.svg), [profile render](docs/erd/ERD_Profile.svg)
+- [Database design and open decisions](docs/erd/Database_Design.md)
+- [Proposed PostgreSQL DDL](docs/erd/schema.sql)
+- [UI → ERD traceability](docs/Traceability.md)
+- [Wireframes and native Figma setup](docs/figma/FIGMA_SETUP_RU.md)
+- [Defense slides](docs/defense/StudyMate_Milestone1.pptx), [speaker notes](docs/defense/StudyMate_Speaker_Notes.pdf), [Q&A](docs/defense/StudyMate_QA.pdf)
+- [Dated process evidence and remaining actions](docs/Process_Evidence.md)
 
 https://github.com/aliwer-qanadil/studymate
 

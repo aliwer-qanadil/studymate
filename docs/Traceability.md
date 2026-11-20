@@ -6,7 +6,7 @@ Proposed design mapped to the current SRS. Screen numbers match the wireframe as
 |---|---|---|---|---|
 | 01 Register | Name | users.full_name | US-01 | Required; proposed maximum 120 characters |
 | 01 Register / 02 Sign in | Email | users.email | US-01 / US-02 | Required, unique on register; normalize lowercase |
-| 01 Register / 02 Sign in | Password | users.password_hash | US-01 / US-02; NFR-03 | Hash on server; raw password is never persisted. Note: the current build signs in with an emailed one-time code (login_codes), not a password; team to confirm |
+| 01 Register / 02 Sign in | Password | users.password_hash | US-01 / US-02; NFR-03 | Hash on server; raw password is never persisted |
 | 04 Profile | Subject and level | user_subject_levels.subject_id; knowledge_level | US-03 / US-04 | One level for each selected subject |
 | 04 Profile | Availability | user_availability.available_from; available_until | US-03 / US-04 | End must follow start |
 | 04 Profile | Optional study style | user_preferences.preference_id | US-03 / US-04 | Separate rows; labels in preference_options |
