@@ -128,3 +128,16 @@ The targets below are acceptance goals to test, not claims about the current imp
 | Won't-have this iteration | None of the numbered stories | 0 | Chat, ratings, and automated notifications are outside this SRS scope. |
 
 **Kanban convention:** Use the same US identifiers and titles in the board and this document. Backlog means agreed and unscheduled; To Do means selected for the next work period; In Progress, In Review, and Done reflect actual work. A written story or criterion is not evidence that the feature is implemented.
+
+---
+
+## Implementation Notes (as built)
+
+These notes describe the current build so that the SRS and the code can be compared. They are a draft for team review and do not change the requirements above.
+
+- **Sign-in:** a student enters a student ID, receives a one-time code by email, and enters it to sign in. The backend stores codes in a `login_codes` table. The build does not currently use passwords.
+- **Compatibility score:** calculated on the backend from subject, time, level and study-preference matches. It is not stored.
+- **Demo data:** sample students and study groups are created only when `STUDYMATE_DEMO_DATA_ENABLED=true`. The Docker setup enables it by default for local runs.
+- **Deployment:** the frontend, backend and database run together with Docker Compose. Environment variables supply the database and Gmail settings. Health checks and automatic restart are configured.
+- **Automated checks:** GitHub Actions runs the frontend code check and build, the backend tests against PostgreSQL, and the Docker build on every change.
+

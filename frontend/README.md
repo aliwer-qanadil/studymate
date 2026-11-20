@@ -55,8 +55,13 @@ src/
 
 ## Pages
 
-| Route     | Page   | What it does                          |
-| --------- | ------ | ------------------------------------- |
-| `/`       | Login  | Sign in with an SDU account           |
-| `/browse` | Browse | See open study groups and filter them |
-| `/create` | Create | Post a new study request              |
+| Route        | Page        | What it does                                   |
+| ------------ | ----------- | ---------------------------------------------- |
+| `/`          | Login       | Sign in with a student ID and an emailed code  |
+| `/browse`    | Browse      | See open study groups and filter them          |
+| `/create`    | Create      | Create a new study group                       |
+| `/groups/:groupId` | Group | Full details of one study group |
+| `/groups`    | My groups   | Groups you organize                            |
+| `/requested` | Requested   | Join requests you have sent and their status   |
+| `/groups/:groupId/applicants` | Applicants | Review applicants and their compatibility score |
+| `/profile`   | Profile     | Your profile, subjects and study style         |
