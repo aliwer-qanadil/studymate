@@ -10,6 +10,7 @@ name: studymate
 services:
   db:
     image: postgres:17-alpine
+    restart: unless-stopped
     environment:
       POSTGRES_DB: studymate
       POSTGRES_USER: ${DB_USER:-studymate}
@@ -26,11 +27,13 @@ services:
 
   backend:
     build: ./backend
+    restart: unless-stopped
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/studymate
       SPRING_DATASOURCE_USERNAME: ${DB_USER:-studymate}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-studymate}
       SPRING_JPA_SHOW_SQL: "false"
+      STUDYMATE_DEMO_DATA_ENABLED: ${DEMO_DATA:-true}
       GMAIL_USER: ${GMAIL_USER:-}
       GMAIL_APP_PASSWORD: ${GMAIL_APP_PASSWORD:-}
     ports:
@@ -38,13 +41,27 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    healthcheck:
+      # Passes once the API port accepts connections
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
 
   frontend:
     build: ./frontend
+    restart: unless-stopped
     ports:
       - "${FRONTEND_PORT:-3000}:80"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   db-data:

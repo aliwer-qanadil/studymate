@@ -9,6 +9,9 @@ RUN --mount=type=cache,target=/root/.m2 mvn -B -q package -DskipTests
 # Step 2: run the jar on a small Java runtime image
 FROM eclipse-temurin:21-jre
 WORKDIR /app
+# Run as a non-root user
+RUN useradd --system --uid 10001 studymate
 COPY --from=build /app/target/*.jar app.jar
+USER studymate
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]

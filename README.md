@@ -84,12 +84,12 @@ The score helps the organizer compare applicants.
 * Vite
 * Tailwind CSS
 
-### Backend (planned)
+### Backend
 
-* Spring Boot
+* Spring Boot (Java 21)
 * PostgreSQL
-* Spring Security
-* JWT Authentication
+* Spring Mail (login codes sent by email)
+* Docker and Docker Compose
 
 ### Other Tools
 
@@ -144,6 +144,17 @@ We use one shared Trello board to manage the whole project.
 
 ---
 
+## Running the Backend Without Docker
+
+Install Java 21 and PostgreSQL, create a database called `studymate`, then run:
+
+```bash
+cd backend
+SPRING_DATASOURCE_USERNAME=studymate SPRING_DATASOURCE_PASSWORD=studymate ./mvnw spring-boot:run
+```
+
+The database address defaults to `localhost:5432`. Set `STUDYMATE_DEMO_DATA_ENABLED=true` to load demo students and groups on the first start.
+
 ## Running the Project with Docker
 
 You only need [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running.
@@ -195,10 +206,10 @@ Vite forwards `/api` requests to `http://localhost:8080`, so start the backend f
 
 ## Current Progress
 
-* **Week 1:** Project idea, team roles, and technology stack completed
-* **Week 2:** GitHub repository and Trello board created
-* **Week 3:** SRS, user stories, acceptance criteria, and priorities prepared
-* Development of the first working version is currently in progress
+* **Weeks 1 to 3:** Project idea, team roles, technology stack, GitHub repository, Trello board, SRS and user stories completed
+* **Current build:** The frontend and backend both work together and run with one Docker command
+* **Testing and deployment:** Automated checks run on every change (see `.github/workflows/`); the app is not yet deployed to a public server
+* **Still open:** Screenshots for this README, and the final SRS update, which needs team approval
 
 ---
 

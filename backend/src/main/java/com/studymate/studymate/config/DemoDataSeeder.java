@@ -8,6 +8,7 @@ import com.studymate.studymate.entity.User;
 import com.studymate.studymate.repository.StudyGroupRepository;
 import com.studymate.studymate.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import java.time.LocalTime;
 import java.util.Set;
 
 @Component
+@ConditionalOnProperty(name = "studymate.demo-data.enabled", havingValue = "true")
 public class DemoDataSeeder implements CommandLineRunner {
 
     private final UserRepository userRepository;
