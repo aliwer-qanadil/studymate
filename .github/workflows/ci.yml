@@ -51,7 +51,7 @@ jobs:
           distribution: temurin
           java-version: 21
           cache: maven
-      - run: ./mvnw -B test
+      - run: mvn -B test
 
   docker:
     runs-on: ubuntu-latest
