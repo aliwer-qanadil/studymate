@@ -23,6 +23,12 @@ studymate/
 
 ---
 
+## The Problem and Target Users
+
+Students often understand difficult topics better when they study together. Finding classmates who take the same subject, have a free schedule and a similar level can take a long time.
+
+**Target users:** students at SDU University who want to study a course in person with others, and the students who organize those sessions.
+
 ## Project Idea
 
 Students often understand difficult topics better when they study together. However, finding classmates who study the same subject, have a suitable schedule, and have a similar knowledge level can take a lot of time.
@@ -203,6 +209,46 @@ npm run dev
 Vite forwards `/api` requests to `http://localhost:8080`, so start the backend first (for example with `docker compose up db backend`).
 
 ---
+
+## Environment Variables
+
+Copy `.env.example` to `.env` for local runs. Never commit `.env`. The table lists every setting the app reads.
+
+| Variable | Required | Purpose | Default |
+| --- | --- | --- | --- |
+| `GMAIL_USER` | For sign-in | Gmail address that sends login codes | empty |
+| `GMAIL_APP_PASSWORD` | For sign-in | Gmail app password for that address | empty |
+| `DB_USER` / `DB_PASSWORD` | No | Database login used by Docker | `studymate` / `studymate` |
+| `DEMO_DATA` | No | `true` loads demo students and groups | `true` in Docker, `false` otherwise |
+| `FRONTEND_PORT`, `BACKEND_PORT`, `DB_PORT` | No | Ports on your computer | `3000`, `8080`, `5434` |
+| `SPRING_DATASOURCE_URL` | Only without Docker | Database address | `jdbc:postgresql://localhost:5432/studymate` |
+| `SPRING_JPA_HIBERNATE_DDL_AUTO` | No | Database schema handling | `update` |
+
+## Running the Tests
+
+```bash
+# Backend (needs PostgreSQL running on localhost:5432, see the CI workflow for settings)
+cd backend && mvn test
+
+# Frontend code check and production build
+cd frontend && npm ci && npm run lint && npm run build
+```
+
+Every push and pull request runs these checks automatically (`.github/workflows/ci.yml`).
+
+## Manual Test Cases
+
+The manual test table for the Must-have stories is in [`docs/qa/test-cases.md`](docs/qa/test-cases.md).
+
+## Screenshots
+
+Screenshots of the main screens will be added after the final run: Sign in, Browse, Create group, Group details, Apply, Applicants (organizer view), and My requests.
+
+## Deployment
+
+Deployed application: *to be added after deployment* (see [`docs/DEPLOY.md`](docs/DEPLOY.md)).
+
+Code freeze: *date to be announced by the team*.
 
 ## Current Progress
 
