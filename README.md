@@ -1,6 +1,6 @@
-# StudyMate
+# StudyMate — Frontend
 
-**StudyMate** is a web application that helps university students find people for group study.
+The React web app for **StudyMate**, a tool that helps SDU students find people for group study.
 
 A student can create a study meeting, choose a subject, time, and place, and receive applications from other students.
 
@@ -85,26 +85,7 @@ Students often understand difficult topics better when they study together. Howe
 
 ---
 
-## Compatibility Score
-
-The compatibility score is calculated using four factors:
-
-| Factor                     | Weight |
-| -------------------------- | -----: |
-| Same subject               |    40% |
-| Suitable meeting time      |    30% |
-| Matching knowledge level   |    20% |
-| Matching study preferences |    10% |
-
-The score helps the organizer compare applicants.
-
-> The compatibility score does **not** automatically accept or reject anyone. The final decision is made by the study group organizer.
-
----
-
-## Technology Stack
-
-### Frontend
+## Tech Stack
 
 * React
 * Vite
@@ -176,70 +157,41 @@ We use one shared Trello board to manage the whole project.
 
 ```bash
 git clone https://github.com/aliwer-qanadil/studymate.git
-```
-
-### 2. Open the Project Folder and Switch to the `frontend` Branch
-
-```bash
 cd studymate
 git checkout frontend
-```
-
-### 3. Install Dependencies
-
-```bash
 npm install
-```
-
-### 4. Start the Development Server
-
-```bash
 npm run dev
 ```
 
-After starting the server, open the local URL provided by Vite in your browser.
+Then open the local URL that Vite prints in your browser.
+
+Other commands:
+
+```bash
+npm run build   # production build into dist/
+npm run lint    # check the code with ESLint
+```
 
 ---
 
-## Current Progress
+## Folder Structure
 
-* **Week 1:** Project idea, team roles, and technology stack completed
-* **Week 2:** GitHub repository and Trello board created
-* **Week 3:** SRS, user stories, acceptance criteria, and priorities prepared
-* Development of the first working version is currently in progress
+```
+src/
+├── main.jsx            app entry point
+├── App.jsx             routes and shared state
+├── index.css           global styles (Tailwind)
+├── assets/             images (SDU logo, crest, campus photo)
+├── data/               sample data (study requests)
+├── pages/              one file per page: Login, Browse, Create
+└── components/
+    ├── common/         used on several pages (Navbar, Label, Diamond, CourseTag)
+    ├── login/          sections of the Login page
+    ├── browse/         sections of the Browse page
+    └── create/         sections of the Create page
+```
 
----
-
-## Current Scope
-
-The first version of StudyMate focuses on the main user flow:
-
-1. Create a student profile
-2. Create or find a study group
-3. Send a join request
-4. Calculate compatibility
-5. Accept or reject the request
-6. View the application status
-
-The goal of the first version is to provide a simple and functional system for connecting students who want to study together.
-
----
-
-## Future Features
-
-The following features are **not part of the current version** but may be added in the future:
-
-* Chat between students
-* Student ratings
-* Shared files
-* Advanced notifications
-* Monetization features
-
----
-
-## Repository
-
-GitHub Repository:
+## Pages
 
 https://github.com/aliwer-qanadil/studymate
 
