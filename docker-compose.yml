@@ -42,8 +42,9 @@ services:
       db:
         condition: service_healthy
     healthcheck:
-      # Passes once the API port accepts connections
-      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080"]
+      # Passes once the API port accepts connections. /dev/tcp is a bash feature;
+      # the image's /bin/sh is dash, so CMD-SHELL would always fail.
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/localhost/8080"]
       interval: 10s
       timeout: 5s
       retries: 12
@@ -58,7 +59,9 @@ services:
       backend:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost/ || exit 1"]
+      # 127.0.0.1, not localhost: in Alpine "localhost" resolves to IPv6 ::1 first,
+      # but nginx only listens on IPv4 ("listen 80"), so the check would always fail.
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1/ || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
