@@ -1,6 +1,6 @@
-# StudyMate — Frontend
+# StudyMate
 
-The React web app for **StudyMate**, a tool that helps SDU students find people for group study.
+**StudyMate** is a web application that helps university students find people for group study.
 
 A student can create a study meeting, choose a subject, time, and place, and receive applications from other students.
 
@@ -85,7 +85,26 @@ Students often understand difficult topics better when they study together. Howe
 
 ---
 
-## Tech Stack
+## Compatibility Score
+
+The compatibility score is calculated using four factors:
+
+| Factor                     | Weight |
+| -------------------------- | -----: |
+| Same subject               |    40% |
+| Suitable meeting time      |    30% |
+| Matching knowledge level   |    20% |
+| Matching study preferences |    10% |
+
+The score helps the organizer compare applicants.
+
+> The compatibility score does **not** automatically accept or reject anyone. The final decision is made by the study group organizer.
+
+---
+
+## Technology Stack
+
+### Frontend
 
 * React
 * Vite
@@ -156,42 +175,141 @@ We use one shared Trello board to manage the whole project.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/aliwer-qanadil/studymate.git
+git clone -b full-stack-docker https://github.com/aliwer-qanadil/studymate.git
 cd studymate
-git checkout frontend
+```
+
+### 2. Add the Gmail settings
+
+Login works by emailing a one-time code, so the backend needs a Gmail account:
+
+```bash
+cp .env.example .env
+```
+
+Then fill in `GMAIL_USER` and `GMAIL_APP_PASSWORD` in `.env` (a Gmail "App password", not your normal password). Without them the app still runs, but you can't log in.
+
+### 3. Start everything
+
+```bash
+docker compose up --build
+```
+
+| What      | Address                     |
+| --------- | --------------------------- |
+| Website   | http://localhost:3000       |
+| API       | http://localhost:8080/api   |
+| Database  | `localhost:5434`, user and password `studymate` |
+
+Stop with `Ctrl+C`, or `docker compose down`. The database is kept in a Docker volume between runs; `docker compose down -v` deletes it, and the backend refills the demo data on the next start.
+
+If a port is already in use, set `FRONTEND_PORT`, `BACKEND_PORT` or `DB_PORT` in `.env`.
+
+### Running the frontend without Docker
+
+```bash
+cd frontend
 npm install
 npm run dev
 ```
 
-Then open the local URL that Vite prints in your browser.
-
-Other commands:
-
-```bash
-npm run build   # production build into dist/
-npm run lint    # check the code with ESLint
-```
+Vite forwards `/api` requests to `http://localhost:8080`, so start the backend first (for example with `docker compose up db backend`).
 
 ---
 
-## Folder Structure
+## Environment Variables
 
-```
-src/
-├── main.jsx            app entry point
-├── App.jsx             routes and shared state
-├── index.css           global styles (Tailwind)
-├── assets/             images (SDU logo, crest, campus photo)
-├── data/               sample data (study requests)
-├── pages/              one file per page: Login, Browse, Create
-└── components/
-    ├── common/         used on several pages (Navbar, Label, Diamond, CourseTag)
-    ├── login/          sections of the Login page
-    ├── browse/         sections of the Browse page
-    └── create/         sections of the Create page
+Copy `.env.example` to `.env` for local runs. Never commit `.env`. The table lists every setting the app reads.
+
+| Variable | Required | Purpose | Default |
+| --- | --- | --- | --- |
+| `GMAIL_USER` | For sign-in | Gmail address that sends login codes | empty |
+| `GMAIL_APP_PASSWORD` | For sign-in | Gmail app password for that address | empty |
+| `DB_USER` / `DB_PASSWORD` | No | Database login used by Docker | `studymate` / `studymate` |
+| `DEMO_DATA` | No | `true` loads demo students and groups | `true` in Docker, `false` otherwise |
+| `FRONTEND_PORT`, `BACKEND_PORT`, `DB_PORT` | No | Ports on your computer | `3000`, `8080`, `5434` |
+| `SPRING_DATASOURCE_URL` | Only without Docker | Database address | `jdbc:postgresql://localhost:5432/studymate` |
+| `SPRING_JPA_HIBERNATE_DDL_AUTO` | No | Database schema handling | `update` |
+
+## Running the Tests
+
+```bash
+# Backend (needs PostgreSQL running on localhost:5432, see the CI workflow for settings)
+cd backend && mvn test
+
+# Frontend code check and production build
+cd frontend && npm ci && npm run lint && npm run build
 ```
 
-## Pages
+Every push and pull request runs these checks automatically (`.github/workflows/ci.yml`).
+
+## Manual Test Cases
+
+The manual test table for the Must-have stories is in [`docs/qa/test-cases.md`](docs/qa/test-cases.md).
+
+## Screenshots
+
+Screenshots of the main screens will be added after the final run: Sign in, Browse, Create group, Group details, Apply, Applicants (organizer view), and My requests.
+
+## Deployment
+
+Deployed application: *to be added after deployment* (see [`docs/DEPLOY.md`](docs/DEPLOY.md)).
+
+Code freeze: *date to be announced by the team*.
+
+## Current Progress
+
+* **Weeks 1 to 3:** Project idea, team roles, technology stack, GitHub repository, Trello board, SRS and user stories completed
+* **Current build:** The frontend and backend both work together and run with one Docker command
+* **Testing and deployment:** Automated checks run on every change (see `.github/workflows/`); the app is not yet deployed to a public server
+* **Still open:** Screenshots for this README, and the final SRS update, which needs team approval
+
+---
+
+## Current Scope
+
+The first version of StudyMate focuses on the main user flow:
+
+1. Create a student profile
+2. Create or find a study group
+3. Send a join request
+4. Calculate compatibility
+5. Accept or reject the request
+6. View the application status
+
+The goal of the first version is to provide a simple and functional system for connecting students who want to study together.
+
+---
+
+## Future Features
+
+The following features are **not part of the current version** but may be added in the future:
+
+* Chat between students
+* Student ratings
+* Shared files
+* Advanced notifications
+* Monetization features
+
+---
+
+## Repository
+
+GitHub Repository:
+
+https://github.com/aliwer-qanadil/studymate
+
+
+## Milestone 1 design package
+
+- [Standalone Team Charter](docs/Team_Charter.md), [Word copy](docs/Team_Charter.docx)
+- [Editable ERD](docs/erd/StudyMate_ERD.drawio), [core render](docs/erd/ERD_Core.svg), [profile render](docs/erd/ERD_Profile.svg)
+- [Database design and open decisions](docs/erd/Database_Design.md)
+- [Proposed PostgreSQL DDL](docs/erd/schema.sql)
+- [UI → ERD traceability](docs/Traceability.md)
+- [Wireframes and native Figma setup](docs/figma/FIGMA_SETUP_RU.md)
+- [Defense slides](docs/defense/StudyMate_Milestone1.pptx), [speaker notes](docs/defense/StudyMate_Speaker_Notes.pdf), [Q&A](docs/defense/StudyMate_QA.pdf)
+- [Dated process evidence and remaining actions](docs/Process_Evidence.md)
 
 https://github.com/aliwer-qanadil/studymate
 
