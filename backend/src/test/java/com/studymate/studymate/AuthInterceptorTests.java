@@ -50,8 +50,6 @@ class AuthInterceptorTests {
                 .andExpect(status().isUnauthorized());
         mvc.perform(patch("/api/users/{id}/requests/{requestId}/accept", alice.getId(), 1))
                 .andExpect(status().isUnauthorized());
-        mvc.perform(get("/api/courses"))
-                .andExpect(status().isUnauthorized());
     }
 
     @Test

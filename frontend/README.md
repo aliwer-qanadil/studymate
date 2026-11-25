@@ -1,67 +1,20 @@
-# StudyMate — Frontend
+# Study Mate — frontend
 
-The React web app for **StudyMate**, a tool that helps SDU students find people for group study.
-
-Project documentation (SRS, ERD, Figma designs) lives on the [`main`](https://github.com/aliwer-qanadil/studymate/tree/main) branch.
-
----
-
-## Tech Stack
-
-* React
-* Vite
-* Tailwind CSS
-* React Router
-
----
-
-## Running the App
+React 19 + Vite + Tailwind CSS 4, in English, Russian and Kazakh. See the [main README](../README.md) for the whole project.
 
 ```bash
-git clone https://github.com/aliwer-qanadil/studymate.git
-cd studymate
-git checkout frontend
 npm install
-npm run dev
+npm run dev      # http://localhost:5173, forwards /api to http://localhost:8080
+npm run lint
+npm run build    # static files in dist/
 ```
 
-Then open the local URL that Vite prints in your browser.
+In Docker the built files are served by nginx (`nginx/default.conf.template`), which also forwards `/api`
+to the backend given in `BACKEND_URL`.
 
-Other commands:
-
-```bash
-npm run build   # production build into dist/
-npm run lint    # check the code with ESLint
-```
-
----
-
-## Folder Structure
-
-```
-src/
-├── main.jsx            app entry point
-├── App.jsx             routes and shared state
-├── index.css           global styles (Tailwind)
-├── assets/             images (SDU logo, crest, campus photo)
-├── data/               sample data (study requests)
-├── pages/              one file per page: Login, Browse, Create
-└── components/
-    ├── common/         used on several pages (Navbar, Label, Diamond, CourseTag)
-    ├── login/          sections of the Login page
-    ├── browse/         sections of the Browse page
-    └── create/         sections of the Create page
-```
-
-## Pages
-
-| Route        | Page        | What it does                                   |
-| ------------ | ----------- | ---------------------------------------------- |
-| `/`          | Login       | Sign in with a student ID and an emailed code  |
-| `/browse`    | Browse      | See open study groups and filter them          |
-| `/create`    | Create      | Create a new study group                       |
-| `/groups/:groupId` | Group | Full details of one study group |
-| `/groups`    | My groups   | Groups you organize                            |
-| `/requested` | Requested   | Join requests you have sent and their status   |
-| `/groups/:groupId/applicants` | Applicants | Review applicants and their compatibility score |
-| `/profile`   | Profile     | Your profile, subjects and study style         |
+| Folder | What is there |
+| --- | --- |
+| `src/pages/` | One file per screen (Login, Browse, Create, Group details, Applicants, My groups, Requested, Profile) |
+| `src/components/` | Parts of those screens, grouped by screen; shared ones in `common/` |
+| `src/api.js` | Every call to the backend, plus date and time helpers |
+| `src/translations/` | Texts in `en`, `ru` and `kz` (same keys in each) |
