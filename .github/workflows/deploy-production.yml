@@ -3,7 +3,8 @@ name: Deploy production
 # Production changes only through a tagged, tested release (docs/DEPLOY.md):
 #   git tag -a v1.0.0 -m "v1.0.0" && git push origin v1.0.0
 # The tests run first; if they pass, Render's deploy hooks build exactly the tagged commit.
-# Rolling back = running this workflow by hand with the previous tag (Actions tab -> Run workflow).
+# Rolling back = running this workflow by hand from the previous tag (Actions tab -> Run workflow,
+# "Use workflow from" -> Tags -> that tag). Run from main, the production environment rejects it.
 on:
   push:
     tags: ["v*"]
