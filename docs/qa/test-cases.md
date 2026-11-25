@@ -6,7 +6,7 @@ Expected results come from the backend validation rules and error messages in th
 
 Test accounts: use two different 9-digit student IDs, call them **Student A** (organizer) and **Student B** (applicant). Demo data is off by default in deployments; for a local run set `DEMO_DATA=true` in `.env`.
 
-## Run 1: 2026-11-20, local Docker
+## Run 1: 2026-11-20, local Docker (before the fixes)
 
 | | |
 | --- | --- |
@@ -58,7 +58,7 @@ Test accounts: use two different 9-digit student IDs, call them **Student A** (o
 | TC-30 | US-17 | Edge: full group | Apply to a group that already has its maximum number of members. | Error: "Study group is full". | Size-2 group, one applicant accepted → status FULL. Next applicant: 409 "Study group is full". | Pass |
 | TC-31 | US-17 | Edge: long note | Enter a note of more than 500 characters in the application. | Rejected with a length error. | No note field in the UI (#7). API: 400 `note: size must be between 0 and 500`; nothing saved. | Pass |
 
-## Result summary
+## Run 1 result summary
 
 | Status | Count |
 | --- | --- |
@@ -66,17 +66,88 @@ Test accounts: use two different 9-digit student IDs, call them **Student A** (o
 | Fail | 5 |
 | Not run | 0 |
 
-## Issues opened from this run
+## Run 2: 2026-11-25, local Docker, release candidate
 
-| Issue | Severity | Area | From |
-| --- | --- | --- | --- |
-| [#4](https://github.com/aliwer-qanadil/studymate/issues/4) Every POST/PUT/PATCH through the Docker frontend fails with 403 | Critical | frontend | TC-01 |
-| [#5](https://github.com/aliwer-qanadil/studymate/issues/5) `docker compose up` never starts the frontend | Critical | backend | setup |
-| [#6](https://github.com/aliwer-qanadil/studymate/issues/6) API has no authentication | Critical | auth | exploratory (TC-08, TC-24) |
-| [#7](https://github.com/aliwer-qanadil/studymate/issues/7) No application form; every applicant scores 100% | Major | frontend | TC-17, TC-18 |
-| [#8](https://github.com/aliwer-qanadil/studymate/issues/8) Fake hard-coded PHYS 121 card on Browse | Major | frontend | TC-13, TC-14 |
-| [#9](https://github.com/aliwer-qanadil/studymate/issues/9) Create form doesn't mark empty or too-long fields | Minor | frontend | TC-12 |
-| [#10](https://github.com/aliwer-qanadil/studymate/issues/10) Applicants page for a non-organizer says "not found" and labels them OWNER | Minor | frontend | TC-24 |
-| [#11](https://github.com/aliwer-qanadil/studymate/issues/11) Halloween pumpkins cover the Post request button | Minor | frontend | exploratory |
+| | |
+| --- | --- |
+| Build | `main` with PRs for #7–#11 and #18–#22 (the v0.9-beta candidate) |
+| Command | `docker compose up --build`, `MAIL_PROVIDER=log` (codes read from the backend log), `DEMO_DATA=true` |
+| Browser | Chromium (Playwright), 1280×860, plus 360 px and 768 px for layout |
+| Accounts | Student A = `250118120` (renamed "Aigerim N."), Student B = `250118111` ("Dauren K."), Student C = `250118121` ("Timur S.") |
+| Automated | `mvn test`: 21 tests pass, including the API flows for sign-in, applying and organizer decisions |
 
-Update this table after each run. Log every Fail as a GitHub Issue. Re-run on production before the v0.9-beta tag (Week 13).
+Every case ran through the UI unless marked "API". No workaround was needed this time.
+
+| ID | Actual (run 2) | Result |
+| --- | --- | --- |
+| TC-01 | Code sent ("Check your email"), code from the log accepted, account 27 created, redirected to Browse. | Pass |
+| TC-02 | 8-digit ID: "Your SDU email is your 9-digit student ID…". No code sent. | Pass |
+| TC-03 | Empty: "Enter your student ID." | Pass |
+| TC-04 | Correct code: signed in, `/browse`. | Pass |
+| TC-05 | Wrong code: "Wrong code. Check your email and try again."; not signed in. | Pass |
+| TC-06 | Covered by the code expiry rule (10 min) in `AuthService`; not re-run by waiting. Run 1 result stands. | Pass (run 1) |
+| TC-07 | 5-digit code: "Enter the 6-digit code from your email." | Pass |
+| TC-08 | Signed out, `/groups`, `/requested`, `/profile` show **Log in**; `/groups/9` redirects to sign-in. API without token 401, with another user's token 403 (fixed in #6). | Pass |
+| TC-09 | "QA run 2 group" created for tomorrow, level Beginner; listed on Browse with A as organizer. | Pass |
+| TC-10 | UI offers only today and later, and refuses a slot that already started today. API with yesterday: 400 `meetingDate`. | Pass |
+| TC-11 | 256-character title: "The title can be at most 255 characters (now 256)." under the title field. | Pass |
+| TC-12 | Empty code, title and description: an error under each of the three fields plus "Please fix the fields marked in red." (#9 fixed). | Pass |
+| TC-13 | Every card shows subject, place, day and time. No fake card (#8 fixed). | Pass |
+| TC-14 | Filters with no match: "No groups match these filters." only. | Pass |
+| TC-15 | Group page: subject, place, time, organizer, members; exact spot only after acceptance. | Pass |
+| TC-16 | API `/groups/999999`: 404 "Study group with id 999999 not found"; the page shows the message, navbar works. | Pass |
+| TC-17 | Application form opens; empty course, level and times give four field errors; nothing sent (#7 fixed). | Pass |
+| TC-18 | All answers filled, note added: request sent, "Request sent. Your match score is 70%…". | Pass |
+| TC-19 | One PENDING request; button changes to "Request sent · view". | Pass |
+| TC-20 | API second request: 409 "You have already applied to this study group". | Pass |
+| TC-21 | API own group: 409 "You cannot apply to your own study group". | Pass |
+| TC-22 | Covered by `JoinRequestServiceImpl` and run 1; finished meetings of today are now refused too (#21). | Pass (run 1) |
+| TC-23 | A sees B's level, free time, note and score breakdown. | Pass |
+| TC-24 | B opens A's applicants URL: redirected to the public group page, no applicant data; API 403 (#10 fixed). | Pass |
+| TC-25 | A accepts B: "Accepted · 70% match", in the group, seats 3 → 2. | Pass |
+| TC-26 | API accept again: 409 "Join request is already accepted". | Pass |
+| TC-27 | A declines C: status REJECTED, C not in the members list. | Pass |
+| TC-28 | API reject the accepted request: 409 "Join request is already accepted"; still ACCEPTED. | Pass |
+| TC-29 | Through the UI now: B (Advanced) applies to A's Beginner group with the same course and a covering free time, no preferences: **70 %**, breakdown 100 / 100 / 0 / 0. | Pass |
+| TC-30 | API: size-2 group with one accepted member, C applies: 409 "Study group is full". | Pass |
+| TC-31 | UI note of 501 characters: "The note can be at most 500 characters." under the note, counter turns red; nothing sent. | Pass |
+
+Layout check (NFR-06, #18): no page scrolls sideways at 360 px or 768 px: Login, Browse, Create, My groups, Requested, Profile, Group details, Applicants.
+
+### Run 2 result summary
+
+| Status | Count |
+| --- | --- |
+| Pass | 31 (two of them by the run 1 result, see TC-06 and TC-22) |
+| Fail | 0 |
+
+## Run 3: production (Week 13)
+
+To run after the v0.9-beta tag is deployed (see [`../DEPLOY.md`](../DEPLOY.md)), on https://studymate.onrender.com, from a phone and a second computer, starting from empty accounts and real email codes. Copy the table above, fill in *Actual* and *Result*, and log every failure as an issue.
+
+| | |
+| --- | --- |
+| Date | |
+| Build | `v0.9-beta` |
+| Devices | |
+| Result | Not run yet: production is created by the steps in `DEPLOY.md` |
+
+## All issues
+
+| Issue | Severity | Area | From | Status |
+| --- | --- | --- | --- | --- |
+| [#4](https://github.com/aliwer-qanadil/studymate/issues/4) POST/PUT/PATCH through Docker frontend fail with 403 | Critical | frontend | TC-01 | Fixed (PR #12) |
+| [#5](https://github.com/aliwer-qanadil/studymate/issues/5) `docker compose up` never starts the frontend | Critical | backend | setup | Fixed (PR #13) |
+| [#6](https://github.com/aliwer-qanadil/studymate/issues/6) API has no authentication | Critical | auth | TC-08, TC-24 | Fixed (PR #14) |
+| [#7](https://github.com/aliwer-qanadil/studymate/issues/7) No application form; every applicant scores 100% | Major | frontend | TC-17, TC-18 | Fixed |
+| [#8](https://github.com/aliwer-qanadil/studymate/issues/8) Fake hard-coded PHYS 121 card on Browse | Major | frontend | TC-13, TC-14 | Fixed |
+| [#9](https://github.com/aliwer-qanadil/studymate/issues/9) Create form doesn't mark empty or too-long fields | Minor | frontend | TC-12 | Fixed |
+| [#10](https://github.com/aliwer-qanadil/studymate/issues/10) Applicants page for a non-organizer says "not found" and labels them OWNER | Minor | frontend | TC-24 | Fixed |
+| [#11](https://github.com/aliwer-qanadil/studymate/issues/11) Halloween pumpkins cover the Post request button | Minor | frontend | exploratory | Fixed |
+| [#18](https://github.com/aliwer-qanadil/studymate/issues/18) Pages overflow sideways on a phone | Major | frontend | Week 13 UI pass | Fixed |
+| [#19](https://github.com/aliwer-qanadil/studymate/issues/19) Blank pages while loading; tab title "studymate" | Minor | frontend | Week 13 UI pass | Fixed |
+| [#20](https://github.com/aliwer-qanadil/studymate/issues/20) Backend can't be deployed: CORS and mail hard-coded | Major | backend | Week 11 | Fixed |
+| [#21](https://github.com/aliwer-qanadil/studymate/issues/21) Meetings that ended today are still listed and joinable | Minor | backend | run 2 | Fixed |
+| [#22](https://github.com/aliwer-qanadil/studymate/issues/22) Simultaneous requests can create duplicates | Minor | backend | Week 12 review | Fixed |
+
+Update this file after each run. Log every Fail as a GitHub Issue.
