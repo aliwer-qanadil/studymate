@@ -92,7 +92,7 @@ The free plan stops a service after 15 minutes without traffic. The first reques
 
 | What broke | How to roll back |
 | --- | --- |
-| Production after a release | GitHub → **Actions → Deploy production → Run workflow**, enter the previous tag (e.g. `v0.9-beta`). It runs the tests and redeploys that commit. Or, faster: Render → service → **Events** → previous deploy → **Rollback** (do it for both services). |
+| Production after a release | GitHub → **Actions → Deploy production → Run workflow**. Under **Use workflow from**, switch to **Tags** and pick the previous tag (e.g. `v0.9-beta`), and enter the same tag in the field below. It runs the tests and redeploys that commit. From the terminal: `gh workflow run deploy-production.yml --ref v0.9-beta -f tag=v0.9-beta`. Leaving **Use workflow from** on `main` does not work: the `production` environment accepts only `v*` tags, so GitHub rejects the deploy. Or, faster: Render → service → **Events** → previous deploy → **Rollback** (do it for both services). |
 | Staging after a merge | Revert the pull request on GitHub (**Revert** button), merge the revert; staging redeploys. Or use **Rollback** in Render. |
 | A bad database change | Neon → **Branches** → restore the database to a time before the deploy (the free plan keeps a few hours of history; check the restore window in the project settings). |
 
@@ -128,6 +128,7 @@ All variables are listed in the [README](../README.md#environment-variables). Va
 | --- | --- | --- | --- | --- |
 | 2026-11-25 | Staging | API stopped at start-up: `password authentication failed for user 'neondb_owner'` | The pasted Neon string had a wrong password. Copied it again from Neon **Connect** with **Show password** on | |
 | 2026-11-25 | Production | `studymate.onrender.com` and `studymate-api.onrender.com` were already taken by other Render users, so the services got `studymate-edrp` and `studymate-api-ejga` | Set `BACKEND_URL` and `CORS_ALLOWED_ORIGINS` to the real addresses in Render and in `render.yaml` (step 4.5) | |
+| 2026-11-25 | Production | Running **Deploy production** by hand for `v0.9-beta` failed: `Branch "main" is not allowed to deploy to Production due to environment protection rules` | A run started by hand uses `main` unless told otherwise, and the environment accepts only `v*` tags. Ran it from the tag (`--ref v0.9-beta`); section 7 now says so | |
 
 **Rollback rehearsal:**
 
