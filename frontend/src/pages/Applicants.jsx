@@ -6,6 +6,7 @@ import ApplicantsTitle from "../components/applicants/ApplicantsTitle.jsx";
 import ApplicantCard from "../components/applicants/ApplicantCard.jsx";
 import LowMatchRow from "../components/applicants/LowMatchRow.jsx";
 import GroupMembers from "../components/applicants/GroupMembers.jsx";
+import Loading from "../components/common/Loading.jsx";
 import { acceptRequest, declineRequest, getApplicants, getGroup, getUser } from "../api.js";
 import { t } from "../i18n.js";
 
@@ -60,6 +61,8 @@ export default function Applicants() {
       <Navbar active="/groups" />
 
       {error && <p className="px-5 pt-6 text-[13px] sm:px-10 font-semibold text-clay">{error}</p>}
+
+      {!group && !error && <Loading className="px-5 sm:px-10" />}
 
       {group && (
         <main className="flex flex-col gap-4 px-4 py-8 sm:px-10 sm:py-10">

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/common/Navbar.jsx";
 import RequestedTitle from "../components/requested/RequestedTitle.jsx";
 import RequestedList from "../components/requested/RequestedList.jsx";
+import Loading from "../components/common/Loading.jsx";
 import GuestNote from "../components/common/GuestNote.jsx";
 import { getGroup, getMyRequests, getUser } from "../api.js";
 import { t } from "../i18n.js";
@@ -9,7 +10,7 @@ import { t } from "../i18n.js";
 export default function Requested() {
   const user = getUser();
   const userId = user ? user.id : null;
-  const [requests, setRequests] = useState([]);
+  const [requests, setRequests] = useState(null); // null until the server answers
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -29,12 +30,12 @@ export default function Requested() {
       <Navbar active="/requested" />
 
       <main className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 py-8 sm:px-8 sm:py-10">
-        <RequestedTitle requests={requests} />
+        <RequestedTitle requests={requests || []} />
 
         {error && <p className="text-[13px] font-semibold text-clay">{error}</p>}
 
         {user ? (
-          <RequestedList requests={requests} />
+          requests ? <RequestedList requests={requests} /> : !error && <Loading />
         ) : (
           <GuestNote>{t("requested.guest")}</GuestNote>
         )}

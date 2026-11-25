@@ -5,6 +5,7 @@ import FilterBar from "../components/browse/FilterBar.jsx";
 import RequestCard from "../components/browse/RequestCard.jsx";
 import Sidebar from "../components/browse/Sidebar.jsx";
 import LoginPrompt from "../components/common/LoginPrompt.jsx";
+import Loading from "../components/common/Loading.jsx";
 import ApplyForm from "../components/apply/ApplyForm.jsx";
 import { fromEnum, getGroups, getMyRequests, getProfile, getUser, initialsOf, whenText } from "../api.js";
 import { t } from "../i18n.js";
@@ -70,6 +71,7 @@ export default function Browse() {
   const user = getUser();
   const userId = user ? user.id : null;
   const [groups, setGroups] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   const [sentGroupIds, setSentGroupIds] = useState([]);
   // "" means "All" / "Any"
   const [filters, setFilters] = useState({ subject: "", place: "", time: "", search: "", mineFirst: true, range: "all" });
@@ -82,7 +84,10 @@ export default function Browse() {
 
   useEffect(() => {
     // Guests can see the groups too, they just have no requests of their own
-    getGroups().then(setGroups).catch((e) => setError(e.message));
+    getGroups()
+      .then(setGroups)
+      .catch((e) => setError(e.message))
+      .finally(() => setLoaded(true));
 
     if (!userId) return;
 
@@ -143,7 +148,8 @@ export default function Browse() {
           )}
 
           <div className="flex flex-col gap-3.5">
-            {cards.length === 0 && (
+            {!loaded && <Loading />}
+            {loaded && !error && cards.length === 0 && (
               <p className="rounded-2xl border border-dashed border-navy/20 p-6 text-sm font-medium text-muted">
                 {groups.length === 0 ? t("browse.noGroups") : t("browse.noMatches")}
               </p>
