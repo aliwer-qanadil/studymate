@@ -23,12 +23,22 @@ export default function Applicants() {
   useEffect(() => {
     if (!userId) return;
 
-    getGroup(userId, groupId).then(setGroup).catch((e) => setError(e.message));
-    getApplicants(userId, groupId).then(setApplicants).catch((e) => setError(e.message));
+    getGroup(userId, groupId)
+      .then((found) => {
+        setGroup(found);
+        // Only the organizer sees applicants; everyone else is sent to the group page below
+        if (found.organizer.id !== userId) return;
+        return getApplicants(userId, groupId).then(setApplicants);
+      })
+      .catch((e) => setError(e.message));
   }, [userId, groupId, reloadCount]);
 
   if (!user) {
     return <Navigate to="/" />;
+  }
+
+  if (group && group.organizer.id !== user.id) {
+    return <Navigate to={"/groups/" + group.id} replace />;
   }
 
   function decide(action, applicant) {
@@ -49,7 +59,7 @@ export default function Applicants() {
     <div className="flex min-h-screen flex-col bg-paper">
       <Navbar active="/groups" />
 
-      {error && <p className="px-10 pt-6 text-[13px] font-semibold text-red-600">{error}</p>}
+      {error && <p className="px-10 pt-6 text-[13px] font-semibold text-clay">{error}</p>}
 
       {group && (
         <main className="flex flex-col gap-4 px-10 py-10">

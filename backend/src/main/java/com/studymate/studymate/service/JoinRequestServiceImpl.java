@@ -15,8 +15,10 @@ import com.studymate.studymate.mapper.JoinRequestMapper;
 import com.studymate.studymate.repository.JoinRequestRepository;
 import com.studymate.studymate.repository.StudyGroupRepository;
 import com.studymate.studymate.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -95,8 +97,12 @@ public class JoinRequestServiceImpl implements JoinRequestService {
 
     @Override
     public List<JoinRequestResponse> getGroupRequests(Long userId, Long groupId) {
-        StudyGroup group = groupRepository.findByIdAndOrganizerId(groupId, userId)
+        StudyGroup group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new ResourceNotFoundException("Study group", groupId));
+        // The group itself is public, but its applicants are only for the organizer (US-13)
+        if (!group.isOrganizer(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only the organizer can see the requests for this group.");
+        }
 
         return requestRepository.findByGroupIdOrderByScoreDescCreatedAtAsc(group.getId()).stream()
                 .map(requestMapper::toResponse)
