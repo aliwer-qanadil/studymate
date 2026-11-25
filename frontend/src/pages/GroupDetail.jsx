@@ -6,6 +6,7 @@ import GroupFacts from "../components/group/GroupFacts.jsx";
 import PrivacyNote from "../components/group/PrivacyNote.jsx";
 import MemberList from "../components/group/MemberList.jsx";
 import GroupSidebar from "../components/group/GroupSidebar.jsx";
+import Loading from "../components/common/Loading.jsx";
 import ApplyForm from "../components/apply/ApplyForm.jsx";
 import { cancelRequest, getGroup, getMyRequests, getUser } from "../api.js";
 
@@ -51,6 +52,8 @@ export default function GroupDetail() {
       <Navbar active="/requested" />
 
       {error && <p className="px-5 pt-6 text-[13px] font-semibold text-clay sm:px-10">{error}</p>}
+
+      {!group && !error && <Loading className="px-5 sm:px-10" />}
 
       {group && (
         <>

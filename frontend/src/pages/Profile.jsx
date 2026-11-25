@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/common/Navbar.jsx";
+import Loading from "../components/common/Loading.jsx";
 import GuestNote from "../components/common/GuestNote.jsx";
 import ProfileCard from "../components/profile/ProfileCard.jsx";
 import ProfileStats from "../components/profile/ProfileStats.jsx";
@@ -72,6 +73,7 @@ export default function Profile() {
 
         <main className="flex min-w-0 flex-col gap-10 px-5 py-8 sm:px-10 sm:py-10">
           {error && <p className="text-[13px] font-semibold text-clay">{error}</p>}
+          {user && !profile && !error && <Loading />}
           {!user && <GuestNote>{t("profile.guestNote")}</GuestNote>}
 
           {profile && (
