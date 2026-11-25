@@ -16,13 +16,14 @@ export default function SubjectList({ subjects, onSave }) {
   const notAdded = allSubjects.filter((subject) => !subjects.some((mine) => mine.courseCode === subject.code));
 
   function startAdding() {
-    setNewSubject(notAdded[0].name);
+    setNewSubject(notAdded[0].code);
     setNewLevel("INTERMEDIATE");
     setAdding(true);
   }
 
   function add() {
-    const found = allSubjects.find((subject) => subject.name === newSubject);
+    // By code: some names repeat under different codes
+    const found = allSubjects.find((subject) => subject.code === newSubject);
     onSave([...subjects, { subjectName: found.name, courseCode: found.code, level: newLevel }]);
     setAdding(false);
   }
@@ -75,11 +76,11 @@ export default function SubjectList({ subjects, onSave }) {
           <select
             value={newSubject}
             onChange={(e) => setNewSubject(e.target.value)}
-            className="rounded-xl border border-navy/10 bg-paper px-4 py-2.5 outline-none"
+            className="max-w-full min-w-0 rounded-xl border border-navy/10 bg-paper px-4 py-2.5 outline-none"
           >
             {notAdded.map((subject) => (
-              <option key={subject.code} value={subject.name}>
-                {subject.name} ({subject.code})
+              <option key={subject.code} value={subject.code}>
+                {subject.code} · {subject.name}
               </option>
             ))}
           </select>
