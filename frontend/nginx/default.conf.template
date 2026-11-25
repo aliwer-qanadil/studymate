@@ -1,0 +1,65 @@
+# nginx serves the built React app and forwards /api to the Spring Boot backend.
+# This is a template: when the container starts, the ${...} values are filled in from
+# environment variables (defaults are in the Dockerfile).
+#   PORT         port nginx listens on (cloud hosts set it; 80 by default)
+#   BACKEND_URL  where the API runs, without a trailing slash:
+#                http://backend:8080 in Docker Compose, or the backend's public address,
+#                e.g. https://studymate-api.onrender.com, when it is a separate cloud service
+
+# Keep https when a cloud load balancer in front of nginx already ended TLS
+map $http_x_forwarded_proto $forwarded_proto {
+    default $http_x_forwarded_proto;
+    ""      $scheme;
+}
+
+server {
+    listen ${PORT};
+    root /usr/share/nginx/html;
+    index index.html;
+    server_tokens off;
+
+    gzip on;
+    gzip_types text/css application/javascript application/json image/svg+xml;
+    gzip_min_length 1024;
+
+    # Look the backend up again every 30 s, because cloud services move to new IPs on redeploy.
+    # NGINX_LOCAL_RESOLVERS is read from /etc/resolv.conf by the nginx image at start.
+    resolver ${NGINX_LOCAL_RESOLVERS} valid=30s ipv6=off;
+    set $backend "${BACKEND_URL}";
+
+    # API calls go to the backend
+    location /api/ {
+        proxy_pass $backend;
+        proxy_ssl_server_name on;
+        # The backend's own host name, so cloud routers find it
+        proxy_set_header Host $proxy_host;
+        # The browser talks to this site only, so its request is never cross-origin. Without the
+        # Origin header Spring doesn't run its CORS check (which compares Origin with Host and
+        # failed with 403 "Invalid CORS request", issue #4). Logins use a token header, not cookies,
+        # so dropping Origin doesn't open the door to cross-site request forgery.
+        proxy_set_header Origin "";
+        proxy_set_header X-Forwarded-Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $forwarded_proto;
+        proxy_read_timeout 30s;
+    }
+
+    # Built files have a hash in their name, so they can be cached for a long time
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        add_header X-Content-Type-Options "nosniff" always;
+        try_files $uri =404;
+    }
+
+    # React Router: unknown paths like /profile load index.html and React picks the page.
+    # index.html is never cached, so a new release shows up right away.
+    location / {
+        add_header Cache-Control "no-cache";
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-Frame-Options "DENY" always;
+        add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+        try_files $uri $uri/ /index.html;
+    }
+}

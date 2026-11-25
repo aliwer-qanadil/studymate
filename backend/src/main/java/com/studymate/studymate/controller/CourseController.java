@@ -9,7 +9,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/courses")
-@CrossOrigin(originPatterns = {"http://localhost:5173", "https://*.trycloudflare.com"})
 public class CourseController {
 
     private final CourseService courseService;

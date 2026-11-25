@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users/{userId}")
-@CrossOrigin(originPatterns = {"http://localhost:5173", "https://*.trycloudflare.com"})
 public class ProfileController {
 
     private final ProfileService profileService;

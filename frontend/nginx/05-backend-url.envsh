@@ -1,0 +1,5 @@
+#!/bin/sh
+# Runs before nginx fills in its config template.
+# "https://api.example.com/" -> "https://api.example.com": with a trailing slash nginx would
+# send every /api/... request to "/" instead.
+export BACKEND_URL="${BACKEND_URL%/}"

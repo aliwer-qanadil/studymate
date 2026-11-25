@@ -1,6 +1,7 @@
 package com.studymate.studymate.controller;
 
 import com.studymate.studymate.config.AuthInterceptor;
+import com.studymate.studymate.config.SendCodeRateLimiter;
 import com.studymate.studymate.dto.auth.LoginResponse;
 import com.studymate.studymate.dto.auth.SendCodeRequest;
 import com.studymate.studymate.dto.auth.VerifyCodeRequest;
@@ -12,19 +13,22 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(originPatterns = {"http://localhost:5173", "https://*.trycloudflare.com"})
 public class AuthController {
 
     private final AuthService authService;
+    private final SendCodeRateLimiter rateLimiter;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, SendCodeRateLimiter rateLimiter) {
         this.authService = authService;
+        this.rateLimiter = rateLimiter;
     }
 
-    // Emails a one-time code to the student's SDU address
+    // Emails a one-time code to the student's SDU address.
+    // getRemoteAddr() is the visitor's address: the app trusts X-Forwarded-For from the proxy.
     @PostMapping("/send-code")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void sendCode(@Valid @RequestBody SendCodeRequest request) {
+    public void sendCode(@Valid @RequestBody SendCodeRequest request, HttpServletRequest httpRequest) {
+        rateLimiter.check(httpRequest.getRemoteAddr());
         authService.sendCode(request);
     }
 

@@ -291,7 +291,7 @@ const en = {
     notePlaceholder: "e.g. I'm stuck on chapter 6 and can explain chapter 5.",
     send: "Send request",
     sending: "Sending…",
-    sent: "Request sent to {name}. Your match score is {score}%.",
+    sent: "Request sent. Your match score is {score}%, and {name} will decide.",
     errorCourse: "Enter the course code, e.g. MATH 161.",
     errorCourseLong: "The course code can be at most 32 characters.",
     errorLevel: "Pick your level.",
