@@ -78,6 +78,8 @@ public class ProfileService {
                 user.getSubjects().stream().map(this::toDto).toList(),
                 user.getStudyStyle(),
                 Set.copyOf(user.getFavouritePlaces()),
+                user.getAvailableFrom(),
+                user.getAvailableTo(),
                 joined.size(),
                 organized.size(),
                 countStudentsMet(userId, joined, all),
@@ -136,6 +138,8 @@ public class ProfileService {
         if (request.favouritePlaces() != null) {
             user.getFavouritePlaces().addAll(request.favouritePlaces());
         }
+        user.setAvailableFrom(request.availableFrom());
+        user.setAvailableTo(request.availableTo());
 
         return getProfile(userId);
     }

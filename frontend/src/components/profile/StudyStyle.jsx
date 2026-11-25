@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Label from "../common/Label.jsx";
 import { fromEnum } from "../../api.js";
 import { t } from "../../i18n.js";
@@ -8,7 +9,7 @@ const allPlaces = ["LIBRARY", "CANTEEN", "TOP_FLOOR"];
 function Row({ title, children }) {
   return (
     <div className="flex flex-wrap items-center gap-6 rounded-2xl border border-navy/10 px-7 py-5">
-      <span className="w-40 text-[15px] font-semibold">{title}</span>
+      <span className="w-full text-[15px] font-semibold sm:w-40">{title}</span>
       {children}
     </div>
   );
@@ -17,6 +18,8 @@ function Row({ title, children }) {
 function Chip({ chosen, onClick, children }) {
   return (
     <button
+      type="button"
+      aria-pressed={chosen}
       onClick={onClick}
       className={
         "rounded-full px-4 py-2 text-[13px] font-semibold " +
@@ -28,8 +31,70 @@ function Chip({ chosen, onClick, children }) {
   );
 }
 
+// "14:00:00" -> "14:00", null -> ""
+function hhmm(time) {
+  return time ? time.slice(0, 5) : "";
+}
+
+// The time of day the student is usually free. It prefills the join application form.
+function FreeTime({ availableFrom, availableTo, onSave }) {
+  const [from, setFrom] = useState(hhmm(availableFrom));
+  const [to, setTo] = useState(hhmm(availableTo));
+  const [error, setError] = useState("");
+  const [saved, setSaved] = useState(false);
+  const changed = from !== hhmm(availableFrom) || to !== hhmm(availableTo);
+
+  function save(e) {
+    e.preventDefault();
+    setSaved(false);
+    if ((from === "") !== (to === "")) {
+      setError(t("profile.freeTimeBoth"));
+      return;
+    }
+    if (from !== "" && to <= from) {
+      setError(t("apply.errorOrder"));
+      return;
+    }
+    setError("");
+    onSave({ availableFrom: from || null, availableTo: to || null })
+      .then(() => setSaved(true))
+      .catch((err) => setError(err.message));
+  }
+
+  return (
+    <form onSubmit={save} className="flex flex-wrap items-center gap-2">
+      <label className="sr-only" htmlFor="free-from">{t("apply.from")}</label>
+      <input
+        id="free-from"
+        type="time"
+        value={from}
+        onChange={(e) => setFrom(e.target.value)}
+        className="rounded-xl border border-navy/15 bg-paper px-3 py-2 text-[13px] font-semibold outline-none focus:border-navy"
+      />
+      <span className="text-muted">–</span>
+      <label className="sr-only" htmlFor="free-to">{t("apply.to")}</label>
+      <input
+        id="free-to"
+        type="time"
+        value={to}
+        onChange={(e) => setTo(e.target.value)}
+        className="rounded-xl border border-navy/15 bg-paper px-3 py-2 text-[13px] font-semibold outline-none focus:border-navy"
+      />
+      <button
+        type="submit"
+        disabled={!changed}
+        className="rounded-full bg-navy px-4 py-2 text-[12.5px] font-bold text-white hover:bg-navy-dark disabled:opacity-40"
+      >
+        {t("common.save")}
+      </button>
+      {saved && !changed && <span role="status" className="text-[12.5px] font-semibold text-sage">{t("profile.saved")}</span>}
+      {error && <span role="alert" className="w-full text-[12.5px] font-semibold text-clay">{error}</span>}
+    </form>
+  );
+}
+
 // onSave gets only what changed, e.g. { studyStyle: "TALKATIVE" }
-export default function StudyStyle({ studyStyle, places, onSave }) {
+export default function StudyStyle({ studyStyle, places, availableFrom, availableTo, onSave, onSaveTime }) {
   // Clicking the chosen style again clears it
   function pickStyle(style) {
     onSave({ studyStyle: style === studyStyle ? null : style });
@@ -68,7 +133,12 @@ export default function StudyStyle({ studyStyle, places, onSave }) {
             ))}
           </div>
         </Row>
+
+        <Row title={t("profile.freeTime")}>
+          <FreeTime availableFrom={availableFrom} availableTo={availableTo} onSave={onSaveTime} />
+        </Row>
       </div>
+      <p className="mt-3 text-[12.5px] font-medium text-muted">{t("profile.freeTimeHint")}</p>
     </section>
   );
 }

@@ -6,7 +6,8 @@ import GroupFacts from "../components/group/GroupFacts.jsx";
 import PrivacyNote from "../components/group/PrivacyNote.jsx";
 import MemberList from "../components/group/MemberList.jsx";
 import GroupSidebar from "../components/group/GroupSidebar.jsx";
-import { cancelRequest, getGroup, getMyRequests, getUser, joinGroup } from "../api.js";
+import ApplyForm from "../components/apply/ApplyForm.jsx";
+import { cancelRequest, getGroup, getMyRequests, getUser } from "../api.js";
 
 export default function GroupDetail() {
   const user = getUser();
@@ -16,6 +17,7 @@ export default function GroupDetail() {
   const [myRequest, setMyRequest] = useState(null);
   const [reloadCount, setReloadCount] = useState(0);
   const [error, setError] = useState("");
+  const [applying, setApplying] = useState(false);
 
   useEffect(() => {
     if (!userId) return;
@@ -64,11 +66,23 @@ export default function GroupDetail() {
             <GroupSidebar
               group={group}
               myRequest={myRequest}
-              onJoin={() => reload(joinGroup(userId, group))}
+              onJoin={() => setApplying(true)}
               onCancel={() => reload(cancelRequest(userId, myRequest.id))}
             />
           </div>
         </>
+      )}
+
+      {applying && group && (
+        <ApplyForm
+          user={user}
+          group={group}
+          onClose={() => setApplying(false)}
+          onSent={() => {
+            setApplying(false);
+            setReloadCount(reloadCount + 1);
+          }}
+        />
       )}
     </div>
   );
