@@ -134,4 +134,4 @@ All variables are listed in the [README](../README.md#environment-variables). Va
 
 | Date | Environment | From → to | Result |
 | --- | --- | --- | --- |
-| | | | |
+| 2026-11-25 | Staging (`studymate-api-staging`, `studymate-staging`) | `e167643` → `ce67484` (**Rollback** to the previous deploy), then forward to `e167643` (**Deploy latest commit**) | Passed. Rollback took about 2.5 minutes; after it and after rolling forward, `/api/health` on the API and through the website answered `{"status":"UP","database":"UP"}` and the site loaded |
