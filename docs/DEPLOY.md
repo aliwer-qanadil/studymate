@@ -66,7 +66,7 @@ Production deploys only from a release tag, through Render "deploy hooks".
 3. In that environment add:
    - secret `RENDER_DEPLOY_HOOK_API` = the `studymate-api` hook URL
    - secret `RENDER_DEPLOY_HOOK_WEB` = the `studymate` hook URL
-   - variable `PRODUCTION_URL` = `https://studymate.onrender.com` (or the real address)
+   - variable `PRODUCTION_URL` = `https://studymate-edrp.onrender.com` (the address Render gave the website)
 4. Release:
 
    ```bash
@@ -126,7 +126,8 @@ All variables are listed in the [README](../README.md#environment-variables). Va
 
 | Date | Environment | Problem | Fix | Issue |
 | --- | --- | --- | --- | --- |
-| | | | | |
+| 2026-11-25 | Staging | API stopped at start-up: `password authentication failed for user 'neondb_owner'` | The pasted Neon string had a wrong password. Copied it again from Neon **Connect** with **Show password** on | |
+| 2026-11-25 | Production | `studymate.onrender.com` and `studymate-api.onrender.com` were already taken by other Render users, so the services got `studymate-edrp` and `studymate-api-ejga` | Set `BACKEND_URL` and `CORS_ALLOWED_ORIGINS` to the real addresses in Render and in `render.yaml` (step 4.5) | |
 
 **Rollback rehearsal:**
 
