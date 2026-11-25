@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users/{userId}/courses/{courseId}/tasks")
-@CrossOrigin(originPatterns = {"http://localhost:5173", "https://*.trycloudflare.com"})
 public class TaskController {
 
     private final TaskService taskService;

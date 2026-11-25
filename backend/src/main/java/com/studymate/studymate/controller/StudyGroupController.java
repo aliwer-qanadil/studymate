@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(originPatterns = {"http://localhost:5173", "https://*.trycloudflare.com"})
 public class StudyGroupController {
 
     private final StudyGroupService groupService;

@@ -2,8 +2,9 @@
 FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
 COPY pom.xml .
+# Download the libraries first, so code changes don't download them again
+RUN --mount=type=cache,target=/root/.m2 mvn -B -q dependency:go-offline
 COPY src ./src
-# The cache mount keeps downloaded Maven libraries between builds
 RUN --mount=type=cache,target=/root/.m2 mvn -B -q package -DskipTests
 
 # Step 2: run the jar on a small Java runtime image
@@ -13,5 +14,7 @@ WORKDIR /app
 RUN useradd --system --uid 10001 studymate
 COPY --from=build /app/target/*.jar app.jar
 USER studymate
+# Use at most 75% of the container's memory, so it fits free 512 MB plans
+ENV JAVA_TOOL_OPTIONS="-XX:MaxRAMPercentage=75 -XX:+ExitOnOutOfMemoryError"
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
