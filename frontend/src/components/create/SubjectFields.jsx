@@ -14,19 +14,30 @@ function inputClass(error) {
 }
 
 export default function SubjectFields({ subjects, form, change, errors }) {
-  function handleSubjectChange(newSubject) {
-    const found = subjects.find((s) => s.name === newSubject);
-    change({ subject: newSubject, code: found.code });
+  // Names repeat under different codes, so the dropdown works by code.
+  // The code field can still be edited by hand; then the dropdown keeps the subject it had.
+  const picked =
+    subjects.find((s) => s.name === form.subject && s.code === form.code) ||
+    subjects.find((s) => s.name === form.subject);
+
+  function handleSubjectChange(newCode) {
+    const found = subjects.find((s) => s.code === newCode);
+    change({ subject: found.name, code: found.code });
   }
 
   return (
     <div className="flex flex-col gap-5">
       <div className="grid gap-5 sm:grid-cols-[1.3fr_1fr_1fr]">
-        <div>
+        <div className="min-w-0">
           <label htmlFor="create-subject">
             <FieldLabel>{t("create.subject")}</FieldLabel>
           </label>
-          <Select id="create-subject" value={form.subject} onChange={handleSubjectChange} options={subjects.map((s) => s.name)} />
+          <Select
+            id="create-subject"
+            value={picked ? picked.code : ""}
+            onChange={handleSubjectChange}
+            options={subjects.map((s) => ({ value: s.code, label: s.code + " · " + s.name }))}
+          />
         </div>
 
         <div>
