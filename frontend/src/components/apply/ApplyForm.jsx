@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Label from "../common/Label.jsx";
+import FieldError from "../common/FieldError.jsx";
 import { fromEnum, getProfile, joinGroup, timeRange, whenText } from "../../api.js";
 import { t } from "../../i18n.js";
 
@@ -36,15 +37,6 @@ function validate(answers) {
   }
   if (answers.note.length > NOTE_MAX) errors.note = t("apply.errorNote", { max: NOTE_MAX });
   return errors;
-}
-
-function FieldError({ id, text }) {
-  if (!text) return null;
-  return (
-    <p id={id} role="alert" className="mt-1.5 text-[12.5px] font-semibold text-clay">
-      {text}
-    </p>
-  );
 }
 
 const inputClass = "w-full rounded-xl border bg-paper px-4 py-3 text-[14px] font-medium outline-none focus:border-navy ";

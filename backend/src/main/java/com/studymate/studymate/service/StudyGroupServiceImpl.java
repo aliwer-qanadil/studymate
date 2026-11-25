@@ -17,11 +17,14 @@ import com.studymate.studymate.repository.StudyGroupRepository;
 import com.studymate.studymate.repository.UserRepository;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -52,6 +55,12 @@ public class StudyGroupServiceImpl implements StudyGroupService {
     public StudyGroupResponse createGroup(Long userId, StudyGroupCreateRequest request) {
         User organizer = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+
+        // @FutureOrPresent allows today, so check that today's meeting hasn't already started (US-05)
+        if (request.meetingDate().equals(LocalDate.now()) && !request.startTime().isAfter(LocalTime.now())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "This time has already started today. Pick a later time or another day.");
+        }
 
         StudyGroup group = new StudyGroup(
                 organizer,

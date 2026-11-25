@@ -1,45 +1,77 @@
 import FieldLabel from "./FieldLabel.jsx";
 import Select from "./Select.jsx";
+import FieldError from "../common/FieldError.jsx";
+import { fromEnum } from "../../api.js";
 import { t } from "../../i18n.js";
 
-export default function SubjectFields({ subjects, subject, setSubject, code, setCode, title, setTitle }) {
+const levels = ["BEGINNER", "INTERMEDIATE", "ADVANCED"];
+
+function inputClass(error) {
+  return (
+    "w-full rounded-xl border bg-warm px-4 py-3.5 text-[15px] font-medium outline-none placeholder:text-muted/60 focus:border-navy/40 " +
+    (error ? "border-clay" : "border-navy/10")
+  );
+}
+
+export default function SubjectFields({ subjects, form, change, errors }) {
   function handleSubjectChange(newSubject) {
-    setSubject(newSubject);
     const found = subjects.find((s) => s.name === newSubject);
-    setCode(found.code);
+    change({ subject: newSubject, code: found.code });
   }
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="grid grid-cols-[1.3fr_1fr] gap-5">
-        <label>
-          <FieldLabel>{t("create.subject")}</FieldLabel>
-          <Select
-            value={subject}
-            onChange={handleSubjectChange}
-            options={subjects.map((s) => s.name)}
-          />
-        </label>
+      <div className="grid gap-5 sm:grid-cols-[1.3fr_1fr_1fr]">
+        <div>
+          <label htmlFor="create-subject">
+            <FieldLabel>{t("create.subject")}</FieldLabel>
+          </label>
+          <Select id="create-subject" value={form.subject} onChange={handleSubjectChange} options={subjects.map((s) => s.name)} />
+        </div>
 
-        <label>
-          <FieldLabel>{t("create.courseCode")}</FieldLabel>
+        <div>
+          <label htmlFor="create-code">
+            <FieldLabel>{t("create.courseCode")} *</FieldLabel>
+          </label>
           <input
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            className="w-full rounded-xl border border-navy/10 bg-warm px-4 py-3.5 text-[15px] font-medium outline-none focus:border-navy/40"
+            id="create-code"
+            value={form.code}
+            onChange={(e) => change({ code: e.target.value.toUpperCase() })}
+            aria-invalid={errors.code ? true : undefined}
+            aria-describedby="create-code-error"
+            className={inputClass(errors.code)}
           />
-        </label>
+          <FieldError id="create-code-error" text={errors.code} />
+        </div>
+
+        <div>
+          <label htmlFor="create-level">
+            <FieldLabel>{t("create.level")}</FieldLabel>
+          </label>
+          <Select
+            id="create-level"
+            value={form.level}
+            onChange={(level) => change({ level: level })}
+            options={levels.map((level) => ({ value: level, label: fromEnum(level) }))}
+          />
+        </div>
       </div>
 
-      <label>
-        <FieldLabel>{t("create.shortTitle")}</FieldLabel>
+      <div>
+        <label htmlFor="create-title">
+          <FieldLabel>{t("create.shortTitle")} *</FieldLabel>
+        </label>
         <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          id="create-title"
+          value={form.title}
+          onChange={(e) => change({ title: e.target.value })}
           placeholder={t("create.shortTitlePlaceholder")}
-          className="w-full rounded-xl border border-navy/10 bg-warm px-4 py-3.5 text-[15px] font-medium outline-none placeholder:text-muted/60 focus:border-navy/40"
+          aria-invalid={errors.title ? true : undefined}
+          aria-describedby="create-title-error"
+          className={inputClass(errors.title)}
         />
-      </label>
+        <FieldError id="create-title-error" text={errors.title} />
+      </div>
     </div>
   );
 }
