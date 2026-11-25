@@ -28,12 +28,12 @@ public class WebConfig implements WebMvcConfigurer {
                 .toArray(String[]::new);
     }
 
-    // Everything about one user (profile, groups they organize, requests, tasks) and courses need a login.
+    // Everything about one user (profile, groups they organize, requests) needs a login.
     // Browsing groups (/api/groups), logging in (/api/auth) and /api/health stay public.
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
-                .addPathPatterns("/api/users/**", "/api/courses/**");
+                .addPathPatterns("/api/users/**");
     }
 
     @Override
