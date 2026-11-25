@@ -16,7 +16,7 @@ const times = [
   { value: "EVENING", label: t("browse.EVENING") },
 ];
 
-export default function FilterBar({ subjects, filters, setFilters }) {
+export default function FilterBar({ subjects, filters, setFilters, canSortMine }) {
   function change(name, value) {
     setFilters({ ...filters, [name]: value });
   }
@@ -29,16 +29,28 @@ export default function FilterBar({ subjects, filters, setFilters }) {
       <FilterSelect name={t("browse.subject")} value={filters.subject} options={subjectOptions} onChange={(value) => change("subject", value)} />
       <FilterSelect name={t("browse.place")} value={filters.place} options={places} onChange={(value) => change("place", value)} />
       <FilterSelect name={t("browse.time")} value={filters.time} options={times} onChange={(value) => change("time", value)} />
-      <div className="flex items-center gap-2 rounded-full bg-navy px-3.5 py-2 text-white">
-        <Diamond />
-        {t("browse.matchesFirst")}
-      </div>
+      {canSortMine && (
+        <button
+          type="button"
+          aria-pressed={filters.mineFirst}
+          onClick={() => change("mineFirst", !filters.mineFirst)}
+          title={t("browse.matchesFirstHint")}
+          className={
+            "flex items-center gap-2 rounded-full px-3.5 py-2 " +
+            (filters.mineFirst ? "bg-navy text-white" : "border border-navy/10 bg-paper text-muted hover:text-navy")
+          }
+        >
+          <Diamond />
+          {t("browse.matchesFirst")}
+        </button>
+      )}
       <div className="flex-1"></div>
       <input
         value={filters.search}
         onChange={(e) => change("search", e.target.value)}
         placeholder={t("browse.search")}
-        className="w-60 rounded-full border border-navy/10 bg-paper px-4 py-2 font-medium outline-none placeholder:text-muted"
+        aria-label={t("browse.search")}
+        className="w-full rounded-full sm:w-60 border border-navy/10 bg-paper px-4 py-2 font-medium outline-none placeholder:text-muted"
       />
     </div>
   );
