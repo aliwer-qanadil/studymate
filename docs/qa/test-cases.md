@@ -123,7 +123,7 @@ Layout check (NFR-06, #18): no page scrolls sideways at 360 px or 768 px: Login,
 
 ## Run 3: production (Week 13)
 
-To run after the v0.9-beta tag is deployed (see [`../DEPLOY.md`](../DEPLOY.md)), on https://studymate.onrender.com, from a phone and a second computer, starting from empty accounts and real email codes. Copy the table above, fill in *Actual* and *Result*, and log every failure as an issue.
+To run after the v0.9-beta tag is deployed (see [`../DEPLOY.md`](../DEPLOY.md)), on https://studymate-edrp.onrender.com, from a phone and a second computer, starting from empty accounts and real email codes. Copy the table above, fill in *Actual* and *Result*, and log every failure as an issue.
 
 | | |
 | --- | --- |

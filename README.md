@@ -6,7 +6,7 @@ Built by the **Study Devs** team for the SOE 205 Capstone Project.
 
 | | |
 | --- | --- |
-| Production | https://studymate.onrender.com *(goes live after the first release deploy, see [Deployment](#deployment))* |
+| Production | https://studymate-edrp.onrender.com *(goes live after the first release deploy, see [Deployment](#deployment))* |
 | Staging | https://studymate-staging.onrender.com |
 | Release | [`v0.9-beta`](https://github.com/aliwer-qanadil/studymate/releases/tag/v0.9-beta) — [release notes](docs/RELEASE_NOTES.md) |
 | Code freeze | **From 25 November 2026.** Only fixes for bugs logged in GitHub Issues are merged until the final defense ([rules](CONTRIBUTING.md#code-freeze)). |
@@ -170,7 +170,7 @@ Two environments on Render, each with its own Neon database and its own secrets:
 
 | | Staging | Production |
 | --- | --- | --- |
-| Website | https://studymate-staging.onrender.com | https://studymate.onrender.com |
+| Website | https://studymate-staging.onrender.com | https://studymate-edrp.onrender.com |
 | Deploys | By itself after every merge into `main`, once CI passes | Only when a release tag `v*` is pushed and the tests pass |
 | Data | Separate test database with demo data | Separate real database, no demo data |
 
