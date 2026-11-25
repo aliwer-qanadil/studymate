@@ -1,5 +1,6 @@
 package com.studymate.studymate.exception;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -33,6 +34,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
     public ProblemDetail handleConcurrentUpdate(ObjectOptimisticLockingFailureException ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, "The data was changed by someone else, please try again");
+    }
+
+    // A database rule caught what the service checks missed, e.g. two identical requests at the same moment
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ProblemDetail handleDuplicate(DataIntegrityViolationException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, "This was already saved. Refresh the page to see it.");
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
