@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -61,7 +62,8 @@ public class JoinRequestServiceImpl implements JoinRequestService {
             throw new BusinessRuleException("You cannot apply to your own study group");
         }
         ensureOpen(group);
-        if (group.getMeetingDate().isBefore(LocalDate.now())) {
+        if (group.getMeetingDate().isBefore(LocalDate.now())
+                || (group.getMeetingDate().equals(LocalDate.now()) && !group.getEndTime().isAfter(LocalTime.now()))) {
             throw new BusinessRuleException("This meeting has already taken place");
         }
         if (requestRepository.existsByGroupIdAndApplicantIdAndStatusNot(groupId, userId, JoinRequestStatus.CANCELLED)) {

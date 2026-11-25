@@ -95,6 +95,10 @@ public class StudyGroupServiceImpl implements StudyGroupService {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(cb.equal(root.get("status"), GroupStatus.OPEN));
             predicates.add(cb.greaterThanOrEqualTo(root.get("meetingDate"), from));
+            // Today's meetings that have already ended are not "upcoming" any more
+            predicates.add(cb.or(
+                    cb.greaterThan(root.get("meetingDate"), LocalDate.now()),
+                    cb.greaterThan(root.get("endTime"), LocalTime.now())));
 
             if (dateTo != null) {
                 predicates.add(cb.lessThanOrEqualTo(root.get("meetingDate"), dateTo));
