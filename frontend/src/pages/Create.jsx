@@ -22,6 +22,14 @@ const times = ["09:00 – 11:00", "11:00 – 13:00", "14:00 – 16:00", "16:00 �
 
 const preferences = ["QUIET_WORK", "TALKATIVE", "MIXED_GROUP", "WOMEN_ONLY", "MEN_ONLY", "SAME_YEAR", "ANY_LEVEL"];
 
+// The first slot today that hasn't started yet; if every slot has started, the first slot tomorrow
+function firstOpenSlot() {
+  const now = new Date();
+  const nowTime = String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0");
+  const later = times.find((slot) => slot.split(" – ")[0] > nowTime);
+  return later ? { day: days[0], time: later } : { day: days[1], time: times[0] };
+}
+
 function dateInDays(daysFromToday) {
   const date = new Date();
   date.setDate(date.getDate() + daysFromToday);
@@ -42,8 +50,8 @@ export default function Create() {
   const [description, setDescription] = useState("");
   const [place, setPlace] = useState(places[0]);
   const [exactSpot, setExactSpot] = useState("");
-  const [day, setDay] = useState(days[0]);
-  const [time, setTime] = useState(times[2]);
+  const [day, setDay] = useState(() => firstOpenSlot().day);
+  const [time, setTime] = useState(() => firstOpenSlot().time);
   const [groupSize, setGroupSize] = useState(4);
   const [chosenPreferences, setChosenPreferences] = useState(["QUIET_WORK"]);
   const [error, setError] = useState("");
