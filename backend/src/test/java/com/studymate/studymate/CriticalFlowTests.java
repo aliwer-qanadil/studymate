@@ -10,7 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -19,6 +21,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -43,6 +46,9 @@ class CriticalFlowTests {
 
     @Autowired
     private SessionService sessionService;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     // No real email in tests: we catch the code the server would have sent
     @MockitoBean
@@ -137,6 +143,21 @@ class CriticalFlowTests {
                         .content(answers("ADVANCED", "[]")))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.detail").value("You have already applied to this study group"));
+    }
+
+    @Test
+    void theDatabaseRefusesASecondActiveRequestForTheSameGroup() throws Exception {
+        User organizer = newUser();
+        User applicant = newUser();
+        long groupId = createGroup(organizer);
+        apply(applicant, groupId);
+
+        // Skips the service check, as a second request arriving at the same instant would
+        assertThrows(DataIntegrityViolationException.class, () -> jdbcTemplate.update(
+                "INSERT INTO join_requests (group_id, applicant_id, course_code, level, available_from, available_to, "
+                        + "score, subject_score, time_score, level_score, preference_score, status, created_at) "
+                        + "VALUES (?, ?, 'MATH 161', 'BEGINNER', '15:00', '19:00', 100, 100, 100, 100, 100, 'PENDING', now())",
+                groupId, applicant.getId()));
     }
 
     @Test
