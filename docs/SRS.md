@@ -1,7 +1,7 @@
 # StudyMate — Software Requirements Specification (SRS)
 
 **Course:** SOE 205 Capstone Project  
-**Stage:** Week 3 draft for team review  
+**Stage:** Week 3 requirements, updated for the v0.9-beta release (25 November 2026). Sections 1–6 are the agreed requirements; section 7 records the product as built.  
 **Team:** Arlan Akylbekov (PM), Yelnar Mamirkhanov (backend), Agabek Segizbay (backend support), Bakdaulet Sultanbekov (design), Alisher Kanadil (frontend)
 
 ## 1. Introduction
@@ -131,42 +131,57 @@ The targets below are acceptance goals to test, not claims about the current imp
 
 ---
 
-## Implementation Notes (as built)
+## 7. Product as built (v0.9-beta, 25 November 2026)
 
-These notes describe the current build so that the SRS and the code can be compared. They are a draft for team review and do not change the requirements above.
+### 7.1 Story status
 
-- **Sign-in:** a student enters a student ID, receives a one-time code by email, and enters it to sign in. The backend stores codes in a `login_codes` table. The build does not currently use passwords.
-- **Compatibility score:** calculated on the backend from subject, time, level and study-preference matches. It is not stored.
-- **Demo data:** sample students and study groups are created only when `STUDYMATE_DEMO_DATA_ENABLED=true`. The Docker setup enables it by default for local runs.
-- **Deployment:** the frontend, backend and database run together with Docker Compose. Environment variables supply the database and Gmail settings. Health checks and automatic restart are configured.
-- **Automated checks:** GitHub Actions runs the frontend code check and build, the backend tests against PostgreSQL, and the Docker build on every change.
-
-## Implementation Status (Week 12)
-
-Status of each user story in the current build. **Done** means the behaviour is in the code. **Partial** means part of it is missing. **Deferred** means it is not in the current build. Results of the manual test cases are not yet recorded, so these statuses are based on the code.
+**Done** = the acceptance criteria above pass in the build. **Partial** = part is missing. **Deferred** = not in this release. Evidence: the manual test table [`qa/test-cases.md`](qa/test-cases.md) (run 2) and the automated API tests in `backend/src/test`.
 
 | Story | Priority | Status | Reason |
 | --- | --- | --- | --- |
-| US-01 Register | Must | Partial | No registration form; the account is created at the first successful code sign-in. |
-| US-02 Sign in | Must | Done | Emailed one-time code for a 9-digit student ID. |
-| US-03 Save preferences | Should | Partial | Subjects with course code and knowledge level are saved on the profile. Available times and the optional study style are not saved yet. |
-| US-04 Edit preferences | Could | Partial | Subjects and levels can be changed; available times are missing, as in US-03. |
-| US-05 Create group | Must | Done | Future-date rule enforced by the server. |
-| US-06 Browse groups | Must | Done | Upcoming groups listed; empty state shown. |
-| US-07 Filter by subject | Should | Done | Subject filter in the browse sidebar. |
-| US-08 Filter by time | Should | Done | Time filter in the browse sidebar. |
-| US-09 View group details | Must | Done | Group details page. |
-| US-10 Answer joining questions | Must | Partial | Application answers are collected; the application form does not prefill answers from the saved profile. |
-| US-11 Submit join request | Must | Done | Duplicate and own-group submissions are blocked. |
-| US-12 Check request status | Should | Done | "Requested" page lists each request and its status. |
-| US-13 View incoming requests | Must | Done | Only the group's organizer can open its requests. |
-| US-14 Accept request | Must | Done | Accepted requests add the applicant to the group members. |
-| US-15 Reject request | Must | Done | Rejected requests are not added to the group. |
-| US-16 Applicant sees own score | Should | Done | Score shown on the request card. |
-| US-17 Organizer sees score | Must | Done | Score shown to the organizer for each applicant. |
-| US-18 Explain score | Should | Done | Score breakdown shown for each applicant. |
+| US-01 Register | Must | Done | Passwordless by design: the first sign-in with a code emailed to `<studentId>@sdu.edu.kz` creates the account. Empty or badly formatted IDs get a field error (TC-01–03). |
+| US-02 Sign in | Must | Done | One-time 6-digit code, valid 10 minutes, 5 wrong tries; wrong, expired and badly formatted codes are refused with a clear message (TC-04–07). |
+| US-03 Save preferences | Should | Done | Subjects with levels, usual free time, study style and favourite places are saved on the profile; a subject can't be saved without a level. |
+| US-04 Edit preferences | Could | Done | All of them can be changed on the profile; changes are used by the next application. |
+| US-05 Create group | Must | Done | Groups in the past, or today at a time that has started, are refused; each invalid field is marked (TC-09–12, #9). |
+| US-06 Browse groups | Must | Done | Open upcoming groups with subject, place and time; empty state; finished meetings are hidden (TC-13–14, #21). |
+| US-07 Filter by subject | Should | Done | Subject, place and search filters; "Matches me first" puts groups in the student's subjects on top. |
+| US-08 Filter by time | Should | Done | Part of day (morning, afternoon, evening) and date range (today, next 7 days, all). |
+| US-09 View group details | Must | Done | Subject, place, time, organizer, members; the exact spot only after acceptance (TC-15–16). |
+| US-10 Answer joining questions | Must | Done | Application form with course, level, free time, preferences and note; prefilled from the profile and editable; empty required fields are marked (TC-17–18, #7). |
+| US-11 Submit join request | Must | Done | One Pending request, confirmation with the score; duplicates refused by the service and by a database index (TC-19–22, #22). |
+| US-12 Check request status | Should | Done | "Requested" page with Waiting / You're in / Not accepted; a pending request can be cancelled. |
+| US-13 View incoming requests | Must | Done | Answers, note and score per applicant; anyone but the organizer gets 403 and is sent to the public group page (TC-23–24, #10). |
+| US-14 Accept request | Must | Done | Applicant becomes a member; a second accept is refused; the group closes when full (TC-25–26, TC-30). |
+| US-15 Reject request | Must | Done | Status Rejected, not added; decided requests can't be changed (TC-27–28). |
+| US-16 Applicant sees own score | Should | Done | Shown on confirmation, on the Requested page and on the group page. |
+| US-17 Organizer sees score | Must | Done | Same course and time, two levels apart, no shared preference gives exactly 70 % (TC-29). |
+| US-18 Explain score | Should | Done | Breakdown of subject, time, level and preferences for every applicant. |
 
-**Non-functional requirements:** the performance test (NFR-01), the load test and the concurrency test for duplicate requests (NFR-07) have not been run. Responsive layout (NFR-06) and keyboard access (NFR-05) are to be checked in the manual test run.
+All 18 stories are Done; none are Deferred.
 
-**Architecture:** the frontend (React) and backend (Spring Boot) talk over the `/api` routes. PostgreSQL stores the data. The ERD in `docs/erd/` is still the Milestone 1 design; the schema in the backend is generated by Hibernate and differs in naming, so update the ERD after the final run.
+### 7.2 Decisions taken during the build
 
+These close the open questions in section 5.
+
+- **Registration** is limited to SDU students by emailing the code to `<studentId>@sdu.edu.kz`; there are no passwords (NFR-03 is met by not storing any: codes are BCrypt-hashed and session tokens SHA-256-hashed).
+- **Score definitions:** subject 100 for the same course code, 50 for the same department prefix; time = share of the meeting inside the applicant's free window; level 100 / 50 / 0 for 0 / 1 / 2 levels apart, or 100 if the group allows any level; preferences = share of the group's preferences the applicant shares (100 if the group has none). Weights 40 / 30 / 20 / 10. Details in [`API.md`](API.md#compatibility-score).
+- **Guests** can browse the list but must sign in to open group details or apply.
+- **Group size** (2–10 including the organizer) was added; a full group stops taking requests.
+- **Routes and status codes** are documented in [`API.md`](API.md).
+
+### 7.3 Non-functional requirements
+
+| ID | Status | Evidence or reason |
+| --- | --- | --- |
+| NFR-01 Performance | Not measured | No load test has been run. The list query uses an index on status and date, and the beta's data is far below 1,000 groups. A k6 load test against staging is planned after the beta. |
+| NFR-02 Security | Met | Every `/api/users/{id}/...` call needs that user's session token (401 / 403 otherwise); only the organizer can list or decide requests. Automated tests: `AuthInterceptorTests`, `CriticalFlowTests`. |
+| NFR-03 Security | Met (no passwords) | No passwords exist. Login codes are BCrypt-hashed, session tokens stored as SHA-256 hashes, at most 10 codes per network address per 15 minutes. |
+| NFR-04 Usability | Not yet tested | Needs the five-student test with new users; planned as the Week 13 usability test on production. |
+| NFR-05 Accessibility | Partly met | Forms have labels, field errors are announced (`role="alert"`), toggles report their state, all controls are native buttons, links and form fields so they work by keyboard, and Escape closes the application dialog; scores are shown as numbers, not only colours. Contrast has not been measured with a tool. |
+| NFR-06 Responsive design | Met | No sideways scrolling on any page at 360, 768 and 1280 px (#18, screenshots in `qa/screenshots/`). |
+| NFR-07 Data integrity | Met | Repeated submissions and decisions are refused (TC-20, TC-26, TC-28); a partial unique index stops simultaneous duplicates and an optimistic lock stops two accepts taking the last seat (#22). |
+
+### 7.4 Architecture
+
+React (Vite, Tailwind) is built into static files served by nginx, which forwards `/api` to the Spring Boot API; the API stores data in PostgreSQL and sends login codes by SMTP or the Brevo API. Locally all three run with Docker Compose; staging and production run on Render with Neon databases ([`DEPLOY.md`](DEPLOY.md)). The database as built, and how it differs from the Milestone 1 ERD, is in [`erd/Current_Schema.md`](erd/Current_Schema.md).
