@@ -3,11 +3,10 @@ import Navbar from "../components/common/Navbar.jsx";
 import BrowseTitle from "../components/browse/BrowseTitle.jsx";
 import FilterBar from "../components/browse/FilterBar.jsx";
 import RequestCard from "../components/browse/RequestCard.jsx";
-import FullGroupCard from "../components/browse/FullGroupCard.jsx";
 import Sidebar from "../components/browse/Sidebar.jsx";
 import LoginPrompt from "../components/common/LoginPrompt.jsx";
 import ApplyForm from "../components/apply/ApplyForm.jsx";
-import { fromEnum, getGroups, getMyRequests, getUser, initialsOf, whenText } from "../api.js";
+import { fromEnum, getGroups, getMyRequests, getProfile, getUser, initialsOf, whenText } from "../api.js";
 import { t } from "../i18n.js";
 
 function partOfDay(time) {
@@ -15,6 +14,21 @@ function partOfDay(time) {
   if (hour < 12) return "MORNING";
   if (hour < 17) return "AFTERNOON";
   return "EVENING";
+}
+
+// "2026-11-25" for today plus the given number of days, in the browser's time zone
+function isoDate(daysFromToday) {
+  const date = new Date();
+  date.setDate(date.getDate() + daysFromToday);
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return date.getFullYear() + "-" + month + "-" + day;
+}
+
+function inRange(group, range) {
+  if (range === "today") return group.meetingDate === isoDate(0);
+  if (range === "week") return group.meetingDate <= isoDate(6);
+  return true;
 }
 
 function matchesFilters(group, filters) {
@@ -25,6 +39,7 @@ function matchesFilters(group, filters) {
     (filters.subject === "" || group.subjectName === filters.subject) &&
     (filters.place === "" || group.place === filters.place) &&
     (filters.time === "" || partOfDay(group.startTime) === filters.time) &&
+    inRange(group, filters.range) &&
     (search === "" || text.includes(search))
   );
 }
@@ -57,7 +72,8 @@ export default function Browse() {
   const [groups, setGroups] = useState([]);
   const [sentGroupIds, setSentGroupIds] = useState([]);
   // "" means "All" / "Any"
-  const [filters, setFilters] = useState({ subject: "", place: "", time: "", search: "" });
+  const [filters, setFilters] = useState({ subject: "", place: "", time: "", search: "", mineFirst: true, range: "all" });
+  const [profile, setProfile] = useState(null);
   const [error, setError] = useState("");
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   // The group whose application form is open
@@ -69,6 +85,8 @@ export default function Browse() {
     getGroups().then(setGroups).catch((e) => setError(e.message));
 
     if (!userId) return;
+
+    getProfile(userId).then(setProfile).catch(() => setProfile(null));
 
     getMyRequests(userId)
       .then((requests) => setSentGroupIds(requests.filter((r) => r.status !== "CANCELLED").map((r) => r.groupId)))
@@ -91,10 +109,22 @@ export default function Browse() {
     setApplying(null);
   }
 
+  // Course codes on my profile. With "Matches me first" on, their groups go to the top.
+  const myCodes = profile ? profile.subjects.map((s) => s.courseCode) : [];
+  const isMySubject = (group) => myCodes.includes(group.courseCode);
+  const sortedGroups = filters.mineFirst
+    ? [...groups].sort((a, b) => Number(isMySubject(b)) - Number(isMySubject(a)))
+    : groups;
+
   const subjects = [...new Set(groups.map((group) => group.subjectName))];
-  const cards = groups
+  const cards = sortedGroups
     .filter((group) => matchesFilters(group, filters))
     .map((group) => toCard(group, user, sentGroupIds));
+
+  // Up to three open groups in my subjects that I haven't asked to join and don't organize
+  const picks = groups
+    .filter((group) => isMySubject(group) && group.organizer.id !== userId && !sentGroupIds.includes(group.id))
+    .slice(0, 3);
 
   return (
     <div className="flex min-h-screen flex-col bg-paper">
@@ -102,8 +132,8 @@ export default function Browse() {
 
       <div className="grid flex-1 grid-cols-[1fr_316px]">
         <main className="border-r border-navy/10 p-8">
-          <BrowseTitle count={cards.length} />
-          <FilterBar subjects={subjects} filters={filters} setFilters={setFilters} />
+          <BrowseTitle count={cards.length} range={filters.range} setRange={(range) => setFilters({ ...filters, range: range })} />
+          <FilterBar subjects={subjects} filters={filters} setFilters={setFilters} canSortMine={profile !== null} />
 
           {error && <p role="alert" className="mb-4 text-[13px] font-semibold text-clay">{error}</p>}
           {notice && (
@@ -121,11 +151,10 @@ export default function Browse() {
             {cards.map((card) => (
               <RequestCard key={card.id} request={card} onJoin={() => handleJoin(card.group)} />
             ))}
-            <FullGroupCard />
           </div>
         </main>
 
-        <Sidebar />
+        <Sidebar profile={profile} picks={picks} />
       </div>
 
       {showLoginPrompt && <LoginPrompt onClose={() => setShowLoginPrompt(false)} />}
