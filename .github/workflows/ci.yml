@@ -66,6 +66,21 @@ jobs:
     needs: [frontend, backend]
     steps:
       - uses: actions/checkout@v4
+      # The backend Dockerfile downloads Maven libraries into a BuildKit cache (/root/.m2).
+      # A fresh runner starts with that cache empty, and Maven Central sometimes answers
+      # "429 Too Many Requests". Keep the folder between runs and load it into the builder.
+      - uses: docker/setup-buildx-action@v3
+      - id: m2-cache
+        uses: actions/cache@v4
+        with:
+          path: docker-m2
+          key: docker-m2-${{ hashFiles('backend/pom.xml') }}
+          restore-keys: docker-m2-
+      - uses: reproducible-containers/buildkit-cache-dance@v3
+        with:
+          cache-map: |
+            { "docker-m2": "/root/.m2" }
+          skip-extraction: ${{ steps.m2-cache.outputs.cache-hit }}
       - run: docker compose build
       # Start the whole stack and wait until every health check passes,
       # so a broken health check or a backend that can't boot fails CI.
