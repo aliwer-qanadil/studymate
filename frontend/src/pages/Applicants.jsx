@@ -59,10 +59,10 @@ export default function Applicants() {
     <div className="flex min-h-screen flex-col bg-paper">
       <Navbar active="/groups" />
 
-      {error && <p className="px-10 pt-6 text-[13px] font-semibold text-clay">{error}</p>}
+      {error && <p className="px-5 pt-6 text-[13px] sm:px-10 font-semibold text-clay">{error}</p>}
 
       {group && (
-        <main className="flex flex-col gap-4 px-10 py-10">
+        <main className="flex flex-col gap-4 px-4 py-8 sm:px-10 sm:py-10">
           <ApplicantsTitle group={group} count={pending.length} sort={sort} setSort={setSort} />
 
           {goodMatches.map((applicant) => (

@@ -85,7 +85,7 @@ export default function ProfileCard({ profile, onSaveUsername }) {
             />
           </label>
           {error ? (
-            <span className="text-xs font-semibold text-red-600">{error}</span>
+            <span className="text-xs font-semibold text-clay">{error}</span>
           ) : (
             <span className="text-xs font-medium text-muted">{t("profile.usernameHint")}</span>
           )}

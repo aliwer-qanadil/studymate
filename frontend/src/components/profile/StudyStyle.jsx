@@ -8,7 +8,7 @@ const allPlaces = ["LIBRARY", "CANTEEN", "TOP_FLOOR"];
 
 function Row({ title, children }) {
   return (
-    <div className="flex flex-wrap items-center gap-6 rounded-2xl border border-navy/10 px-7 py-5">
+    <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-navy/10 px-5 py-5 sm:gap-6 sm:px-7">
       <span className="w-full text-[15px] font-semibold sm:w-40">{title}</span>
       {children}
     </div>

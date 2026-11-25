@@ -13,7 +13,7 @@ export default function ApplicantCard({ applicant, canAccept, onAccept, onDeclin
   const strong = applicant.score >= 85;
 
   return (
-    <article className="grid grid-cols-[140px_1fr_320px_220px] items-center gap-8 rounded-[22px] border border-navy/10 bg-paper px-8 py-7 shadow-[0_2px_10px_rgba(38,42,84,0.05)]">
+    <article className="grid items-center gap-6 rounded-[22px] border border-navy/10 bg-paper px-5 py-6 sm:grid-cols-[140px_1fr] sm:px-8 sm:py-7 xl:grid-cols-[140px_1fr_320px_220px] xl:gap-8 shadow-[0_2px_10px_rgba(38,42,84,0.05)]">
       <ScoreDiamond score={applicant.score} />
 
       <div>
@@ -54,15 +54,15 @@ export default function ApplicantCard({ applicant, canAccept, onAccept, onDeclin
 
       <ScoreBreakdown breakdown={applicant.breakdown} hint={hintFor(applicant)} />
 
-      <div className="flex flex-col gap-3">
+      <div className="flex gap-3 sm:col-span-2 xl:col-span-1 xl:flex-col">
         <button
           onClick={onAccept}
           disabled={!canAccept}
-          className="rounded-full bg-navy py-4 text-sm font-bold text-white hover:bg-navy-dark disabled:opacity-40"
+          className="flex-1 rounded-full bg-navy py-4 text-sm font-bold text-white hover:bg-navy-dark disabled:opacity-40"
         >
           {t("common.accept")}
         </button>
-        <button onClick={onDecline} className="rounded-full border border-navy/15 py-4 text-sm font-semibold hover:bg-warm">
+        <button onClick={onDecline} className="flex-1 rounded-full border border-navy/15 py-4 text-sm font-semibold hover:bg-warm">
           {t("common.decline")}
         </button>
       </div>

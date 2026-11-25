@@ -22,10 +22,10 @@ export default function MyGroups() {
     <div className="flex min-h-screen flex-col bg-paper">
       <Navbar active="/groups" />
 
-      <main className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-8 py-10">
+      <main className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 py-8 sm:px-8 sm:py-10">
         <MyGroupsTitle count={organized.length} />
 
-        {error && <p className="text-[13px] font-semibold text-red-600">{error}</p>}
+        {error && <p className="text-[13px] font-semibold text-clay">{error}</p>}
 
         {user ? (
           <OrganizedGroups groups={organized} />

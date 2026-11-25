@@ -151,8 +151,8 @@ export default function Create() {
     <div className="flex min-h-screen flex-col bg-paper">
       <Navbar active="/create" />
 
-      <div className="grid flex-1 grid-cols-[1fr_380px]">
-        <main className="border-r border-navy/10 px-10 py-10">
+      <div className="grid flex-1 lg:grid-cols-[1fr_380px]">
+        <main className="min-w-0 border-navy/10 px-5 py-8 sm:px-10 sm:py-10 lg:border-r">
           <form onSubmit={handleSubmit} noValidate className="flex max-w-4xl flex-col gap-7">
             <CreateTitle />
 

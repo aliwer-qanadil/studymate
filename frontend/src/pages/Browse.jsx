@@ -130,8 +130,8 @@ export default function Browse() {
     <div className="flex min-h-screen flex-col bg-paper">
       <Navbar active="/browse" />
 
-      <div className="grid flex-1 grid-cols-[1fr_316px]">
-        <main className="border-r border-navy/10 p-8">
+      <div className="grid flex-1 lg:grid-cols-[1fr_316px]">
+        <main className="min-w-0 border-navy/10 px-4 py-6 sm:p-8 lg:border-r">
           <BrowseTitle count={cards.length} range={filters.range} setRange={(range) => setFilters({ ...filters, range: range })} />
           <FilterBar subjects={subjects} filters={filters} setFilters={setFilters} canSortMine={profile !== null} />
 

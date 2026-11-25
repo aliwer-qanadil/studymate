@@ -6,7 +6,7 @@ import { t } from "../../i18n.js";
 
 function Row({ title, text, children }) {
   return (
-    <div className="flex items-center justify-between gap-6 border-b border-navy/10 px-7 py-5 last:border-b-0">
+    <div className="flex flex-wrap items-center justify-between gap-4 border-b border-navy/10 px-5 py-5 sm:px-7 last:border-b-0">
       <div>
         <div className="text-[15px] font-semibold">{title}</div>
         <div className="text-[13px] font-medium text-muted">{text}</div>
