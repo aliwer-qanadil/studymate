@@ -1,12 +1,11 @@
 import { useState } from "react";
 import Leaf from "./Leaf.jsx";
 import FallingLeaves from "./FallingLeaves.jsx";
-import PumpkinPatch from "../halloween/PumpkinPatch.jsx";
 import { t } from "../../i18n.js";
 
 export default function AutumnToggle() {
-  // The choice is saved in the browser, so it stays the same on every page (on by default)
-  const [on, setOn] = useState(localStorage.getItem("autumn") !== "off");
+  // The choice is saved in the browser, so it stays the same on every page (off by default)
+  const [on, setOn] = useState(localStorage.getItem("autumn") === "on");
 
   function toggle() {
     localStorage.setItem("autumn", on ? "off" : "on");
@@ -16,7 +15,9 @@ export default function AutumnToggle() {
   return (
     <>
       <button
+        type="button"
         onClick={toggle}
+        aria-pressed={on}
         title={on ? t("autumn.turnOff") : t("autumn.turnOn")}
         className={
           "flex items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-[11px] font-semibold " +
@@ -31,7 +32,6 @@ export default function AutumnToggle() {
       </button>
 
       {on && <FallingLeaves />}
-      {on && <PumpkinPatch />}
     </>
   );
 }
