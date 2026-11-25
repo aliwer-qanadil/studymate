@@ -30,7 +30,7 @@ export default function Profile() {
     navigate("/");
   }
 
-  // Saves subjects, study style and favourite places.
+  // Saves subjects, study style, favourite places and free time.
   // "changes" holds only the part that changed, e.g. { studyStyle: "TALKATIVE" }
   function saveProfile(changes) {
     setError("");
@@ -38,9 +38,17 @@ export default function Profile() {
       subjects: profile.subjects,
       studyStyle: profile.studyStyle,
       favouritePlaces: profile.favouritePlaces,
+      availableFrom: profile.availableFrom,
+      availableTo: profile.availableTo,
       ...changes,
     };
-    updateProfile(userId, updated).then(setProfile).catch((e) => setError(e.message));
+    // Returned, so a form can show its own error and know when saving is done
+    return updateProfile(userId, updated)
+      .then(setProfile)
+      .catch((e) => {
+        setError(e.message);
+        throw e;
+      });
   }
 
   // ProfileCard shows the error itself, so we give the request back to it
@@ -68,8 +76,15 @@ export default function Profile() {
 
           {profile && (
             <>
-              <SubjectList subjects={profile.subjects} onSave={(subjects) => saveProfile({ subjects: subjects })} />
-              <StudyStyle studyStyle={profile.studyStyle} places={profile.favouritePlaces} onSave={saveProfile} />
+              <SubjectList subjects={profile.subjects} onSave={(subjects) => saveProfile({ subjects: subjects }).catch(() => {})} />
+              <StudyStyle
+                studyStyle={profile.studyStyle}
+                places={profile.favouritePlaces}
+                availableFrom={profile.availableFrom}
+                availableTo={profile.availableTo}
+                onSave={(changes) => saveProfile(changes).catch(() => {})}
+                onSaveTime={saveProfile}
+              />
               <RecentSessions sessions={profile.recentSessions} />
             </>
           )}

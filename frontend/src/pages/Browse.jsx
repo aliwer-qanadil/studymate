@@ -6,7 +6,8 @@ import RequestCard from "../components/browse/RequestCard.jsx";
 import FullGroupCard from "../components/browse/FullGroupCard.jsx";
 import Sidebar from "../components/browse/Sidebar.jsx";
 import LoginPrompt from "../components/common/LoginPrompt.jsx";
-import { fromEnum, getGroups, getMyRequests, getUser, initialsOf, joinGroup, whenText } from "../api.js";
+import ApplyForm from "../components/apply/ApplyForm.jsx";
+import { fromEnum, getGroups, getMyRequests, getUser, initialsOf, whenText } from "../api.js";
 import { t } from "../i18n.js";
 
 function partOfDay(time) {
@@ -59,6 +60,9 @@ export default function Browse() {
   const [filters, setFilters] = useState({ subject: "", place: "", time: "", search: "" });
   const [error, setError] = useState("");
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  // The group whose application form is open
+  const [applying, setApplying] = useState(null);
+  const [notice, setNotice] = useState("");
 
   useEffect(() => {
     // Guests can see the groups too, they just have no requests of their own
@@ -77,9 +81,14 @@ export default function Browse() {
       return;
     }
 
-    joinGroup(user.id, group)
-      .then(() => setSentGroupIds([...sentGroupIds, group.id]))
-      .catch((e) => setError(e.message));
+    setNotice("");
+    setApplying(group);
+  }
+
+  function handleSent(request) {
+    setSentGroupIds([...sentGroupIds, request.groupId]);
+    setNotice(t("apply.sent", { name: applying.organizer.name, score: request.score }));
+    setApplying(null);
   }
 
   const subjects = [...new Set(groups.map((group) => group.subjectName))];
@@ -96,7 +105,12 @@ export default function Browse() {
           <BrowseTitle count={cards.length} />
           <FilterBar subjects={subjects} filters={filters} setFilters={setFilters} />
 
-          {error && <p className="mb-4 text-[13px] font-semibold text-red-600">{error}</p>}
+          {error && <p role="alert" className="mb-4 text-[13px] font-semibold text-clay">{error}</p>}
+          {notice && (
+            <p role="status" className="mb-4 rounded-xl bg-sage-light px-4 py-3 text-[13px] font-semibold text-sage">
+              {notice}
+            </p>
+          )}
 
           <div className="flex flex-col gap-3.5">
             {cards.length === 0 && (
@@ -115,6 +129,7 @@ export default function Browse() {
       </div>
 
       {showLoginPrompt && <LoginPrompt onClose={() => setShowLoginPrompt(false)} />}
+      {applying && <ApplyForm user={user} group={applying} onClose={() => setApplying(null)} onSent={handleSent} />}
     </div>
   );
 }

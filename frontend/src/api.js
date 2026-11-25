@@ -45,6 +45,7 @@ async function request(method, url, body) {
     const fieldErrors = data && data.errors ? Object.values(data.errors).join(", ") : "";
     const error = new Error(fieldErrors || (data && data.detail) || "Something went wrong. Try again.");
     error.status = response.status; // e.g. 409 when a username is already taken
+    error.fields = (data && data.errors) || {}; // e.g. { title: "size must be between 0 and 255" }
     throw error;
   }
 
@@ -72,14 +73,9 @@ export function createGroup(userId, group) {
   return request("POST", "/api/users/" + userId + "/groups", group);
 }
 
-export function joinGroup(userId, group) {
-  return request("POST", "/api/users/" + userId + "/groups/" + group.id + "/requests", {
-    courseCode: group.courseCode,
-    level: group.level,
-    availableFrom: group.startTime,
-    availableTo: group.endTime,
-    preferences: group.preferences,
-  });
+// answers = { courseCode, level, availableFrom, availableTo, preferences, note } from the application form
+export function joinGroup(userId, groupId, answers) {
+  return request("POST", "/api/users/" + userId + "/groups/" + groupId + "/requests", answers);
 }
 
 // "LIBRARY" -> "Library" (or "Кітапхана", "Библиотека" in the chosen language)
@@ -100,7 +96,7 @@ export function getProfile(userId) {
   return request("GET", "/api/users/" + userId + "/profile");
 }
 
-// profile = { subjects, studyStyle, favouritePlaces }
+// profile = { subjects, studyStyle, favouritePlaces, availableFrom, availableTo }
 export function updateProfile(userId, profile) {
   return request("PUT", "/api/users/" + userId + "/profile", profile);
 }

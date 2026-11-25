@@ -3,6 +3,7 @@ package com.studymate.studymate.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -42,6 +43,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "place", nullable = false)
     private Set<StudyPlace> favouritePlaces = new HashSet<>();
+
+    // Profile: the time of day the student is usually free. Prefills the join application form.
+    private LocalTime availableFrom;
+
+    private LocalTime availableTo;
 
     public User(String name, String email) {
         this.name = name;
