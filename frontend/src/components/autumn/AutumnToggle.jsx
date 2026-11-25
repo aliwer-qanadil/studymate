@@ -25,7 +25,7 @@ export default function AutumnToggle() {
         }
       >
         <Leaf size={14} color="currentColor" />
-        {t("autumn.label")}
+        <span className="hidden sm:inline">{t("autumn.label")}</span>
         <span className={"flex h-4 w-7 items-center rounded-full p-0.5 " + (on ? "justify-end bg-peach-dark" : "bg-navy/20")}>
           <span className="size-3 rounded-full bg-white"></span>
         </span>

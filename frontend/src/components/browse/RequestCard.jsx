@@ -17,11 +17,11 @@ export default function RequestCard({ request, onJoin }) {
   return (
     <article
       className={
-        "rounded-[18px] border border-navy/10 bg-paper px-6 py-5.5 " +
+        "rounded-[18px] border border-navy/10 bg-paper px-5 py-5 sm:px-6 sm:py-5.5 " +
         (request.highlight ? "rounded-l-md border-l-[3px] border-l-peach shadow-[0_2px_10px_rgba(38,42,84,0.05)]" : "")
       }
     >
-      <div className="flex justify-between gap-5">
+      <div className="flex flex-col justify-between gap-5 sm:flex-row">
         {/* Left: course, title, description, details */}
         <div>
           <div className="mb-2 flex items-center gap-2">
@@ -43,7 +43,7 @@ export default function RequestCard({ request, onJoin }) {
           </div>
         </div>
 
-        <div className="flex w-42 shrink-0 flex-col items-end justify-between gap-4">
+        <div className="flex w-full shrink-0 flex-row-reverse items-end justify-between gap-4 sm:w-42 sm:flex-col">
           <div className="text-right">
             <div className="text-[22px] font-bold">{request.seatsLeft}</div>
             <div className="text-[9.5px] font-bold tracking-[0.14em] text-muted">
@@ -55,14 +55,14 @@ export default function RequestCard({ request, onJoin }) {
           {request.mine ? (
             <Link
               to={"/groups/" + request.id + "/applicants"}
-              className="w-full rounded-full bg-navy p-3 text-center text-[13px] font-bold text-white hover:bg-navy-dark"
+              className="w-auto flex-1 rounded-full sm:w-full sm:flex-none bg-navy p-3 text-center text-[13px] font-bold text-white hover:bg-navy-dark"
             >
               {t("common.seeApplicants")}
             </Link>
           ) : request.sent ? (
             <Link
               to={"/groups/" + request.id}
-              className="w-full rounded-full bg-warm p-3 text-center text-[13px] font-bold text-muted hover:bg-sand"
+              className="w-auto flex-1 rounded-full sm:w-full sm:flex-none bg-warm p-3 text-center text-[13px] font-bold text-muted hover:bg-sand"
             >
               {t("browse.requestSent")}
             </Link>
@@ -81,7 +81,7 @@ export default function RequestCard({ request, onJoin }) {
       </div>
 
       {/* Bottom: who posted it */}
-      <div className="mt-4.5 flex items-center gap-2.5 border-t border-navy/10 pt-4 text-[12.5px]">
+      <div className="mt-4.5 flex flex-wrap items-center gap-2.5 border-t border-navy/10 pt-4 text-[12.5px]">
         <div className="flex size-7.5 items-center justify-center rounded-full border border-navy/10 bg-warm text-[11px] font-bold">
           {request.owner.initials}
         </div>

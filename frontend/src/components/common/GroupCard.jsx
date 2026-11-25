@@ -8,12 +8,12 @@ export default function GroupCard({ group, label, badge, mine, to, buttonText })
   return (
     <article
       className={
-        "flex items-center justify-between gap-6 rounded-l-md rounded-r-[18px] border border-l-[3px] border-navy/10 bg-paper px-6 py-5 " +
+        "flex flex-col justify-between gap-4 rounded-l-md rounded-r-[18px] border border-l-[3px] border-navy/10 bg-paper px-5 py-5 sm:flex-row sm:items-center sm:gap-6 sm:px-6 " +
         (mine ? "border-l-peach" : "border-l-navy")
       }
     >
       <div>
-        <div className="mb-2 flex items-center gap-2">
+        <div className="mb-2 flex flex-wrap items-center gap-2">
           <CourseTag code={group.courseCode} dark />
           {badge}
           {label && (
@@ -35,7 +35,7 @@ export default function GroupCard({ group, label, badge, mine, to, buttonText })
 
       <Link
         to={to}
-        className="shrink-0 rounded-full bg-navy px-6 py-3 text-[13px] font-bold text-white hover:bg-navy-dark"
+        className="shrink-0 rounded-full bg-navy px-6 py-3 text-center text-[13px] font-bold text-white hover:bg-navy-dark"
       >
         {buttonText}
       </Link>

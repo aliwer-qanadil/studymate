@@ -73,7 +73,7 @@ function StatusBox({ group, myRequest, onJoin, onCancel }) {
 
 export default function GroupSidebar({ group, myRequest, onJoin, onCancel }) {
   return (
-    <aside className="flex flex-col gap-5 bg-warm px-7 py-10">
+    <aside className="flex flex-col gap-5 bg-warm px-5 py-8 sm:px-7 lg:py-10">
       <MeetingPoint group={group} />
 
       <div className="rounded-2xl bg-navy p-6">

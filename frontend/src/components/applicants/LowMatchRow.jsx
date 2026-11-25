@@ -34,7 +34,7 @@ function reasonsFor(applicant, group) {
 
 export default function LowMatchRow({ applicant, group, canAccept, onAccept, onDecline }) {
   return (
-    <article className="grid grid-cols-[140px_1fr_auto_auto] items-center gap-8 rounded-[22px] border border-navy/10 bg-warm px-8 py-5">
+    <article className="grid items-center gap-5 rounded-[22px] border border-navy/10 bg-warm px-5 py-5 sm:grid-cols-[140px_1fr] sm:px-8 xl:grid-cols-[140px_1fr_auto_auto] xl:gap-8">
       <ScoreDiamond score={applicant.score} />
 
       <div className="flex items-center gap-3">

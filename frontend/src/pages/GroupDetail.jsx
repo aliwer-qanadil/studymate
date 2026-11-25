@@ -50,14 +50,14 @@ export default function GroupDetail() {
     <div className="flex min-h-screen flex-col bg-paper">
       <Navbar active="/requested" />
 
-      {error && <p className="px-10 pt-6 text-[13px] font-semibold text-red-600">{error}</p>}
+      {error && <p className="px-5 pt-6 text-[13px] font-semibold text-clay sm:px-10">{error}</p>}
 
       {group && (
         <>
           <GroupHero group={group} status={status} />
 
-          <div className="grid flex-1 grid-cols-[1fr_380px]">
-            <main className="flex flex-col gap-7 border-r border-navy/10 px-10 py-10">
+          <div className="grid flex-1 lg:grid-cols-[1fr_380px]">
+            <main className="flex min-w-0 flex-col gap-7 border-navy/10 px-5 py-8 sm:px-10 sm:py-10 lg:border-r">
               <GroupFacts group={group} />
               <PrivacyNote accepted={status === "ACCEPTED"} />
               <MemberList group={group} user={user} accepted={status === "ACCEPTED"} />

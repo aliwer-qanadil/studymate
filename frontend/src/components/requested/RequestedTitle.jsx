@@ -9,7 +9,7 @@ export default function RequestedTitle({ requests }) {
   return (
     <div>
       <Label className="mb-3">{t("requested.label")}</Label>
-      <h1 className="text-[32px] font-semibold">{t("requested.title")}</h1>
+      <h1 className="text-[26px] font-semibold sm:text-[32px]">{t("requested.title")}</h1>
       <p className="mt-2 text-sm font-medium text-muted">
         {t("requested.summary", { waiting: waiting, accepted: accepted })}
       </p>

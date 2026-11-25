@@ -64,14 +64,14 @@ export default function Profile() {
       <Navbar active="/profile" />
 
       <div className="grid flex-1 lg:grid-cols-[420px_1fr]">
-        <aside className="flex flex-col gap-7 border-r border-navy/10 bg-warm px-7 py-10">
+        <aside className="flex flex-col gap-7 border-b border-navy/10 bg-warm px-5 py-8 sm:px-7 lg:border-r lg:border-b-0 lg:py-10">
           {(!user || profile) && <ProfileCard profile={profile} onSaveUsername={saveUsername} />}
           {profile && <ProfileStats profile={profile} />}
           {profile && <StatsNote />}
         </aside>
 
-        <main className="flex flex-col gap-10 px-10 py-10">
-          {error && <p className="text-[13px] font-semibold text-red-600">{error}</p>}
+        <main className="flex min-w-0 flex-col gap-10 px-5 py-8 sm:px-10 sm:py-10">
+          {error && <p className="text-[13px] font-semibold text-clay">{error}</p>}
           {!user && <GuestNote>{t("profile.guestNote")}</GuestNote>}
 
           {profile && (

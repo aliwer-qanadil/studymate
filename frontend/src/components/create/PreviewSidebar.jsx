@@ -5,7 +5,7 @@ import { t } from "../../i18n.js";
 
 export default function PreviewSidebar({ request }) {
   return (
-    <aside className="flex flex-col gap-6 bg-warm px-7 py-10">
+    <aside className="flex flex-col gap-6 bg-warm px-5 py-8 sm:px-7 lg:py-10">
       <div>
         <Label className="mb-4">{t("create.livePreview")}</Label>
 

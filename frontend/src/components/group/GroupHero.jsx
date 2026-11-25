@@ -38,8 +38,8 @@ function downloadCalendar(group) {
 
 export default function GroupHero({ group, status }) {
   return (
-    <section className="bg-navy px-10 py-12 text-white">
-      <div className="flex justify-between gap-6">
+    <section className="bg-navy px-5 py-8 text-white sm:px-10 sm:py-12">
+      <div className="flex flex-col justify-between gap-6 sm:flex-row">
         <div className="max-w-2xl">
           <div className="mb-4 flex items-center gap-3">
             <span className="rounded-[7px] bg-peach px-2.5 py-1 text-[10.5px] font-bold tracking-wider text-navy">
@@ -47,7 +47,7 @@ export default function GroupHero({ group, status }) {
             </span>
             <Label onDark>{statusText(group, status)}</Label>
           </div>
-          <h1 className="font-serif text-[44px] leading-tight">
+          <h1 className="font-serif text-[32px] leading-tight sm:text-[44px]">
             {group.subjectName} — {group.title}
           </h1>
           {group.description && <p className="mt-4 text-[15px] leading-relaxed text-white/75">{group.description}</p>}

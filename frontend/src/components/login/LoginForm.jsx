@@ -138,7 +138,7 @@ export default function LoginForm() {
                 />
                 <span className="text-[15px] font-medium text-muted">@sdu.edu.kz</span>
               </div>
-              {usernameError && <span className="mt-2 block text-xs font-semibold text-red-600">{usernameError}</span>}
+              {usernameError && <span className="mt-2 block text-xs font-semibold text-clay">{usernameError}</span>}
             </label>
 
             <button type="button" onClick={() => setKeepSignedIn(!keepSignedIn)} className="flex items-center gap-2 text-xs font-semibold text-ink">
@@ -172,7 +172,7 @@ export default function LoginForm() {
                   (codeError ? "border-red-400" : "border-navy/10")
                 }
               />
-              {codeError && <span className="mt-2 block text-xs font-semibold text-red-600">{codeError}</span>}
+              {codeError && <span className="mt-2 block text-xs font-semibold text-clay">{codeError}</span>}
               {note && <span className="mt-2 block text-xs font-semibold text-sage">{note}</span>}
             </label>
 
