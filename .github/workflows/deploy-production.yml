@@ -1,0 +1,72 @@
+name: Deploy production
+
+# Production changes only through a tagged, tested release (docs/DEPLOY.md):
+#   git tag -a v1.0.0 -m "v1.0.0" && git push origin v1.0.0
+# The tests run first; if they pass, Render's deploy hooks build exactly the tagged commit.
+# Rolling back = running this workflow by hand with the previous tag (Actions tab -> Run workflow).
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to deploy (for a rollback, the previous tag)
+        required: true
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  test:
+    uses: ./.github/workflows/ci.yml
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ vars.PRODUCTION_URL }}
+    steps:
+      - name: Find the commit to deploy
+        id: release
+        env:
+          TAG: ${{ inputs.tag || github.ref_name }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sha=$(gh api "repos/${{ github.repository }}/commits/${TAG}" --jq .sha)
+          echo "Deploying $TAG ($sha)"
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - name: Trigger Render deploys
+        env:
+          API_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_API }}
+          WEB_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_WEB }}
+          SHA: ${{ steps.release.outputs.sha }}
+        run: |
+          if [ -z "$API_HOOK" ] || [ -z "$WEB_HOOK" ]; then
+            echo "::error::Add RENDER_DEPLOY_HOOK_API and RENDER_DEPLOY_HOOK_WEB to the production environment's secrets (docs/DEPLOY.md, step 5)."
+            exit 1
+          fi
+          curl -fsS -X POST "${API_HOOK}&ref=${SHA}" > /dev/null
+          curl -fsS -X POST "${WEB_HOOK}&ref=${SHA}" > /dev/null
+
+      - name: Wait until production answers
+        env:
+          URL: ${{ vars.PRODUCTION_URL }}
+        run: |
+          if [ -z "$URL" ]; then
+            echo "::warning::Set the PRODUCTION_URL variable to check the site after deploying."
+            exit 0
+          fi
+          # Builds on the free plan take a few minutes
+          sleep 120
+          for i in $(seq 1 40); do
+            if curl -fsS "$URL/api/health" | grep -q '"status":"UP"'; then
+              echo "Production is up: $URL"
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "::error::$URL/api/health did not answer UP within 12 minutes. Check the Render dashboard."
+          exit 1

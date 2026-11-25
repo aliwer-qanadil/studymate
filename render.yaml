@@ -1,0 +1,96 @@
+# Render Blueprint: four web services, two per environment (see docs/DEPLOY.md).
+#   staging     deploys by itself after every merge into main, once CI has passed
+#   production  deploys only when a release tag (v*) is pushed, from .github/workflows/deploy-production.yml
+# Databases are on Neon (free, two separate databases), so DATABASE_URL is pasted in per service.
+# Values marked "sync: false" are secrets: Render asks for them when the Blueprint is created,
+# and they are never stored in this file.
+
+services:
+  # ---------------- Staging ----------------
+  - type: web
+    name: studymate-api-staging
+    runtime: docker
+    plan: free
+    region: frankfurt
+    branch: main
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /api/health
+    autoDeployTrigger: checksPass
+    buildFilter:
+      paths:
+        - backend/**
+    envVars:
+      - key: DATABASE_URL # Neon "staging" database, postgres://...?sslmode=require
+        sync: false
+      - key: MAIL_PROVIDER
+        value: brevo
+      - key: BREVO_API_KEY # staging's own Brevo key
+        sync: false
+      - key: MAIL_FROM # sender address verified in Brevo
+        sync: false
+      - key: STUDYMATE_DEMO_DATA_ENABLED
+        value: "true"
+      - key: APP_TIME_ZONE
+        value: Asia/Almaty
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://studymate-staging.onrender.com
+
+  - type: web
+    name: studymate-staging
+    runtime: docker
+    plan: free
+    region: frankfurt
+    branch: main
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    healthCheckPath: /
+    autoDeployTrigger: checksPass
+    buildFilter:
+      paths:
+        - frontend/**
+    envVars:
+      # Public address of the staging API above. Change it if Render gave the service another name.
+      - key: BACKEND_URL
+        value: https://studymate-api-staging.onrender.com
+
+  # ---------------- Production ----------------
+  - type: web
+    name: studymate-api
+    runtime: docker
+    plan: free
+    region: frankfurt
+    branch: main
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /api/health
+    autoDeployTrigger: "off" # only from the release workflow
+    envVars:
+      - key: DATABASE_URL # Neon "production" database, never the staging one
+        sync: false
+      - key: MAIL_PROVIDER
+        value: brevo
+      - key: BREVO_API_KEY # production's own key, not copied from staging
+        sync: false
+      - key: MAIL_FROM
+        sync: false
+      - key: STUDYMATE_DEMO_DATA_ENABLED
+        value: "false"
+      - key: APP_TIME_ZONE
+        value: Asia/Almaty
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://studymate.onrender.com
+
+  - type: web
+    name: studymate
+    runtime: docker
+    plan: free
+    region: frankfurt
+    branch: main
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    healthCheckPath: /
+    autoDeployTrigger: "off" # only from the release workflow
+    envVars:
+      - key: BACKEND_URL
+        value: https://studymate-api.onrender.com
