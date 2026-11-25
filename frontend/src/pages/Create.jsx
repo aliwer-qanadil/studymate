@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/common/Navbar.jsx";
 import CreateTitle from "../components/create/CreateTitle.jsx";
 import SubjectFields from "../components/create/SubjectFields.jsx";
-import DescriptionField from "../components/create/DescriptionField.jsx";
+import DescriptionField, { DESCRIPTION_MAX } from "../components/create/DescriptionField.jsx";
 import PlacePicker from "../components/create/PlacePicker.jsx";
 import WhenFields from "../components/create/WhenFields.jsx";
 import PreferenceChips from "../components/create/PreferenceChips.jsx";
@@ -36,10 +36,9 @@ export default function Create() {
     ? { initials: initialsOf(user.name), name: user.name, faculty: t("common.sduUniversity") }
     : { initials: "G", name: t("common.guest"), faculty: t("common.notLoggedIn") };
 
-  // One piece of state for every field in the form
-  const [subject, setSubject] = useState(subjects[0].name);
-  const [code, setCode] = useState(subjects[0].code);
-  const [title, setTitle] = useState("");
+  // Subject, course code, level and title live together, see SubjectFields
+  const [form, setForm] = useState({ subject: subjects[0].name, code: subjects[0].code, level: "INTERMEDIATE", title: "" });
+  const { subject, code, title } = form;
   const [description, setDescription] = useState("");
   const [place, setPlace] = useState(places[0]);
   const [exactSpot, setExactSpot] = useState("");
@@ -48,6 +47,9 @@ export default function Create() {
   const [groupSize, setGroupSize] = useState(4);
   const [chosenPreferences, setChosenPreferences] = useState(["QUIET_WORK"]);
   const [error, setError] = useState("");
+  // Field errors: { code, title, description, spot, time }
+  const [errors, setErrors] = useState({});
+  const [sending, setSending] = useState(false);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 
   const navigate = useNavigate();
@@ -68,6 +70,41 @@ export default function Create() {
     mine: true,
   };
 
+  function changeForm(changes) {
+    setForm({ ...form, ...changes });
+    const cleared = { ...errors };
+    Object.keys(changes).forEach((name) => delete cleared[name]);
+    setErrors(cleared);
+  }
+
+  // Errors under each field. The server checks the same rules again.
+  function validate(startTime) {
+    const found = {};
+    if (code.trim() === "") found.code = t("create.errorCode");
+    else if (code.trim().length > 32) found.code = t("create.errorCodeLong");
+    if (title.trim() === "") found.title = t("create.errorTitle");
+    else if (title.trim().length > 255) found.title = t("create.errorTitleLong", { count: title.trim().length });
+    if (description.trim() === "") found.description = t("create.errorDescription");
+    else if (description.trim().length > DESCRIPTION_MAX) found.description = t("create.errorDescriptionLong", { max: DESCRIPTION_MAX });
+    if (exactSpot.trim().length > 255) found.spot = t("create.errorSpotLong");
+
+    // "Today" with a slot that has already started is in the past (US-05)
+    const now = new Date();
+    const nowTime = String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0");
+    if (days.indexOf(day) === 0 && startTime <= nowTime) found.time = t("create.errorTimePassed");
+    return found;
+  }
+
+  // Server field names -> our field names
+  function serverErrors(fields) {
+    const names = { courseCode: "code", title: "title", description: "description", exactSpot: "spot", startTime: "time", timeRangeValid: "time", meetingDate: "time" };
+    const found = {};
+    for (const name in fields) {
+      if (names[name]) found[names[name]] = fields[name];
+    }
+    return found;
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -77,18 +114,22 @@ export default function Create() {
       return;
     }
 
-    if (code.trim() === "" || title.trim() === "" || description.trim() === "") {
-      setError(t("create.fillEverything"));
+    setError("");
+    const [startTime, endTime] = time.split(" – ");
+    const found = validate(startTime);
+    setErrors(found);
+    if (Object.keys(found).length > 0) {
+      setError(t("create.fixFields"));
       return;
     }
 
-    const [startTime, endTime] = time.split(" – ");
-
+    setSending(true);
     createGroup(user.id, {
       title: title.trim(),
       description: description.trim(),
       subjectName: subject,
       courseCode: code.trim(),
+      level: form.level,
       place: place,
       exactSpot: exactSpot.trim(),
       meetingDate: dateInDays(days.indexOf(day)),
@@ -98,7 +139,12 @@ export default function Create() {
       groupSize: groupSize,
     })
       .then(() => navigate("/browse"))
-      .catch((e) => setError(e.message));
+      .catch((err) => {
+        const fields = serverErrors(err.fields);
+        setErrors(fields);
+        setError(Object.keys(fields).length > 0 ? t("create.fixFields") : err.message);
+      })
+      .finally(() => setSending(false));
   }
 
   return (
@@ -107,36 +153,46 @@ export default function Create() {
 
       <div className="grid flex-1 grid-cols-[1fr_380px]">
         <main className="border-r border-navy/10 px-10 py-10">
-          <form onSubmit={handleSubmit} className="flex max-w-4xl flex-col gap-7">
+          <form onSubmit={handleSubmit} noValidate className="flex max-w-4xl flex-col gap-7">
             <CreateTitle />
 
-            <SubjectFields
-              subjects={subjects}
-              subject={subject}
-              setSubject={setSubject}
-              code={code}
-              setCode={setCode}
-              title={title}
-              setTitle={setTitle}
-            />
+            <SubjectFields subjects={subjects} form={form} change={changeForm} errors={errors} />
 
-            <DescriptionField description={description} setDescription={setDescription} />
+            <DescriptionField
+              description={description}
+              setDescription={(value) => {
+                setDescription(value);
+                setErrors({ ...errors, description: undefined });
+              }}
+              error={errors.description}
+            />
 
             <PlacePicker
               places={places}
               place={place}
               setPlace={setPlace}
               exactSpot={exactSpot}
-              setExactSpot={setExactSpot}
+              setExactSpot={(value) => {
+                setExactSpot(value);
+                setErrors({ ...errors, spot: undefined });
+              }}
+              spotError={errors.spot}
             />
 
             <WhenFields
               days={days}
               day={day}
-              setDay={setDay}
+              setDay={(value) => {
+                setDay(value);
+                setErrors({ ...errors, time: undefined });
+              }}
               times={times}
               time={time}
-              setTime={setTime}
+              setTime={(value) => {
+                setTime(value);
+                setErrors({ ...errors, time: undefined });
+              }}
+              timeError={errors.time}
               groupSize={groupSize}
               setGroupSize={setGroupSize}
             />
@@ -147,10 +203,14 @@ export default function Create() {
               setChosen={setChosenPreferences}
             />
 
-            {error && <p className="text-[13px] font-semibold text-red-600">{error}</p>}
+            {error && <p role="alert" className="text-[13px] font-semibold text-clay">{error}</p>}
 
-            <button type="submit" className="w-fit rounded-full bg-navy px-10 py-4 text-sm font-bold text-white hover:bg-navy-dark">
-              {t("create.post")}
+            <button
+              type="submit"
+              disabled={sending}
+              className="relative z-10 w-full rounded-full bg-navy px-10 py-4 text-sm font-bold text-white hover:bg-navy-dark disabled:opacity-60 sm:w-fit"
+            >
+              {sending ? t("create.posting") : t("create.post")}
             </button>
           </form>
         </main>
