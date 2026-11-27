@@ -28,7 +28,7 @@ public class AuthController {
     @PostMapping("/send-code")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void sendCode(@Valid @RequestBody SendCodeRequest request, HttpServletRequest httpRequest) {
-        rateLimiter.check(httpRequest.getRemoteAddr());
+        rateLimiter.check(httpRequest.getRemoteAddr(), request.studentId());
         authService.sendCode(request);
     }
 
