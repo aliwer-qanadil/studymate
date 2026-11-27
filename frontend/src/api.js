@@ -117,16 +117,24 @@ export function getApplicants(userId, groupId) {
   return request("GET", "/api/users/" + userId + "/groups/" + groupId + "/requests");
 }
 
+// Accepts a waiting applicant, or takes back a decline
 export function acceptRequest(userId, requestId) {
   return request("PATCH", "/api/users/" + userId + "/requests/" + requestId + "/accept");
 }
 
+// Declines a waiting applicant, or removes an accepted member from the group
 export function declineRequest(userId, requestId) {
   return request("PATCH", "/api/users/" + userId + "/requests/" + requestId + "/reject");
 }
 
+// Takes back a waiting request, or leaves a group you were accepted into
 export function cancelRequest(userId, requestId) {
   return request("PATCH", "/api/users/" + userId + "/requests/" + requestId + "/cancel");
+}
+
+// Another student's public profile: subjects, study style, places and session counts
+export function getStudent(userId, studentId) {
+  return request("GET", "/api/users/" + userId + "/students/" + studentId);
 }
 
 export function dayLabel(date) {

@@ -20,8 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -62,10 +60,7 @@ public class JoinRequestServiceImpl implements JoinRequestService {
             throw new BusinessRuleException("You cannot apply to your own study group");
         }
         ensureOpen(group);
-        if (group.getMeetingDate().isBefore(LocalDate.now())
-                || (group.getMeetingDate().equals(LocalDate.now()) && !group.getEndTime().isAfter(LocalTime.now()))) {
-            throw new BusinessRuleException("This meeting has already taken place");
-        }
+        ensureNotOver(group);
         if (requestRepository.existsByGroupIdAndApplicantIdAndStatusNot(groupId, userId, JoinRequestStatus.CANCELLED)) {
             throw new BusinessRuleException("You have already applied to this study group");
         }
@@ -118,12 +113,16 @@ public class JoinRequestServiceImpl implements JoinRequestService {
                 .toList();
     }
 
+    // Accepts a waiting applicant, or takes back an earlier decline
     @Override
     @Transactional
     public JoinRequestResponse accept(Long userId, Long requestId) {
         JoinRequest request = findOrganizerRequest(userId, requestId);
-        ensurePending(request);
+        if (request.getStatus() != JoinRequestStatus.PENDING && request.getStatus() != JoinRequestStatus.REJECTED) {
+            throw alreadyDecided(request);
+        }
         ensureOpen(request.getGroup());
+        ensureNotOver(request.getGroup());
 
         request.accept();
         request.getGroup().addMember();
@@ -131,23 +130,35 @@ public class JoinRequestServiceImpl implements JoinRequestService {
         return requestMapper.toResponse(request);
     }
 
+    // Declines a waiting applicant, or removes someone who was accepted (their seat opens again)
     @Override
     @Transactional
     public JoinRequestResponse reject(Long userId, Long requestId) {
         JoinRequest request = findOrganizerRequest(userId, requestId);
-        ensurePending(request);
+        if (request.getStatus() == JoinRequestStatus.ACCEPTED) {
+            ensureNotOver(request.getGroup());
+            request.getGroup().removeMember();
+        } else if (request.getStatus() != JoinRequestStatus.PENDING) {
+            throw alreadyDecided(request);
+        }
 
         request.reject();
 
         return requestMapper.toResponse(request);
     }
 
+    // The applicant takes back a waiting request, or leaves a group they were accepted into
     @Override
     @Transactional
     public JoinRequestResponse cancel(Long userId, Long requestId) {
         JoinRequest request = requestRepository.findByIdAndApplicantId(requestId, userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Join request", requestId));
-        ensurePending(request);
+        if (request.getStatus() == JoinRequestStatus.ACCEPTED) {
+            ensureNotOver(request.getGroup());
+            request.getGroup().removeMember();
+        } else if (request.getStatus() != JoinRequestStatus.PENDING) {
+            throw alreadyDecided(request);
+        }
 
         request.cancel();
 
@@ -159,9 +170,14 @@ public class JoinRequestServiceImpl implements JoinRequestService {
                 .orElseThrow(() -> new ResourceNotFoundException("Join request", requestId));
     }
 
-    private void ensurePending(JoinRequest request) {
-        if (request.getStatus() != JoinRequestStatus.PENDING) {
-            throw new BusinessRuleException("Join request is already " + request.getStatus().name().toLowerCase(Locale.ROOT));
+    private BusinessRuleException alreadyDecided(JoinRequest request) {
+        return new BusinessRuleException("Join request is already " + request.getStatus().name().toLowerCase(Locale.ROOT));
+    }
+
+    // Who is in the group can't change once the meeting is over
+    private void ensureNotOver(StudyGroup group) {
+        if (group.isOver()) {
+            throw new BusinessRuleException("This meeting has already taken place");
         }
     }
 

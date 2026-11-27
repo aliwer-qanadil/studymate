@@ -1,4 +1,5 @@
 import ScoreDiamond from "./ScoreDiamond.jsx";
+import StudentLink from "../common/StudentLink.jsx";
 import ScoreBreakdown from "./ScoreBreakdown.jsx";
 import { fromEnum, initialsOf, timeRange } from "../../api.js";
 import { t } from "../../i18n.js";
@@ -27,7 +28,7 @@ export default function ApplicantCard({ applicant, canAccept, onAccept, onDeclin
             {initialsOf(applicant.applicant.name)}
           </div>
           <div>
-            <div className="text-[19px] font-semibold">{applicant.applicant.name}</div>
+            <StudentLink student={applicant.applicant} className="block text-[19px] font-semibold" />
             <div className="text-[13.5px] font-medium text-muted">
               {t("applicants.levelFree", {
                 level: fromEnum(applicant.level),

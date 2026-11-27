@@ -7,6 +7,7 @@ import Applicants from "./pages/Applicants.jsx";
 import GroupDetail from "./pages/GroupDetail.jsx";
 import Requested from "./pages/Requested.jsx";
 import Profile from "./pages/Profile.jsx";
+import StudentProfile from "./pages/StudentProfile.jsx";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
       <Route path="/groups/:groupId/applicants" element={<Applicants />} />
       <Route path="/requested" element={<Requested />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/students/:studentId" element={<StudentProfile />} />
 
       {/* Any other address (pages we haven't built yet) goes back to Browse */}
       <Route path="*" element={<Navigate to="/browse" />} />

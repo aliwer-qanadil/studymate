@@ -9,6 +9,7 @@ import GroupSidebar from "../components/group/GroupSidebar.jsx";
 import Loading from "../components/common/Loading.jsx";
 import ApplyForm from "../components/apply/ApplyForm.jsx";
 import { cancelRequest, getGroup, getMyRequests, getUser } from "../api.js";
+import { t } from "../i18n.js";
 
 export default function GroupDetail() {
   const user = getUser();
@@ -71,6 +72,9 @@ export default function GroupDetail() {
               myRequest={myRequest}
               onJoin={() => setApplying(true)}
               onCancel={() => reload(cancelRequest(userId, myRequest.id))}
+              onLeave={() => {
+                if (window.confirm(t("group.leaveConfirm"))) reload(cancelRequest(userId, myRequest.id));
+              }}
             />
           </div>
         </>

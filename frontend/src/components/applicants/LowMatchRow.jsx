@@ -1,4 +1,5 @@
 import ScoreDiamond from "./ScoreDiamond.jsx";
+import StudentLink from "../common/StudentLink.jsx";
 import { fromEnum, initialsOf } from "../../api.js";
 import { t } from "../../i18n.js";
 
@@ -42,7 +43,7 @@ export default function LowMatchRow({ applicant, group, canAccept, onAccept, onD
           {initialsOf(applicant.applicant.name)}
         </div>
         <div>
-          <div className="text-[17px] font-semibold">{applicant.applicant.name}</div>
+          <StudentLink student={applicant.applicant} className="block text-[17px] font-semibold" />
           <div className="text-[13px] font-medium text-muted">{t("common.levelText", { level: fromEnum(applicant.level) })}</div>
         </div>
       </div>

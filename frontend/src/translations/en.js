@@ -215,6 +215,8 @@ const en = {
     pickedOthers: "{name} picked other students this time.",
     browseOther: "Browse other groups",
     alreadyFull: "This group is already full.",
+    leave: "Leave group",
+    leaveConfirm: "Leave this group? Your seat goes to someone else. You can ask to join again while there are free seats.",
     seatsLeftAsk: {
       one: "{count} seat left. Ask to join and the owner will decide.",
       other: "{count} seats left. Ask to join and the owner will decide.",
@@ -258,6 +260,23 @@ const en = {
     goodMatch: "Good match",
     inYourGroup: "In your group · {count} of {size}",
     acceptedMatch: "Accepted · {score}% match",
+    remove: "Remove",
+    removeConfirm: "Remove {name} from the group? Their seat opens again, and you can accept them back later.",
+    declined: { one: "Declined · {count}", other: "Declined · {count}" },
+    acceptAgain: "Accept after all",
+  },
+
+  student: {
+    back: "Back",
+    statsLabel: "Sessions",
+    sessionsJoined: "Groups joined",
+    groupsOrganized: "Groups organised",
+    studentsMet: "Students met",
+    subjects: "Subjects",
+    noSubjects: "No subjects added yet.",
+    studyStyle: "How they like to study",
+    notSet: "Not set",
+    privacy: "Other students see only this page. Your email, student ID, free time and sessions stay private.",
   },
 
   requested: {
