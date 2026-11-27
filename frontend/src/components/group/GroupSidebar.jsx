@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Label from "../common/Label.jsx";
-import { fromEnum, whenText } from "../../api.js";
+import { fromEnum, isPast, whenText } from "../../api.js";
 import { t } from "../../i18n.js";
 
 function MeetingPoint({ group }) {
@@ -18,7 +18,7 @@ function MeetingPoint({ group }) {
   );
 }
 
-function StatusBox({ group, myRequest, onJoin, onCancel }) {
+function StatusBox({ group, myRequest, onJoin, onCancel, onLeave }) {
   const status = myRequest ? myRequest.status : null;
 
   if (group.status === "CANCELLED") {
@@ -27,9 +27,16 @@ function StatusBox({ group, myRequest, onJoin, onCancel }) {
 
   if (status === "ACCEPTED") {
     return (
-      <p className="text-[15px] leading-relaxed text-white/80">
-        {t("group.youreIn", { when: whenText(group), name: group.organizer.name })}
-      </p>
+      <>
+        <p className="text-[15px] leading-relaxed text-white/80">
+          {t("group.youreIn", { when: whenText(group), name: group.organizer.name })}
+        </p>
+        {!isPast(group) && (
+          <button onClick={onLeave} className="mt-5 w-full rounded-full border border-white/30 py-3.5 text-sm font-bold text-white hover:bg-white/10">
+            {t("group.leave")}
+          </button>
+        )}
+      </>
     );
   }
 
@@ -71,14 +78,14 @@ function StatusBox({ group, myRequest, onJoin, onCancel }) {
   );
 }
 
-export default function GroupSidebar({ group, myRequest, onJoin, onCancel }) {
+export default function GroupSidebar({ group, myRequest, onJoin, onCancel, onLeave }) {
   return (
     <aside className="flex flex-col gap-5 bg-warm px-5 py-8 sm:px-7 lg:py-10">
       <MeetingPoint group={group} />
 
       <div className="rounded-2xl bg-navy p-6">
         <Label onDark className="mb-3">{t("group.yourPlace")}</Label>
-        <StatusBox group={group} myRequest={myRequest} onJoin={onJoin} onCancel={onCancel} />
+        <StatusBox group={group} myRequest={myRequest} onJoin={onJoin} onCancel={onCancel} onLeave={onLeave} />
       </div>
     </aside>
   );

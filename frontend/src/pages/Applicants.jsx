@@ -6,8 +6,9 @@ import ApplicantsTitle from "../components/applicants/ApplicantsTitle.jsx";
 import ApplicantCard from "../components/applicants/ApplicantCard.jsx";
 import LowMatchRow from "../components/applicants/LowMatchRow.jsx";
 import GroupMembers from "../components/applicants/GroupMembers.jsx";
+import DeclinedList from "../components/applicants/DeclinedList.jsx";
 import Loading from "../components/common/Loading.jsx";
-import { acceptRequest, declineRequest, getApplicants, getGroup, getUser } from "../api.js";
+import { acceptRequest, declineRequest, getApplicants, getGroup, getUser, isPast } from "../api.js";
 import { t } from "../i18n.js";
 
 export default function Applicants() {
@@ -55,6 +56,15 @@ export default function Applicants() {
   const lowMatches = sorted.filter((a) => a.score >= 60 && a.score < 70);
   const hiddenMatches = sorted.filter((a) => a.score < 60);
   const members = applicants.filter((a) => a.status === "ACCEPTED");
+  const declined = applicants.filter((a) => a.status === "REJECTED");
+  // Who is in the group can't change after the meeting or once the group is cancelled
+  const canChange = group !== null && !isPast(group) && group.status !== "CANCELLED";
+
+  function removeMember(member) {
+    if (window.confirm(t("applicants.removeConfirm", { name: member.applicant.name }))) {
+      decide(declineRequest, member);
+    }
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-paper">
@@ -99,7 +109,13 @@ export default function Applicants() {
             </button>
           )}
 
-          <GroupMembers user={user} members={members} group={group} />
+          <GroupMembers user={user} members={members} group={group} canChange={canChange} onRemove={removeMember} />
+
+          <DeclinedList
+            declined={declined}
+            canAccept={canChange && group.status === "OPEN"}
+            onAccept={(request) => decide(acceptRequest, request)}
+          />
         </main>
       )}
     </div>

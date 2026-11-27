@@ -1,4 +1,5 @@
 import Label from "../common/Label.jsx";
+import StudentLink from "../common/StudentLink.jsx";
 import { initialsOf } from "../../api.js";
 import { t } from "../../i18n.js";
 
@@ -14,7 +15,7 @@ export default function MemberList({ group, user, accepted }) {
           <div className="flex size-12 items-center justify-center rounded-full bg-navy text-sm font-bold text-white">
             {initialsOf(group.organizer.name)}
           </div>
-          <span className="text-[17px] font-semibold">{group.organizer.name}</span>
+          <StudentLink student={group.organizer} className="text-[17px] font-semibold" />
           <span className="text-[11px] font-bold tracking-[0.14em] text-peach-dark">{t("common.ownerTag")}</span>
         </div>
 

@@ -133,6 +133,21 @@ public class StudyGroup {
         }
     }
 
+    // A member left or was removed: the seat is free again
+    public void removeMember() {
+        memberCount--;
+        if (status == GroupStatus.FULL) {
+            status = GroupStatus.OPEN;
+        }
+    }
+
+    // The meeting's end time has passed (campus time)
+    public boolean isOver() {
+        LocalDate today = LocalDate.now();
+        return meetingDate.isBefore(today)
+                || (meetingDate.equals(today) && !endTime.isAfter(LocalTime.now()));
+    }
+
     public void cancel() {
         status = GroupStatus.CANCELLED;
     }

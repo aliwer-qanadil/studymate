@@ -3,6 +3,7 @@ package com.studymate.studymate.service;
 import com.studymate.studymate.dto.profile.ProfileResponse;
 import com.studymate.studymate.dto.profile.ProfileSubjectDto;
 import com.studymate.studymate.dto.profile.ProfileUpdateRequest;
+import com.studymate.studymate.dto.profile.PublicProfileResponse;
 import com.studymate.studymate.dto.profile.SessionSummary;
 import com.studymate.studymate.dto.user.UserSummary;
 import com.studymate.studymate.entity.GroupStatus;
@@ -53,20 +54,8 @@ public class ProfileService {
 
     public ProfileResponse getProfile(Long userId) {
         User user = findUser(userId);
-
-        // Sessions = groups the user organizes + groups they were accepted into (cancelled ones don't count)
-        List<StudyGroup> organized = groupRepository.findByOrganizerIdOrderByMeetingDateAscStartTimeAsc(userId)
-                .stream()
-                .filter(group -> group.getStatus() != GroupStatus.CANCELLED)
-                .toList();
-
-        List<StudyGroup> joined = requestRepository.findByApplicantIdOrderByCreatedAtDesc(userId)
-                .stream()
-                .filter(request -> request.getStatus() == JoinRequestStatus.ACCEPTED)
-                .map(JoinRequest::getGroup)
-                .filter(group -> group.getStatus() != GroupStatus.CANCELLED)
-                .toList();
-
+        List<StudyGroup> organized = organizedGroups(userId);
+        List<StudyGroup> joined = joinedGroups(userId);
         List<StudyGroup> all = new ArrayList<>(organized);
         all.addAll(joined);
 
@@ -86,6 +75,42 @@ public class ProfileService {
                 countThisMonth(all),
                 recentSessions(userId, all)
         );
+    }
+
+    // Another student's profile, as any signed-in student sees it
+    public PublicProfileResponse getPublicProfile(Long studentId) {
+        User user = userRepository.findById(studentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Student", studentId));
+        List<StudyGroup> organized = organizedGroups(studentId);
+        List<StudyGroup> joined = joinedGroups(studentId);
+        List<StudyGroup> all = new ArrayList<>(organized);
+        all.addAll(joined);
+
+        return new PublicProfileResponse(
+                user.getId(),
+                user.getName(),
+                user.getSubjects().stream().map(this::toDto).toList(),
+                user.getStudyStyle(),
+                Set.copyOf(user.getFavouritePlaces()),
+                joined.size(),
+                organized.size(),
+                countStudentsMet(studentId, joined, all)
+        );
+    }
+
+    // Sessions = groups the user organizes + groups they were accepted into (cancelled ones don't count)
+    private List<StudyGroup> organizedGroups(Long userId) {
+        return groupRepository.findByOrganizerIdOrderByMeetingDateAscStartTimeAsc(userId).stream()
+                .filter(group -> group.getStatus() != GroupStatus.CANCELLED)
+                .toList();
+    }
+
+    private List<StudyGroup> joinedGroups(Long userId) {
+        return requestRepository.findByApplicantIdOrderByCreatedAtDesc(userId).stream()
+                .filter(request -> request.getStatus() == JoinRequestStatus.ACCEPTED)
+                .map(JoinRequest::getGroup)
+                .filter(group -> group.getStatus() != GroupStatus.CANCELLED)
+                .toList();
     }
 
     // The username starts as the student ID and can be changed here

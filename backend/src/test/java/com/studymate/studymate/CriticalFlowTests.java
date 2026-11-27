@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -243,6 +244,101 @@ class CriticalFlowTests {
                 .andExpect(jsonPath("$.memberCount").value(0));
     }
 
+    // ---------- 4. Changing a decision ----------
+
+    @Test
+    void organizerCanRemoveAnAcceptedMemberAndTakeThemBack() throws Exception {
+        User organizer = newUser();
+        User applicant = newUser();
+        long groupId = createGroup(organizer, 2); // one seat
+        long requestId = apply(applicant, groupId);
+
+        decide(organizer, requestId, "accept").andExpect(status().isOk());
+        groupOf(organizer, groupId).andExpect(jsonPath("$.status").value("FULL"));
+
+        // Accepted by mistake: removing frees the seat and reopens the group
+        decide(organizer, requestId, "reject")
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("REJECTED"));
+        groupOf(organizer, groupId)
+                .andExpect(jsonPath("$.status").value("OPEN"))
+                .andExpect(jsonPath("$.memberCount").value(0));
+        // The removed student no longer sees the exact spot
+        groupOf(applicant, groupId).andExpect(jsonPath("$.exactSpot").doesNotExist());
+
+        // Declined by mistake: the organizer can still accept them
+        decide(organizer, requestId, "accept")
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("ACCEPTED"));
+        groupOf(organizer, groupId).andExpect(jsonPath("$.memberCount").value(1));
+    }
+
+    @Test
+    void acceptedMemberCanLeaveAndTheSeatOpensAgain() throws Exception {
+        User organizer = newUser();
+        User applicant = newUser();
+        long groupId = createGroup(organizer, 2);
+        long requestId = apply(applicant, groupId);
+        decide(organizer, requestId, "accept").andExpect(status().isOk());
+
+        mvc.perform(patch("/api/users/{id}/requests/{requestId}/cancel", applicant.getId(), requestId)
+                        .header("Authorization", bearer(applicant)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("CANCELLED"));
+        groupOf(organizer, groupId)
+                .andExpect(jsonPath("$.status").value("OPEN"))
+                .andExpect(jsonPath("$.memberCount").value(0));
+
+        // Leaving isn't a decline: they may ask to join again
+        apply(applicant, groupId);
+    }
+
+    @Test
+    void membershipCantChangeAfterTheMeeting() throws Exception {
+        User organizer = newUser();
+        User member = newUser();
+        User waiting = newUser();
+        long groupId = createGroup(organizer);
+        long memberRequest = apply(member, groupId);
+        long waitingRequest = apply(waiting, groupId);
+        decide(organizer, memberRequest, "accept").andExpect(status().isOk());
+
+        jdbcTemplate.update("UPDATE study_groups SET meeting_date = ? WHERE id = ?", LocalDate.now().minusDays(1), groupId);
+
+        decide(organizer, waitingRequest, "accept")
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.detail").value("This meeting has already taken place"));
+        decide(organizer, memberRequest, "reject").andExpect(status().isConflict());
+        mvc.perform(patch("/api/users/{id}/requests/{requestId}/cancel", member.getId(), memberRequest)
+                        .header("Authorization", bearer(member)))
+                .andExpect(status().isConflict());
+    }
+
+    // ---------- 5. Public profile ----------
+
+    @Test
+    void signedInStudentsSeeAPublicProfileWithoutPrivateDetails() throws Exception {
+        User viewer = newUser();
+        User student = newUser();
+
+        mvc.perform(get("/api/users/{id}/students/{studentId}", viewer.getId(), student.getId())
+                        .header("Authorization", bearer(viewer)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(student.getName()))
+                .andExpect(jsonPath("$.subjects").isArray())
+                .andExpect(jsonPath("$.email").doesNotExist())
+                .andExpect(jsonPath("$.studentId").doesNotExist())
+                .andExpect(jsonPath("$.availableFrom").doesNotExist())
+                .andExpect(jsonPath("$.recentSessions").doesNotExist());
+
+        // Guests can't look people up
+        mvc.perform(get("/api/users/{id}/students/{studentId}", viewer.getId(), student.getId()))
+                .andExpect(status().isUnauthorized());
+        mvc.perform(get("/api/users/{id}/students/{studentId}", viewer.getId(), 999_999_999L)
+                        .header("Authorization", bearer(viewer)))
+                .andExpect(status().isNotFound());
+    }
+
     @Test
     void groupInThePastIsRefused() throws Exception {
         User organizer = newUser();
@@ -260,20 +356,39 @@ class CriticalFlowTests {
 
     // A BEGINNER-level MATH 161 group tomorrow 16:00-18:00 that wants quiet work
     private long createGroup(User organizer) throws Exception {
+        return createGroup(organizer, 4);
+    }
+
+    private long createGroup(User organizer, int size) throws Exception {
         String body = mvc.perform(post("/api/users/{id}/groups", organizer.getId())
                         .header("Authorization", bearer(organizer))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(groupJson(LocalDate.now().plusDays(1))))
+                        .content(groupJson(LocalDate.now().plusDays(1), size)))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
         return ((Number) JsonPath.read(body, "$.id")).longValue();
     }
 
     private String groupJson(LocalDate date) {
+        return groupJson(date, 4);
+    }
+
+    private String groupJson(LocalDate date, int size) {
         return "{\"title\":\"Test group\",\"description\":\"Practice set\",\"subjectName\":\"Calculus II\","
-                + "\"courseCode\":\"MATH 161\",\"place\":\"LIBRARY\",\"meetingDate\":\"" + date + "\","
+                + "\"courseCode\":\"MATH 161\",\"place\":\"LIBRARY\",\"exactSpot\":\"Room 404\",\"meetingDate\":\"" + date + "\","
                 + "\"startTime\":\"16:00\",\"endTime\":\"18:00\",\"level\":\"BEGINNER\","
-                + "\"preferences\":[\"QUIET_WORK\"],\"groupSize\":4}";
+                + "\"preferences\":[\"QUIET_WORK\"],\"groupSize\":" + size + "}";
+    }
+
+    // action is "accept" or "reject"
+    private ResultActions decide(User organizer, long requestId, String action) throws Exception {
+        return mvc.perform(patch("/api/users/{id}/requests/{requestId}/" + action, organizer.getId(), requestId)
+                .header("Authorization", bearer(organizer)));
+    }
+
+    private ResultActions groupOf(User viewer, long groupId) throws Exception {
+        return mvc.perform(get("/api/users/{id}/groups/{groupId}", viewer.getId(), groupId)
+                .header("Authorization", bearer(viewer)));
     }
 
     // A perfect match: same course, free the whole meeting, same level, same preference

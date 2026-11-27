@@ -1,16 +1,18 @@
 import Label from "../common/Label.jsx";
 import { t } from "../../i18n.js";
 
-export default function ProfileStats({ profile }) {
+// own = false on another student's profile, so the labels don't say "you"
+export default function ProfileStats({ profile, own = true }) {
+  const texts = own ? "profile" : "student";
   const stats = [
-    { number: profile.sessionsJoined, label: t("profile.sessionsJoined") },
-    { number: profile.groupsOrganized, label: t("profile.groupsOrganized") },
-    { number: profile.studentsMet, label: t("profile.studentsMet") },
+    { number: profile.sessionsJoined, label: t(texts + ".sessionsJoined") },
+    { number: profile.groupsOrganized, label: t(texts + ".groupsOrganized") },
+    { number: profile.studentsMet, label: t(texts + ".studentsMet") },
   ];
 
   return (
     <div className="rounded-3xl bg-navy p-7 text-white">
-      <Label onDark className="mb-6">{t("profile.statsLabel")}</Label>
+      <Label onDark className="mb-6">{t(texts + ".statsLabel")}</Label>
 
       <div className="flex flex-col gap-6">
         {stats.map((stat) => (

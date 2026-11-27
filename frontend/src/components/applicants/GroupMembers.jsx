@@ -1,8 +1,10 @@
 import Label from "../common/Label.jsx";
+import StudentLink from "../common/StudentLink.jsx";
 import { initialsOf } from "../../api.js";
 import { t } from "../../i18n.js";
 
-export default function GroupMembers({ user, members, group }) {
+// canChange is false once the meeting is over or the group is cancelled
+export default function GroupMembers({ user, members, group, canChange, onRemove }) {
   return (
     <section className="mt-8">
       <Label className="mb-4">
@@ -19,12 +21,20 @@ export default function GroupMembers({ user, members, group }) {
         </div>
 
         {members.map((member) => (
-          <div key={member.id} className="flex items-center gap-4 rounded-2xl bg-warm px-5 py-3.5">
+          <div key={member.id} className="flex flex-wrap items-center gap-4 rounded-2xl bg-warm px-5 py-3.5">
             <div className="flex size-10 items-center justify-center rounded-full border border-navy/15 bg-paper text-[13px] font-bold">
               {initialsOf(member.applicant.name)}
             </div>
-            <span className="text-[15px] font-semibold">{member.applicant.name}</span>
+            <StudentLink student={member.applicant} className="text-[15px] font-semibold" />
             <span className="ml-auto text-xs font-bold text-muted">{t("applicants.acceptedMatch", { score: member.score })}</span>
+            {canChange && (
+              <button
+                onClick={() => onRemove(member)}
+                className="rounded-full border border-navy/15 px-4 py-2 text-[12.5px] font-semibold hover:bg-paper"
+              >
+                {t("applicants.remove")}
+              </button>
+            )}
           </div>
         ))}
       </div>

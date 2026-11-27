@@ -2,6 +2,7 @@ package com.studymate.studymate.controller;
 
 import com.studymate.studymate.dto.profile.ProfileResponse;
 import com.studymate.studymate.dto.profile.ProfileUpdateRequest;
+import com.studymate.studymate.dto.profile.PublicProfileResponse;
 import com.studymate.studymate.dto.profile.UsernameUpdateRequest;
 import com.studymate.studymate.dto.user.UserSummary;
 import com.studymate.studymate.service.ProfileService;
@@ -22,6 +23,15 @@ public class ProfileController {
     @GetMapping("/profile")
     public ProfileResponse getProfile(@PathVariable Long userId) {
         return profileService.getProfile(userId);
+    }
+
+    // Another student's public profile (subjects, study style, places, session counts)
+    @GetMapping("/students/{studentId}")
+    public PublicProfileResponse getStudent(
+            @PathVariable Long userId,
+            @PathVariable Long studentId) {
+
+        return profileService.getPublicProfile(studentId);
     }
 
     // Subjects, study style and favourite places
