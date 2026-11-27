@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
 import java.time.LocalTime;
@@ -78,6 +79,13 @@ public class JoinRequest {
     private Instant createdAt;
 
     private Instant decidedAt;
+
+    // Guards against two changes at the same moment, e.g. the applicant leaving while the organizer accepts.
+    // The default fills in requests saved before this column existed, so adding it to a live database works.
+    @Version
+    @ColumnDefault("0")
+    @Column(nullable = false)
+    private Long version;
 
     public JoinRequest(
             StudyGroup group,
